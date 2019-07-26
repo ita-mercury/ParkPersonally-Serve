@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('test') {
+    stage('Gradle Test') {
       steps {
         sh 'chmod 777 ./gradlew'
         sh 'rm -f ./src/main/resources/application/*'
@@ -12,12 +12,14 @@ pipeline {
     stage('QA') {
       steps {
         sh './gradlew build'
-        sh 'mv ./build/libs/parkpersonally-0.0.1-SNAPSHOT.jar ./ParkPersonally.jar'
+        sh 'mv -f ./build/libs/parkpersonally-0.0.1-SNAPSHOT.jar ./ParkPersonally.jar'
         sh 'pid=$(jps | grep jar | cut -d \' \' -f 1)'
         sh '''if [ ! -n $pid ]; then
  kill -9 $pid
 fi'''
-        sh 'nohup java -jar ParkPersonally.jar > 1 &'
+        sh '''JENKINS_NODE_COOKIE=dontKillMe
+nohup java -jar ParkPersonally.jar > out.log & sleep 20s'''
+        input(message: 'It\'s ready to delpoy', ok: 'ok')
       }
     }
   }
