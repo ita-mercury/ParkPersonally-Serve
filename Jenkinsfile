@@ -22,5 +22,14 @@ nohup java -jar ParkPersonally.jar > out.log & sleep 20s'''
         input(message: 'It\'s ready to delpoy', ok: 'ok')
       }
     }
+    stage('Delpoy') {
+      steps {
+        sh 'chmod 777 ./ParkingLot.jar'
+        sh 'scp ./ParkingLot.jar root@39.98.219.194:/usr/local/bin/ParkingLot.jar'
+        sh 'ssh root@39.98.219.194 "pid=\\$(jps | grep jar | cut -d \' \' -f 1);kill -9 \\$pid"'
+        sh 'ssh root@39.98.219.194 "rm -f /usr/local/bin/application.log"'
+        sh 'ssh root@39.98.219.194 "cd /usr/local/bin;nohup java -jar ParkingLot.jar > application.log &"'
+      }
+    }
   }
 }
