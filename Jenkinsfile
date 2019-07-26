@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh 'chmod 777 ./gradlew'
         sh 'rm -f ./src/main/resources/application/*'
-        sh 'mv /usr/local/bin/application.properties ./src/main/resources/application.properties'
+        sh 'cp /usr/local/bin/application.properties ./src/main/resources/application.properties'
         sh './gradlew test'
       }
     }
