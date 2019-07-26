@@ -14,7 +14,9 @@ pipeline {
         sh './gradlew build'
         sh 'mv ./build/libs/parkpersonally-0.0.1-SNAPSHOT.jar ./ParkPersonally.jar'
         sh 'pid=$(jps | grep jar | cut -d \' \' -f 1)'
-        sh 'kill -9 $pid'
+        sh '''if [ ! -n $pid ]; then
+ kill -9 $pid
+fi'''
         sh 'nohup java -jar ParkPersonally.jar > 1 &'
       }
     }
