@@ -22,4 +22,8 @@ public class ParkingOrderService {
     public ParkingOrderService(ParkingOrderRepository repository) {
         this.repository = repository;
     }
+
+    public ParkingOrder findOrderById(long parkingOrderId) {
+        return null;
+    }
 }

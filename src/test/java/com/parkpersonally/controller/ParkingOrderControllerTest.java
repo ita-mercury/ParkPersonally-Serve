@@ -1,9 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkpersonally.model.Customer;
-import com.parkpersonally.model.ParkingOrder;
-import com.parkpersonally.model.Tag;
+import com.parkpersonally.model.*;
 import com.parkpersonally.service.ParkingOrderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,12 +15,15 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ParkingOrderController.class)
@@ -72,4 +73,30 @@ public class ParkingOrderControllerTest {
                         .content(objectMapper.writeValueAsString(expect)))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void should_return_Parking_Order_when_getOrderById() throws Exception{
+        //given
+        Customer customer = new Customer();
+        customer.setId(1);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("smart"));
+        tags.add(new Tag("handsome"));
+
+        ParkingOrder order = new ParkingOrder(1, 20, "南方软件园");
+        order.setCustomer(customer);
+        order.setTags(tags);
+
+        given(service.findOrderById(anyLong())).willReturn(order);
+
+        //Then
+        mvc.perform(get("/parking-orders/{parkingOrderId}",1))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.type").value(1));
+
+
+    }
+
+
 }

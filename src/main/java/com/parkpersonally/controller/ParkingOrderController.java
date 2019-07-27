@@ -5,10 +5,7 @@ import com.parkpersonally.service.ParkingOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -27,5 +24,11 @@ public class ParkingOrderController {
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity handEntityValid(ConstraintViolationException e) {
         return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/parking-orders/{parkingOrderId}")
+    public ParkingOrder getOrderById(@PathVariable long parkingOrderId){
+
+        return  parkingOrderService.findOrderById(parkingOrderId);
     }
 }
