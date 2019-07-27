@@ -16,7 +16,7 @@ public class ParkingBoyService {
     private ParkingBoyRepository parkingBoyRepository;
 
     public List<ParkingLot> getAllParkingLotOnParkingBoy(long parkingBoyId) {
-        ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(NoSuchParkingBoyException::new);
+        ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(()->new NoSuchParkingBoyException("没有找到ParkingBoy信息"));
         return parkingBoy.getParkingLots();
     }
 }

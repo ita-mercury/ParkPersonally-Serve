@@ -28,4 +28,8 @@ public class ParkingBoyController {
     public ResponseEntity handlNoSuchParkingBoy(NoSuchParkingBoyException e) {
         return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+
+
+
 }
