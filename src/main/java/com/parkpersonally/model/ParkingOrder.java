@@ -23,7 +23,6 @@ public class ParkingOrder {
     @NotNull
     private int positionNumber;
 
-    @Column(nullable = false)
     private String comments;
 
     @Column(nullable = false)
