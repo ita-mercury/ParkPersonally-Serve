@@ -50,7 +50,7 @@ public class ParkingOrderController {
     }
 
     @PutMapping("/orders/{orderId}")
-    public ParkingOrder updateParkingOrder(@RequestBody ParkingOrder parkingOrder,@PathVariable long id){
-        return parkingOrderService.updateParkingOrder(parkingOrder,id);
+    public ParkingOrder updateParkingOrder(@RequestBody ParkingOrder parkingOrder,@PathVariable long orderId){
+        return parkingOrderService.updateParkingOrder(parkingOrder,orderId);
     }
 }
