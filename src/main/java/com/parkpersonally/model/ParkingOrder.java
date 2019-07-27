@@ -2,7 +2,6 @@ package com.parkpersonally.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalTime;
 import java.util.List;
 
 @Entity
@@ -22,7 +21,7 @@ public class ParkingOrder {
 
     @Column(nullable = false)
     @NotNull
-    private int positionNnumer;
+    private int positionNummer;
 
     @Column(nullable = false)
     @NotNull
@@ -88,12 +87,12 @@ public class ParkingOrder {
         this.type = type;
     }
 
-    public int getPositionNnumer() {
-        return positionNnumer;
+    public int getPositionNummer() {
+        return positionNummer;
     }
 
-    public void setPositionNnumer(int positionNnumer) {
-        this.positionNnumer = positionNnumer;
+    public void setPositionNummer(int positionNummer) {
+        this.positionNummer = positionNummer;
     }
 
     public String getComments() {
