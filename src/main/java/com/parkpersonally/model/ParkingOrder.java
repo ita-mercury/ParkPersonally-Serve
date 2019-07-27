@@ -50,6 +50,13 @@ public class ParkingOrder {
     public ParkingOrder() {
     }
 
+    public ParkingOrder(long id, @NotNull int status, @NotNull int type, @NotNull int positionNumber) {
+        this.id = id;
+        this.status = status;
+        this.type = type;
+        this.positionNumber = positionNumber;
+    }
+
     public ParkingOrder(@NotNull int type, @NotNull int positionNumber, @NotNull String fetchCarAddress) {
         this.type = type;
         this.positionNumber = positionNumber;

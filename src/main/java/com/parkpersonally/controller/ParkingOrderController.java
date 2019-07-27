@@ -28,6 +28,7 @@ public class ParkingOrderController {
         return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
     }
 
+
     @GetMapping("/parking-orders/{parkingOrderId}")
     public ParkingOrder getOrderById(@PathVariable long parkingOrderId){
 
@@ -37,6 +38,7 @@ public class ParkingOrderController {
     public ResponseEntity appriaseOrder(@PathVariable("ordersId")long id,ParkingOrder parkingOrder){
         return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
     }
+
     @ExceptionHandler(NoSuchOrderException.class)
     public ResponseEntity handleNoSuchOrderException(NoSuchOrderException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
@@ -45,5 +47,10 @@ public class ParkingOrderController {
     @ExceptionHandler(NoSuchParkingOrderException.class)
     public ResponseEntity handlNoSuchParkingBoy(NoSuchParkingOrderException e) {
         return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/orders/{orderId}")
+    public ParkingOrder updateParkingOrder(@RequestBody ParkingOrder parkingOrder,@PathVariable long id){
+        return parkingOrderService.updateParkingOrder(parkingOrder,id);
     }
 }

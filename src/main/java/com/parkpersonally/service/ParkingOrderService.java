@@ -37,4 +37,8 @@ public class ParkingOrderService {
         targetOrder.setComments(parkingOrder.getComments());
         return repository.save(targetOrder);
     }
+
+    public ParkingOrder updateParkingOrder(ParkingOrder parkingOrder, long id) {
+        return null;
+    }
 }
