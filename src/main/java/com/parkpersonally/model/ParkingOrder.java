@@ -53,7 +53,12 @@ public class ParkingOrder {
         this.positionNumber = positionNumber;
         this.fetchCarAddress = fetchCarAddress;
     }
-
+    public ParkingOrder(@NotNull int status, @NotNull int type, @NotNull int positionNumber, @NotNull String fetchCarAddress) {
+        this.status = status;
+        this.type = type;
+        this.positionNumber = positionNumber;
+        this.fetchCarAddress = fetchCarAddress;
+    }
     public List<Tag> getTags() {
         return tags;
     }
