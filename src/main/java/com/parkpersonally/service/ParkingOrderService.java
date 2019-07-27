@@ -1,6 +1,10 @@
 package com.parkpersonally.service;
 
+
 import com.parkpersonally.exception.NoSuchOrderException;
+
+import com.parkpersonally.exception.NoSuchParkingBoyException;
+import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +29,8 @@ public class ParkingOrderService {
     }
 
     public ParkingOrder findOrderById(long parkingOrderId) {
-        return null;
+        ParkingOrder parkingOrder = repository.findById(parkingOrderId).orElseThrow(()->new NoSuchParkingOrderException("没有找到ParkingOrder信息"));
+        return parkingOrder;
     }
     public ParkingOrder appraiseOrder(long id, ParkingOrder parkingOrder) {
         ParkingOrder targetOrder = repository.findById(id).orElseThrow(() -> new NoSuchOrderException("抱歉,没有查到该订单"));

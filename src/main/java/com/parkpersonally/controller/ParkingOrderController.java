@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.parkpersonally.exception.NoSuchOrderException;
+import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.service.ParkingOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,10 @@ public class ParkingOrderController {
     @ExceptionHandler(NoSuchOrderException.class)
     public ResponseEntity handleNoSuchOrderException(NoSuchOrderException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NoSuchParkingOrderException.class)
+    public ResponseEntity handlNoSuchParkingBoy(NoSuchParkingOrderException e) {
+        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
