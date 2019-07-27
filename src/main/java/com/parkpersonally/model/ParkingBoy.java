@@ -9,6 +9,7 @@ import java.util.List;
 public class ParkingBoy {
 
     @Id
+    @GeneratedValue
     private long id;
 
     @NotNull
