@@ -11,4 +11,5 @@ import java.util.List;
 public interface ParkingOrderRepository extends JpaRepository<ParkingOrder, Long> {
 
     List<ParkingOrder> findAllByTypeAndStatus(int type,int status);
+    List<ParkingOrder> findAllByTypeAndStatusOrderByCreatTimeAsc(int type,int status);
 }
