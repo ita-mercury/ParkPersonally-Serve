@@ -13,7 +13,4 @@ public class CustomerService {
     @Qualifier("customerRepository")
     private CustomerRepository repository;
 
-    public ParkingOrder createOrderService(){
-        return null;
-    }
 }

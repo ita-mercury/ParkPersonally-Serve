@@ -13,7 +13,7 @@ public class ParkingOrder {
 
     @Column(nullable = false)
     @NotNull
-    private int status;
+    private int status = 0;
 
     @Column(nullable = false)
     @NotNull
@@ -21,10 +21,9 @@ public class ParkingOrder {
 
     @Column(nullable = false)
     @NotNull
-    private int positionNummer;
+    private int positionNumber;
 
     @Column(nullable = false)
-    @NotNull
     private String comments;
 
     @Column(nullable = false)
@@ -46,6 +45,15 @@ public class ParkingOrder {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Customer customer;
+
+    public ParkingOrder() {
+    }
+
+    public ParkingOrder(@NotNull int type, @NotNull int positionNumber, @NotNull String fetchCarAddress) {
+        this.type = type;
+        this.positionNumber = positionNumber;
+        this.fetchCarAddress = fetchCarAddress;
+    }
 
     public List<Tag> getTags() {
         return tags;
@@ -87,12 +95,12 @@ public class ParkingOrder {
         this.type = type;
     }
 
-    public int getPositionNummer() {
-        return positionNummer;
+    public int getPositionNumber() {
+        return positionNumber;
     }
 
-    public void setPositionNummer(int positionNummer) {
-        this.positionNummer = positionNummer;
+    public void setPositionNumber(int positionNumber) {
+        this.positionNumber = positionNumber;
     }
 
     public String getComments() {
