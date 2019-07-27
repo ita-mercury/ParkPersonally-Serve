@@ -1,7 +1,7 @@
 package com.parkpersonally.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity

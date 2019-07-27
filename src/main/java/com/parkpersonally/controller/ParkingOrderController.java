@@ -16,7 +16,7 @@ public class ParkingOrderController {
     private ParkingOrderService parkingOrderService;
 
     @PostMapping("/parking-orders")
-    public ParkingOrder createOrder(@Valid @RequestBody ParkingOrder order) {
+    public ParkingOrder createOrder(@RequestBody ParkingOrder order) {
 
         return parkingOrderService.createParkingOrder(order);
     }

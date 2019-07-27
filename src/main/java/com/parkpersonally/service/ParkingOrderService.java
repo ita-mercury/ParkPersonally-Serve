@@ -3,17 +3,23 @@ package com.parkpersonally.service;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import javax.validation.Valid;
 
 @Service("parkingOrderService")
 public class ParkingOrderService {
 
-    @Autowired
-    private ParkingOrderRepository repository;
 
-    public ParkingOrder createParkingOrder(ParkingOrder order){
+    private final ParkingOrderRepository repository;
 
-        return null;
+    public ParkingOrder createParkingOrder(@Valid ParkingOrder order){
+
+        return repository.save(order);
+    }
+
+
+    public ParkingOrderService(ParkingOrderRepository repository) {
+        this.repository = repository;
     }
 }
