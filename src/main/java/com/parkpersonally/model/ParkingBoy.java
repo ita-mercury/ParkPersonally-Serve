@@ -26,6 +26,14 @@ public class ParkingBoy {
     @OneToMany
     private List<Tag> tags;
 
+    public ParkingBoy(long id, @NotNull String name, @NotNull String number, List<ParkingLot> parkingLots, List<Tag> tags) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.parkingLots = parkingLots;
+        this.tags = tags;
+    }
+
     public List<Tag> getTags() {
         return tags;
     }

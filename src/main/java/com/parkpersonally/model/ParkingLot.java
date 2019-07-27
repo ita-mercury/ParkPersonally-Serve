@@ -27,6 +27,13 @@ public class ParkingLot {
     @ManyToMany
     private List<ParkingBoy> parkingBoys;
 
+    public ParkingLot(long id, @NotNull String name, @NotNull int capacity, @NotNull int restCapacity) {
+        this.id = id;
+        this.name = name;
+        this.capacity = capacity;
+        this.restCapacity = restCapacity;
+    }
+
     public long getId() {
         return id;
     }
