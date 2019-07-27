@@ -41,7 +41,7 @@ public class ParkingOrder {
     @OneToOne(fetch = FetchType.EAGER)
     private ParkingLot parkingLot;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -61,6 +61,15 @@ public class ParkingOrder {
         this.positionNumber = positionNumber;
         this.fetchCarAddress = fetchCarAddress;
     }
+
+    public ParkingOrder(@NotNull int status, @NotNull int type, @NotNull int positionNumber, @NotNull String fetchCarAddress, List<Tag> tags) {
+        this.status = status;
+        this.type = type;
+        this.positionNumber = positionNumber;
+        this.fetchCarAddress = fetchCarAddress;
+        this.tags = tags;
+    }
+
     public List<Tag> getTags() {
         return tags;
     }
