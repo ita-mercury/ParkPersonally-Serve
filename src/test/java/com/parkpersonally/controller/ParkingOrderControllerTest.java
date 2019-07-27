@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.model.Tag;
-import com.parkpersonally.service.CustomerService;
 import com.parkpersonally.service.ParkingOrderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;

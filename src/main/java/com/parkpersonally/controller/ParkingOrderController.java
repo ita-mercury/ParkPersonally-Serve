@@ -1,7 +1,6 @@
 package com.parkpersonally.controller;
 
 import com.parkpersonally.model.ParkingOrder;
-import com.parkpersonally.service.ParkingBoyService;
 import com.parkpersonally.service.ParkingOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,4 +20,6 @@ public class ParkingOrderController {
 
         return parkingOrderService.createParkingOrder(order);
     }
+
+
 }

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class ParkingOrderService {
 
     @Autowired
-    @Qualifier("parkingOrderRepository")
     private ParkingOrderRepository repository;
 
     public ParkingOrder createParkingOrder(ParkingOrder order){
