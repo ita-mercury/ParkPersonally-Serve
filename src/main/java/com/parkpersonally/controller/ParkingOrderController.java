@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.exception.NoSuchOrderException;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.service.ParkingOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,13 @@ public class ParkingOrderController {
     public ParkingOrder getOrderById(@PathVariable long parkingOrderId){
 
         return  parkingOrderService.findOrderById(parkingOrderId);
+    }
+    @PutMapping("/parking-orders/{ordersId}/comments")
+    public ResponseEntity appriaseOrder(@PathVariable("ordersId")long id,ParkingOrder parkingOrder){
+        return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
+    }
+    @ExceptionHandler(NoSuchOrderException.class)
+    public ResponseEntity handleNoSuchOrderException(NoSuchOrderException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

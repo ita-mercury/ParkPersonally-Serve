@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.exception.NoSuchOrderException;
 import com.parkpersonally.model.*;
 import com.parkpersonally.service.ParkingOrderService;
 import org.junit.Test;
@@ -20,8 +21,8 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -97,6 +98,36 @@ public class ParkingOrderControllerTest {
 
 
     }
+    @Test
+    public void should_return_an_Exception_when_appraise_order_but_order_is_not_exist() throws Exception {
+        //given
+        ParkingOrder parkingOrder = new ParkingOrder();
+        parkingOrder.setId(1);
+        parkingOrder.setComments("司机真帅");
+        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willThrow(new NoSuchOrderException("抱歉,没有查到该订单"));
+        //when
+        mvc.perform(put("/parking-orders/2/comments")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(parkingOrder)))
+                //then
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("抱歉,没有查到该订单"));
 
+    }
+    @Test
+    public void should_return_a_order_with_comment_when_appraise_this_order() throws Exception {
+        //given
+        ParkingOrder parkingOrder = new ParkingOrder();
+        parkingOrder.setId(1L);
+        parkingOrder.setComments("司机真帅");
+        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willReturn(parkingOrder);
+        //when
+        mvc.perform(put("/parking-orders/1/comments")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(parkingOrder)))
+                //then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.comments").value("司机真帅"));
+    }
 
 }
