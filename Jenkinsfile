@@ -24,10 +24,10 @@ nohup java -jar ParkPersonally.jar > out.log & sleep 20s'''
     stage('Delpoy') {
       steps {
         sh 'chmod 777 ./ParkPersonally.jar'
-        sh 'scp ./ParkPersonally.jar root@39.98.219.194:/usr/local/bin/ParkPersonally.jar'
-        sh 'ssh root@39.98.219.194 "pid=\\$(jps | grep jar | cut -d \' \' -f 1);kill -9 \\$pid"'
-        sh 'ssh root@39.98.219.194 "rm -f /usr/local/bin/application.log"'
-        sh 'ssh root@39.98.219.194 "cd /usr/local/bin;nohup java -jar ParkPersonally.jar > application.log &"'
+        sh 'scp -i /root/.ssh/ooclserver_rsa ./ParkPersonally.jar root@39.98.219.194:/usr/local/bin/ParkPersonally.jar'
+        sh 'ssh -i /root/.ssh/ooclserver_rsa root@39.98.219.194 "pid=\\$(jps | grep jar | cut -d \' \' -f 1);kill -9 \\$pid"'
+        sh 'ssh -i /root/.ssh/ooclserver_rsa root@39.98.219.194 "rm -f /usr/local/bin/application.log"'
+        sh 'ssh -i /root/.ssh/ooclserver_rsa root@39.98.219.194 "cd /usr/local/bin;nohup java -jar ParkPersonally.jar > application.log &"'
       }
     }
   }
