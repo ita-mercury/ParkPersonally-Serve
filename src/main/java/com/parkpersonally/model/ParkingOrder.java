@@ -7,6 +7,8 @@ import java.util.List;
 @Entity
 public class ParkingOrder {
 
+    public static final int PARK_CAR = 1;
+
     @Id
     @GeneratedValue
     private long id;

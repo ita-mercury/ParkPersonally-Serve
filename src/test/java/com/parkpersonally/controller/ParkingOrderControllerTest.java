@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,5 +57,19 @@ public class ParkingOrderControllerTest {
                         .content(objectMapper.writeValueAsString(order)))
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(order)));
+    }
+
+    @Test
+    public void should_hand_exception_when_parkingOrder_property_is_error() throws Exception{
+        // given
+        ParkingOrder expect = new ParkingOrder();
+        given(service.createParkingOrder(any(ParkingOrder.class))).willThrow(ConstraintViolationException.class);
+
+        // then
+        this.mvc.perform(
+                post("/parking-orders")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(objectMapper.writeValueAsString(expect)))
+                .andExpect(status().isBadRequest());
     }
 }
