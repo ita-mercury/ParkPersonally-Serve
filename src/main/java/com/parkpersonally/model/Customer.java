@@ -33,6 +33,17 @@ public class Customer {
     @NotNull
     private String carNumber;
 
+    public Customer(@Email String email, @NotNull @Size(min = 5) String password,
+                    @NotNull @Size(min = 5, max = 13) String phone, @NotNull String carNumber) {
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.carNumber = carNumber;
+    }
+
+    public Customer() {
+    }
+
     public long getId() {
         return id;
     }

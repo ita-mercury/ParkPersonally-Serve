@@ -21,6 +21,13 @@ public class Tag {
         return id;
     }
 
+    public Tag(@NotNull String feature) {
+        this.feature = feature;
+    }
+
+    public Tag() {
+    }
+
     public void setId(long id) {
         this.id = id;
     }
