@@ -35,6 +35,7 @@ public class ParkingOrderServiceTest {
         repository = mock(ParkingOrderRepository.class);
         service = new ParkingOrderService(repository);
         parkingBoyService = mock(ParkingBoyService.class);
+        service.setParkingBoyService(parkingBoyService);
 
     }
 
