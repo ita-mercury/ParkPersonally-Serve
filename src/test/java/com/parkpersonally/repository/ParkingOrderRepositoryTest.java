@@ -107,22 +107,27 @@ public class ParkingOrderRepositoryTest {
     }
     @Test
     public  void should_return_all_order_contatins_fetch_car_and_parking_car(){
-        Customer customer=new Customer();
-        customer.setPassword("1213123");
-        customer.setPhone("12345678912");
-        customer.setCarNumber("888888");
-        customer.setEmail("2458461623@qq.com");
-        customer = entityManager.persist(customer);
-        long id = customer.getId();
+        Customer firstCustomer=new Customer();
+        firstCustomer.setPassword("1213123");
+        firstCustomer.setPhone("12345678912");
+        firstCustomer.setCarNumber("888888");
+        firstCustomer.setEmail("2458461623@qq.com");
+        firstCustomer = entityManager.persist(firstCustomer);
+        long id = firstCustomer.getId();
         ParkingOrder firstParkingOrder = new ParkingOrder();
-        firstParkingOrder.setCustomer(customer);
+        firstParkingOrder.setCustomer(firstCustomer);
         firstParkingOrder.setType(1);
         firstParkingOrder.setFetchCarAddress("澳门");
         firstParkingOrder.setPositionNumber(100);
+        ParkingOrder secondParkingOrder = new ParkingOrder();
+        secondParkingOrder.setType(2);
+        secondParkingOrder.setFetchCarAddress("澳门");
+        secondParkingOrder.setPositionNumber(100);
+        entityManager.persist(secondParkingOrder);
         entityManager.persist(firstParkingOrder);
 
         List<ParkingOrder> allCarOrders=parkingOrderRepository.findAllByCustomerId(id);
-        assertEquals(1,allCarOrders.size());
+        assertEquals(secondParkingOrder.getCreateTime(),allCarOrders.get(0).getCreateTime());
 
 
     }

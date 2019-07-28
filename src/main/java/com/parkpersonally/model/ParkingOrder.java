@@ -26,7 +26,7 @@ public class ParkingOrder {
     @NotNull
     private int type;
 
-        private int positionNumber;
+    private int positionNumber;
 
     private String comments;
 

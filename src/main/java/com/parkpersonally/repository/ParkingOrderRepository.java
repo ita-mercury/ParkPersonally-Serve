@@ -17,6 +17,6 @@ public interface ParkingOrderRepository extends JpaRepository<ParkingOrder, Long
     List<ParkingOrder> findAllByTypeAndStatus(int type,int status);
     List<ParkingOrder> findAllByTypeAndStatusOrderByCreateTimeAsc(int type,int status);
     List<ParkingOrder> findDistinctByTagsIsIn(List<Tag> tags);
-    @Query(value = "SELECT p FROM ParkingOrder p where p.customer.id = :customerId")
+    @Query(value = "SELECT p FROM ParkingOrder p where p.customer.id = :customerId order by createTime desc")
     List<ParkingOrder> findAllByCustomerId( @Param("customerId") long customerId);
 }

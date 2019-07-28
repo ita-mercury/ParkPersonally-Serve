@@ -35,8 +35,6 @@ public class ParkingOrderController {
         return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
     }
 
-
-
     @GetMapping("/parking-orders/{parkingOrderId}")
     public ParkingOrder getOrderById(@PathVariable long parkingOrderId){
 
