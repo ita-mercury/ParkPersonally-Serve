@@ -2,6 +2,7 @@ package com.parkpersonally.service;
 
 
 import com.parkpersonally.dto.OrderComment;
+import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.*;
@@ -247,4 +248,25 @@ public class ParkingOrderServiceTest {
         service.parkingBoyGetParkingOrder(anyLong(), parkingBoy);
     }
 
+    @Test
+    public void should_return_order_when_order_status_is_not_be_accepted() {
+        ParkingOrder order = new ParkingOrder();
+        order.setStatus(ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED);
+
+        given(repository.findById(anyLong())).willReturn(Optional.of(order));
+
+        assertEquals(service.validateOrderStatus(anyLong()), order);
+
+    }
+
+    @Test(expected = GetParkingOrderException.class)
+    public void should_throw_GetParkingOrderFailedException_when_order_status_is_be_accepted() {
+        ParkingOrder order = new ParkingOrder();
+        order.setStatus(ParkingOrder.ORDER_STATUS_BE_ACCEPTED);
+
+        given(repository.findById(anyLong())).willReturn(Optional.of(order));
+
+        service.validateOrderStatus(anyLong());
+
+    }
 }
