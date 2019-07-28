@@ -3,6 +3,7 @@ package com.parkpersonally.service;
 
 import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
+import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.*;
 import com.parkpersonally.repository.ParkingOrderRepository;
 import org.assertj.core.api.Assertions;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -201,12 +203,47 @@ public class ParkingOrderServiceTest {
         ParkingOrder order1 = new ParkingOrder(1,1,1,24,parkingLot);
         ParkingOrder order2 = new ParkingOrder(1,3,1,24,parkingLot);
 
-
         given(repository.save(any(ParkingOrder.class))).willReturn(order2);
 
         assertSame(3,service.updateParkingOrderStatus(1,order1).getStatus());
+    }
 
+    @Test
+    public void should_return_parking_boy_when_parking_lots_of_parking_boy_is_not_full() {
+        ParkingLot firstLot = new ParkingLot();
+        ParkingLot secondLot = new ParkingLot();
 
+        firstLot.setRestCapacity(1);
+        secondLot.setRestCapacity(0);
+
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        parkingBoy.setParkingLots(new ArrayList<>());
+        parkingBoy.getParkingLots().add(firstLot);
+        parkingBoy.getParkingLots().add(secondLot);
+
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+
+        assertEquals(service.validateParkingLotTheRest(parkingBoy), parkingBoy);
+    }
+
+    @Test(expected = ParkingLotIsFullException.class)
+    public void should_throw_ParkingLotIsFullException_when_parking_lots_of_parking_boy_is_full() {
+        ParkingLot firstLot = new ParkingLot();
+        ParkingLot secondLot = new ParkingLot();
+
+        firstLot.setRestCapacity(0);
+        secondLot.setRestCapacity(0);
+
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        parkingBoy.setParkingLots(new ArrayList<>());
+        parkingBoy.getParkingLots().add(firstLot);
+        parkingBoy.getParkingLots().add(secondLot);
+
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+
+        service.parkingBoyGetParkingOrder(anyLong(), parkingBoy);
     }
 
 }
