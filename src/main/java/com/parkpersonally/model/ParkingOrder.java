@@ -21,8 +21,6 @@ public class ParkingOrder {
     @NotNull
     private int type;
 
-    @Column(nullable = false)
-    @NotNull
     private int positionNumber;
 
     private String comments;
@@ -50,26 +48,26 @@ public class ParkingOrder {
     public ParkingOrder() {
     }
 
-    public ParkingOrder(long id, @NotNull int status, @NotNull int type, @NotNull int positionNumber) {
+    public ParkingOrder(long id, @NotNull int status, @NotNull int type, int positionNumber) {
         this.id = id;
         this.status = status;
         this.type = type;
         this.positionNumber = positionNumber;
     }
 
-    public ParkingOrder(@NotNull int type, @NotNull int positionNumber, @NotNull String fetchCarAddress) {
+    public ParkingOrder(@NotNull int type, int positionNumber, @NotNull String fetchCarAddress) {
         this.type = type;
         this.positionNumber = positionNumber;
         this.fetchCarAddress = fetchCarAddress;
     }
-    public ParkingOrder(@NotNull int status, @NotNull int type, @NotNull int positionNumber, @NotNull String fetchCarAddress) {
+    public ParkingOrder(@NotNull int status, @NotNull int type, int positionNumber, @NotNull String fetchCarAddress) {
         this.status = status;
         this.type = type;
         this.positionNumber = positionNumber;
         this.fetchCarAddress = fetchCarAddress;
     }
 
-    public ParkingOrder(@NotNull int status, @NotNull int type, @NotNull int positionNumber, @NotNull String fetchCarAddress, List<Tag> tags) {
+    public ParkingOrder(@NotNull int status, @NotNull int type, int positionNumber, @NotNull String fetchCarAddress, List<Tag> tags) {
         this.status = status;
         this.type = type;
         this.positionNumber = positionNumber;
