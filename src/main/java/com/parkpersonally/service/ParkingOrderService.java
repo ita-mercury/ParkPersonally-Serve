@@ -122,11 +122,10 @@ public class ParkingOrderService {
 
     public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
 
-        parkingOrder.setStatus(3);
-        ParkingOrder parkingOrder2 = repository.save(parkingOrder);
+        parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_COMPLETE);
+        parkingOrder = repository.save(parkingOrder);
 
-        return parkingOrder2;
-
+        return parkingOrder;
     }
 
     public void setParkingBoyService(ParkingBoyService parkingBoyService) {
