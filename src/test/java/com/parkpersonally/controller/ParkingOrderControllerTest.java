@@ -192,12 +192,12 @@ public class ParkingOrderControllerTest {
         secondTags.add(firstTag);
 
         List<ParkingOrder> allParkingOrders = new ArrayList<>();
-        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        ParkingOrder firstParkingOrder = new ParkingOrder(1,1,11,"珠海");
         allParkingOrders.add(firstParkingOrder);
-        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        ParkingOrder secondParkingOrder = new ParkingOrder(1,1,1,"珠海");
         secondParkingOrder.setTags(fristTags);
         allParkingOrders.add(secondParkingOrder);
-        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        ParkingOrder thirdParkingOrder = new ParkingOrder(1,1,4,"珠海");
         thirdParkingOrder.setTags(secondTags);
         allParkingOrders.add(thirdParkingOrder);
         given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);

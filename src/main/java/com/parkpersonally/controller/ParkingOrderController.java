@@ -50,7 +50,7 @@ public class ParkingOrderController {
     @GetMapping("/parking-orders")
     public List<ParkingOrder> getOrdersOfParkingBoy(@RequestParam("type")int type, @RequestParam("parkingBoyId") long parkingBoyId){
         ParkingBoy parkingBoy = parkingBoyService.findOneById(parkingBoyId);
-        return  parkingOrderService.getAllParkingOrdersOfParkingBoy(parkingBoy,type,0);
+        return  parkingOrderService.getAllParkingOrdersOfParkingBoy(parkingBoy,type,1);
     }
 
     @PutMapping("/parking-orders/{ordersId}/comments")

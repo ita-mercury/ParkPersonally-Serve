@@ -20,7 +20,7 @@ public class ParkingOrder {
 
     @Column(nullable = false)
     @NotNull
-    private int status = 0;
+    private int status = ORDER_STATUS_NOT_BE_ACCEPTED;
 
     @Column(nullable = false)
     @NotNull

@@ -85,12 +85,12 @@ public class ParkingOrderRepositoryTest {
         List<Tag> thirdTags = new ArrayList<>();
         thirdTags.add(fifthTag);
 
-        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
-        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        ParkingOrder firstParkingOrder = new ParkingOrder(1,1,11,"珠海");
+        ParkingOrder secondParkingOrder = new ParkingOrder(1,1,1,"珠海");
         secondParkingOrder.setTags(fristTags);
-        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        ParkingOrder thirdParkingOrder = new ParkingOrder(1,1,4,"珠海");
         thirdParkingOrder.setTags(secondTags);
-        ParkingOrder fourthParkingOrder = new ParkingOrder(0,1,10,"珠海");
+        ParkingOrder fourthParkingOrder = new ParkingOrder(1,1,10,"珠海");
         fourthParkingOrder.setTags(thirdTags);
         entityManager.persist(firstParkingOrder);
         entityManager.persist(secondParkingOrder);

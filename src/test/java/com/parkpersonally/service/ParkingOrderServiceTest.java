@@ -103,16 +103,16 @@ public class ParkingOrderServiceTest {
         thirdTags.add(fifthTag);
 
         List<ParkingOrder> allParkingOrders = new ArrayList<>();
-        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        ParkingOrder firstParkingOrder = new ParkingOrder(1,1,11,"珠海");
         firstParkingOrder.setTags(new ArrayList<>());
         allParkingOrders.add(firstParkingOrder);
-        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        ParkingOrder secondParkingOrder = new ParkingOrder(1,1,1,"珠海");
         secondParkingOrder.setTags(fristTags);
         allParkingOrders.add(secondParkingOrder);
-        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        ParkingOrder thirdParkingOrder = new ParkingOrder(1,1,4,"珠海");
         thirdParkingOrder.setTags(secondTags);
         allParkingOrders.add(thirdParkingOrder);
-        ParkingOrder fourthParkingOrder = new ParkingOrder(0,1,10,"珠海");
+        ParkingOrder fourthParkingOrder = new ParkingOrder(1,1,10,"珠海");
         fourthParkingOrder.setTags(thirdTags);
         allParkingOrders.add(fourthParkingOrder);
 
@@ -146,21 +146,21 @@ public class ParkingOrderServiceTest {
 
         List<ParkingOrder> allParkingOrders = new ArrayList<>();
         List<ParkingOrder> parkingOrdersWithTags = new ArrayList<>();
-        ParkingOrder firstParkingOrder = new ParkingOrder(0, 1, 11, "珠海");
+        ParkingOrder firstParkingOrder = new ParkingOrder(1, 1, 11, "珠海");
         firstParkingOrder.setId(1);
         firstParkingOrder.setTags(new ArrayList<>());
         allParkingOrders.add(firstParkingOrder);
-        ParkingOrder secondParkingOrder = new ParkingOrder(0, 1, 1, "珠海");
+        ParkingOrder secondParkingOrder = new ParkingOrder(1, 1, 1, "珠海");
         secondParkingOrder.setId(2);
         secondParkingOrder.setTags(fristTags);
         allParkingOrders.add(secondParkingOrder);
         parkingOrdersWithTags.add(secondParkingOrder);
-        ParkingOrder thirdParkingOrder = new ParkingOrder(0, 1, 4, "珠海");
+        ParkingOrder thirdParkingOrder = new ParkingOrder(1, 1, 4, "珠海");
         thirdParkingOrder.setId(3);
         thirdParkingOrder.setTags(secondTags);
         allParkingOrders.add(thirdParkingOrder);
         parkingOrdersWithTags.add(thirdParkingOrder);
-        ParkingOrder fourthParkingOrder = new ParkingOrder(0, 1, 10, "珠海");
+        ParkingOrder fourthParkingOrder = new ParkingOrder(1, 1, 10, "珠海");
         fourthParkingOrder.setId(4);
         fourthParkingOrder.setTags(thirdTags);
         allParkingOrders.add(fourthParkingOrder);
