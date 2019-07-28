@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
@@ -47,27 +48,35 @@ public class ParkingOrderController {
     }
 
     @GetMapping("/parking-orders")
-    public List<ParkingOrder> getOrdersOfParkingBoy(@RequestParam("type")int type,@RequestParam("parkingBoyId") long parkingBoyId){
+    public List<ParkingOrder> getOrdersOfParkingBoy(@RequestParam("type")int type, @RequestParam("parkingBoyId") long parkingBoyId){
         ParkingBoy parkingBoy = parkingBoyService.findOneById(parkingBoyId);
         return  parkingOrderService.getAllParkingOrdersOfParkingBoy(parkingBoy,type,0);
     }
 
     @PutMapping("/parking-orders/{ordersId}/comments")
-    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id,ParkingOrder parkingOrder){
+    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id, ParkingOrder parkingOrder){
         return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
     }
 
-
-    @PutMapping("/parking-orders/{parkingOrderId}")
-    public ResponseEntity<ParkingOrder> updateParkingOrderStatus(@PathVariable long parkingOrderId,@RequestBody ParkingOrder parkingOrder){
-
-        return  ResponseEntity.ok(parkingOrderService.updateParkingOrderStatus(parkingOrderId,parkingOrder));
-
-
+    @PostMapping("/parking-orders/{orderId}/parking-boy")
+    public ResponseEntity<ParkingOrder> parkingBoyGetParkingOrder(@PathVariable(name = "orderId") long orderId,
+                                                                  @RequestBody ParkingBoy parkingBoy){
+        return ResponseEntity.ok(parkingOrderService.parkingBoyGetParkingOrder(orderId, parkingBoy));
     }
 
+    @ExceptionHandler(ParkingLotIsFullException.class)
+    public ResponseEntity handleParkingLotIsFull(ParkingLotIsFullException ex){
+        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
+    @ExceptionHandler(NoSuchParkingBoyException.class)
+    public ResponseEntity handleNoSuchParkingBoy(NoSuchParkingBoyException e) {
+        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
-
+    @ExceptionHandler(GetParkingOrderException.class)
+    public ResponseEntity handleGetParkingOrderException(GetParkingOrderException e) {
+        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+    }
 
 }
