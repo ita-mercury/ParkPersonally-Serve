@@ -269,4 +269,32 @@ public class ParkingOrderServiceTest {
         service.validateOrderStatus(anyLong());
 
     }
+
+    @Test
+    public void should_return_order_when_parking_boy_get_order_success(){
+        ParkingLot firstLot = new ParkingLot();
+        ParkingLot secondLot = new ParkingLot();
+
+        firstLot.setRestCapacity(1);
+        secondLot.setRestCapacity(0);
+
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        parkingBoy.setParkingLots(new ArrayList<>());
+        parkingBoy.getParkingLots().add(firstLot);
+        parkingBoy.getParkingLots().add(secondLot);
+
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+
+        ParkingOrder order = new ParkingOrder();
+        order.setStatus(ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED);
+
+        given(repository.findById(anyLong())).willReturn(Optional.of(order));
+
+        order.setParkingBoy(parkingBoy);
+
+        given(repository.save(any(ParkingOrder.class))).willReturn(order);
+
+        assertEquals(service.parkingBoyGetParkingOrder(anyLong(), parkingBoy), order);
+    }
 }
