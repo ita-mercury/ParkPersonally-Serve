@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -26,9 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
+@WebMvcTest(ParkingBoyController.class)
 public class ParkingBoyControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -43,12 +43,12 @@ public class ParkingBoyControllerTest {
     public  void should_return_all_parkingLot_when_getAllParkingLotOnParkingBoy() throws Exception {
 
         List<ParkingLot> parkingLots = new ArrayList<>();
-        parkingLots.add(new ParkingLot(000001l,"停车场1",100,18));
-        parkingLots.add(new ParkingLot(000002l,"停车场2",100,20));
+        parkingLots.add(new ParkingLot(000001L,"停车场1",100,18));
+        parkingLots.add(new ParkingLot(000002L,"停车场2",100,20));
 
-        given(service.getAllParkingLotOnParkingBoy(100000l)).willReturn(parkingLots);
+        given(service.getAllParkingLotOnParkingBoy(100000L)).willReturn(parkingLots);
 
-        mockMvc.perform(get("/parking-boys/{parkingBoyId}/parking-lots",100000l))
+        mockMvc.perform(get("/parking-boys/{parkingBoyId}/parking-lots",100000L))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
