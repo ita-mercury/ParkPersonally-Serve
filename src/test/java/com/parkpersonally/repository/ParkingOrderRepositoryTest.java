@@ -1,6 +1,7 @@
 package com.parkpersonally.repository;
 
 import com.parkpersonally.model.ParkingOrder;
+import com.parkpersonally.model.Tag;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,6 +59,48 @@ public class ParkingOrderRepositoryTest {
 
         assertEquals(firstParkingOrder.getCreatTime(),fetchParkingOrders.get(0).getCreatTime());
         assertEquals(secondParkingOrder.getCreatTime(),fetchParkingOrders.get(1).getCreatTime());
+
+    }
+
+    @Test
+    public void should_return_parking_order_contatins_tag(){
+        Tag firstTag = new Tag("好看的");
+        Tag secondTag = new Tag("爆炸");
+        Tag thirdTag = new Tag("会唱rap");
+        Tag fourthTag = new Tag("服务好的");
+        Tag fifthTag = new Tag("小星星");
+        firstTag = entityManager.persist(firstTag);
+        secondTag = entityManager.persist(secondTag);
+        thirdTag = entityManager.persist(thirdTag);
+        fourthTag = entityManager.persist(fourthTag);
+        fifthTag = entityManager.persist(fifthTag);
+
+        List<Tag> fristTags = new ArrayList<>();
+        fristTags.add(firstTag);
+        fristTags.add(secondTag);
+        List<Tag> secondTags = new ArrayList<>();
+        secondTags.add(thirdTag);
+        secondTags.add(fourthTag);
+        secondTags.add(firstTag);
+        List<Tag> thirdTags = new ArrayList<>();
+        thirdTags.add(fifthTag);
+
+        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        secondParkingOrder.setTags(fristTags);
+        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        thirdParkingOrder.setTags(secondTags);
+        ParkingOrder fourthParkingOrder = new ParkingOrder(0,1,10,"珠海");
+        fourthParkingOrder.setTags(thirdTags);
+        entityManager.persist(firstParkingOrder);
+        entityManager.persist(secondParkingOrder);
+        entityManager.persist(thirdParkingOrder);
+        entityManager.persist(fourthParkingOrder);
+
+        List<ParkingOrder> fetchParkingOrders = parkingOrderRepository.findDistinctByTagsIsIn(fristTags);
+
+
+        assertEquals(2,fetchParkingOrders.size());
 
     }
 
