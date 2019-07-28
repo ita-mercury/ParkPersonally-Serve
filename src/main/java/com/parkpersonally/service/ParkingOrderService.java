@@ -92,9 +92,9 @@ public class ParkingOrderService {
     }
 
 
-    public ParkingOrder addPositionToParkingOrder(long parkingOrderId, ParkingOrder parkingOrder) {
+    public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
 
-        parkingOrder.setStatus(2);
+        parkingOrder.setStatus(3);
         ParkingOrder parkingOrder2 = repository.save(parkingOrder);
 
         return parkingOrder2;

@@ -199,12 +199,12 @@ public class ParkingOrderServiceTest {
 
         ParkingLot parkingLot = new ParkingLot(1,"停车场1",50,20);
         ParkingOrder order1 = new ParkingOrder(1,1,1,24,parkingLot);
-        ParkingOrder order2 = new ParkingOrder(1,2,1,24,parkingLot);
+        ParkingOrder order2 = new ParkingOrder(1,3,1,24,parkingLot);
 
 
         given(repository.save(any(ParkingOrder.class))).willReturn(order2);
 
-        assertSame(2,service.addPositionToParkingOrder(1,order1).getStatus());
+        assertSame(3,service.updateParkingOrderStatus(1,order1).getStatus());
 
 
     }

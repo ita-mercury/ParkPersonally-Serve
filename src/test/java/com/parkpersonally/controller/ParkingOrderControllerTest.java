@@ -249,7 +249,7 @@ public class ParkingOrderControllerTest {
         order.setParkingLot(parkingLot);
 
 
-        given(service.addPositionToParkingOrder(anyLong(),any(ParkingOrder.class))).willReturn(order);
+        given(service.updateParkingOrderStatus(anyLong(),any(ParkingOrder.class))).willReturn(order);
 
         mvc.perform(put("/parking-orders/{parkingOrderId}",1)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
