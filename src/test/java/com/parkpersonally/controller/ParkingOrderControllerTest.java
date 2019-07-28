@@ -234,7 +234,7 @@ public class ParkingOrderControllerTest {
 
 
     @Test
-    public void should_return_a_new_parkingOrder_when_addPositionToParkingOrder() throws Exception{
+    public void should_return_a_new_parkingOrder_when_updateParkingOrderStatus() throws Exception{
         //given
         Customer customer = new Customer();
         customer.setId(1);
@@ -257,8 +257,6 @@ public class ParkingOrderControllerTest {
                 //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.positionNumber").value(20));
-
-
     }
 
 

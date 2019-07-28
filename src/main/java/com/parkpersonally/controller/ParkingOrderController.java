@@ -58,6 +58,12 @@ public class ParkingOrderController {
         return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
     }
 
+    @PutMapping("/parking-orders/{parkingOrderId}")
+    public ResponseEntity<ParkingOrder> updateParkingOrderStatus(@PathVariable long parkingOrderId,@RequestBody ParkingOrder parkingOrder){
+
+        return  ResponseEntity.ok(parkingOrderService.updateParkingOrderStatus(parkingOrderId,parkingOrder));
+    }
+
     @PostMapping("/parking-orders/{orderId}/parking-boy")
     public ResponseEntity<ParkingOrder> parkingBoyGetParkingOrder(@PathVariable(name = "orderId") long orderId,
                                                                   @RequestBody ParkingBoy parkingBoy){
