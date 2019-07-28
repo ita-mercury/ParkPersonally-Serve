@@ -3,11 +3,14 @@ package com.parkpersonally.service;
 
 import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
+import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("parkingOrderService")
 public class ParkingOrderService {
@@ -44,5 +47,46 @@ public class ParkingOrderService {
 
     public ParkingOrder updateParkingOrder(ParkingOrder parkingOrder, long id) {
         return null;
+    }
+
+    public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy, int type, int status){
+        List<ParkingOrder> allParkingOrders = repository.findAllByTypeAndStatusOrderByCreatTimeAsc(type,status);
+
+        if(allParkingOrders != null){
+
+            List<ParkingOrder> allParkingOrdersWithoutTags = allParkingOrders.stream()
+                    .filter(parkingOrder -> parkingOrder.getTags() == null)
+                    .collect(Collectors.toList());
+
+            if(parkingBoy.getTags()!= null){
+
+                List<ParkingOrder> parkingBoyMeetsParkingOrdersTags = repository.findDistinctByTagsIsIn(parkingBoy.getTags());
+
+                List<Long> parkingBoyMeetsParkingOrdersTagsId = parkingBoyMeetsParkingOrdersTags.stream()
+                                                                  .mapToLong(ParkingOrder::getId)
+                                                                  .boxed().collect(Collectors.toList());
+
+                if(parkingBoyMeetsParkingOrdersTags != null){
+
+                    return allParkingOrders.stream()
+                            .filter(parkingOrder -> parkingOrder.getTags() == null
+                                    || parkingBoyMeetsParkingOrdersTagsId.contains(parkingOrder.getId()))
+                            .collect(Collectors.toList());
+
+                }else {
+
+                    return allParkingOrdersWithoutTags;
+
+                }
+            }else {
+
+                return allParkingOrdersWithoutTags;
+
+            }
+        }else {
+
+            return null;
+
+        }
     }
 }

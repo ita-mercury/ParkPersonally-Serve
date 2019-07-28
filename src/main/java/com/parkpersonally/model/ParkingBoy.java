@@ -34,7 +34,13 @@ public class ParkingBoy {
         this.tags = tags;
     }
 
-    public ParkingBoy() {
+
+    public ParkingBoy() {}
+
+    public ParkingBoy(@NotNull String name, @NotNull String number) {
+        this.name = name;
+        this.number = number;
+
     }
 
     public List<Tag> getTags() {

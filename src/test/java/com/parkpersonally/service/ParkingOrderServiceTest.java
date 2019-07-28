@@ -1,6 +1,7 @@
 package com.parkpersonally.service;
 
 import com.parkpersonally.model.Customer;
+import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.model.Tag;
 import com.parkpersonally.repository.ParkingOrderRepository;
@@ -14,8 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertSame;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -69,6 +69,97 @@ public class ParkingOrderServiceTest {
         given(repository.findById(anyLong())).willReturn(Optional.of(order));
 
         assertSame(order,service.findOrderById(1));
+    }
+
+    @Test
+    public void should_return_Order_without_tags_when_parking_boy_without_tags(){
+        //given
+        Tag firstTag = new Tag("好看的");
+        Tag secondTag = new Tag("爆炸");
+        Tag thirdTag = new Tag("会唱rap");
+        Tag fourthTag = new Tag("服务好的");
+        Tag fifthTag = new Tag("小星星");
+
+
+
+        ParkingBoy parkingBoy = new ParkingBoy("zhangsan","13");
+
+        List<Tag> fristTags = new ArrayList<>();
+        fristTags.add(firstTag);
+        fristTags.add(secondTag);
+        List<Tag> secondTags = new ArrayList<>();
+        secondTags.add(thirdTag);
+        secondTags.add(fourthTag);
+        secondTags.add(firstTag);
+        List<Tag> thirdTags = new ArrayList<>();
+        thirdTags.add(fifthTag);
+
+        List<ParkingOrder> allParkingOrders = new ArrayList<>();
+        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        allParkingOrders.add(firstParkingOrder);
+        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        secondParkingOrder.setTags(fristTags);
+        allParkingOrders.add(secondParkingOrder);
+        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        thirdParkingOrder.setTags(secondTags);
+        allParkingOrders.add(thirdParkingOrder);
+        ParkingOrder fourthParkingOrder = new ParkingOrder(0,1,10,"珠海");
+        fourthParkingOrder.setTags(thirdTags);
+        allParkingOrders.add(fourthParkingOrder);
+
+        given(repository.findAllByTypeAndStatusOrderByCreatTimeAsc(anyInt(),anyInt())).willReturn(allParkingOrders);
+
+        assertSame(1,service.getAllParkingOrdersOfParkingBoy(parkingBoy,1,0).size());
+    }
+
+    @Test
+    public void should_return_Orders_contain_confirm_tags_and_without_tags_when_parking_boy_with_tags(){
+        //given
+        Tag firstTag = new Tag("好看的");
+        Tag secondTag = new Tag("爆炸");
+        Tag thirdTag = new Tag("会唱rap");
+        Tag fourthTag = new Tag("服务好的");
+        Tag fifthTag = new Tag("小星星");
+
+
+
+        ParkingBoy parkingBoy = new ParkingBoy("zhangsan","13");
+
+        List<Tag> fristTags = new ArrayList<>();
+        fristTags.add(firstTag);
+        fristTags.add(secondTag);
+        parkingBoy.setTags(fristTags);
+        List<Tag> secondTags = new ArrayList<>();
+        secondTags.add(thirdTag);
+        secondTags.add(fourthTag);
+        secondTags.add(firstTag);
+        List<Tag> thirdTags = new ArrayList<>();
+        thirdTags.add(fifthTag);
+
+        List<ParkingOrder> allParkingOrders = new ArrayList<>();
+        List<ParkingOrder> parkingOrdersWithTags = new ArrayList<>();
+        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        firstParkingOrder.setId(1);
+        allParkingOrders.add(firstParkingOrder);
+        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        secondParkingOrder.setId(2);
+        secondParkingOrder.setTags(fristTags);
+        allParkingOrders.add(secondParkingOrder);
+        parkingOrdersWithTags.add(secondParkingOrder);
+        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        thirdParkingOrder.setId(3);
+        thirdParkingOrder.setTags(secondTags);
+        allParkingOrders.add(thirdParkingOrder);
+        parkingOrdersWithTags.add(thirdParkingOrder);
+        ParkingOrder fourthParkingOrder = new ParkingOrder(0,1,10,"珠海");
+        fourthParkingOrder.setId(4);
+        fourthParkingOrder.setTags(thirdTags);
+        allParkingOrders.add(fourthParkingOrder);
+
+        given(repository.findAllByTypeAndStatusOrderByCreatTimeAsc(anyInt(),anyInt())).willReturn(allParkingOrders);
+        given(repository.findDistinctByTagsIsIn(parkingBoy.getTags())).willReturn(parkingOrdersWithTags);
+
+        assertSame(3,service.getAllParkingOrdersOfParkingBoy(parkingBoy,1,0).size());
     }
 
 }
