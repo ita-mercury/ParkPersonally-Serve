@@ -24,8 +24,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ParkingBoyController.class)
@@ -53,6 +52,13 @@ public class ParkingBoyControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
 
+    }
+    @Test
+    public void should_return_A_Exception_when_parkingBoyId_is_error() throws Exception{
+        given(service.getAllParkingLotOnParkingBoy(anyLong())).willThrow(new NoSuchParkingBoyException("抱歉,没有查到停车员"));
+        mockMvc.perform(get("/parking-boys/{parkingBoyId}/parking-lots",1))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("抱歉,没有查到停车员"));
     }
 
 }

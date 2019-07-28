@@ -34,6 +34,9 @@ public class ParkingBoy {
         this.tags = tags;
     }
 
+    public ParkingBoy() {
+    }
+
     public List<Tag> getTags() {
         return tags;
     }

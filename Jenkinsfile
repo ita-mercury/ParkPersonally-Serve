@@ -13,13 +13,10 @@ pipeline {
       steps {
         sh './gradlew build'
         sh 'cp -f ./build/libs/parkpersonally-0.0.1-SNAPSHOT.jar /usr/local/bin/ParkPersonally.jar'
-        sh 'pid=$(jps | grep jar | cut -d \' \' -f 1)'
-        sh '''if [ ! -n $pid ]; then
- kill -9 $pid
-fi'''
-        sh 'cd /usr/local/bin'
+        sh '''pid=$(jps | grep jar | cut -d \' \' -f 1)
+kill -9 $pid'''
         sh '''JENKINS_NODE_COOKIE=dontKillMe
-nohup java -jar ParkPersonally.jar > out.log & sleep 20s'''
+nohup java -jar /usr/local/bin/ParkPersonally.jar > /usr/local/bin/out.log & sleep 20s'''
       }
     }
   }

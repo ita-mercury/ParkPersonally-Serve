@@ -2,6 +2,7 @@ package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkpersonally.dto.OrderComment;
+
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.*;
 import com.parkpersonally.service.ParkingOrderService;
@@ -98,6 +99,29 @@ public class ParkingOrderControllerTest {
 
 
     }
+    @Test
+    public void should_return_Exception_when_parkingOrderId_is_error() throws Exception {
+
+        //given
+        Customer customer = new Customer();
+        customer.setId(1);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("smart"));
+        tags.add(new Tag("handsome"));
+
+        ParkingOrder order = new ParkingOrder(1, 20, "南方软件园");
+        order.setCustomer(customer);
+        order.setTags(tags);
+
+        given(service.findOrderById(anyLong())).willThrow(new NoSuchParkingOrderException("抱歉,没有查到该订单"));
+
+        mvc.perform(get("/parking-orders/{parkingOrderId}",1))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("抱歉,没有查到该订单"));
+
+    }
+
+
     @Test
     public void should_return_an_Exception_when_appraise_order_but_order_is_not_exist() throws Exception {
         //given

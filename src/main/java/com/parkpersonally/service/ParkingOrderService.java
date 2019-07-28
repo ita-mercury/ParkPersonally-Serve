@@ -26,11 +26,13 @@ public class ParkingOrderService {
     }
 
     public ParkingOrder findOrderById(long parkingOrderId) {
-        ParkingOrder parkingOrder = repository.findById(parkingOrderId).orElseThrow(()->new NoSuchParkingOrderException("没有找到ParkingOrder信息"));
+        ParkingOrder parkingOrder = repository.findById(parkingOrderId).orElseThrow(()->new NoSuchParkingOrderException("抱歉，没有查到相应订单"));
         return parkingOrder;
     }
+
     public OrderComment appraiseOrder(long id, ParkingOrder parkingOrder) {
         ParkingOrder targetOrder = repository.findById(id).orElseThrow(() -> new NoSuchParkingOrderException("抱歉,没有查到该订单"));
+
         targetOrder.setComments(parkingOrder.getComments());
 
         repository.save(targetOrder);
