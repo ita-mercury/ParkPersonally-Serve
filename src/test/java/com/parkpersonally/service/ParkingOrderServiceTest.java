@@ -39,7 +39,7 @@ public class ParkingOrderServiceTest {
     @Test
     public void should_return_new_order_when_add_new_order(){
         // given
-        ParkingOrder expect = new ParkingOrder(ParkingOrder.PARK_CAR, 20, "南方软件园");
+        ParkingOrder expect = new ParkingOrder(ParkingOrder.ORDER_TYPE_PARK_CAR, 20, "南方软件园");
         when(repository.save(any(ParkingOrder.class))).thenReturn(expect);
         // when
         ParkingOrder actual = service.createParkingOrder(expect);
