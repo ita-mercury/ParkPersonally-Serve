@@ -6,6 +6,7 @@ import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -15,6 +16,8 @@ import java.util.stream.Collectors;
 @Service("parkingOrderService")
 public class ParkingOrderService {
 
+    @Autowired
+    private ParkingBoyService parkingBoyService;
 
     private final ParkingOrderRepository repository;
 
@@ -99,5 +102,9 @@ public class ParkingOrderService {
 
         return parkingOrder2;
 
+    }
+
+    public void setParkingBoyService(ParkingBoyService parkingBoyService) {
+        this.parkingBoyService = parkingBoyService;
     }
 }
