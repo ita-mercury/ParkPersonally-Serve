@@ -43,6 +43,13 @@ public class ParkingBoy {
 
     }
 
+    public ParkingBoy(long id, @NotNull String name, @NotNull String number, List<Tag> tags) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.tags = tags;
+    }
+
     public List<Tag> getTags() {
         return tags;
     }
