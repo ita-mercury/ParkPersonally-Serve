@@ -48,17 +48,14 @@ public class ParkingOrderController {
 
 
 
-    @PutMapping("/orders/{orderId}")
 
-    public ParkingOrder updateParkingOrder(@RequestBody ParkingOrder parkingOrder,@PathVariable long orderId){
-        return parkingOrderService.updateParkingOrder(parkingOrder,orderId);
-    }
 
     @PostMapping("/parking-orders/{orderId}/parking-boy")
     public ResponseEntity<ParkingOrder> parkingBoyGetParkingOrder(@PathVariable(name = "orderId") long orderId,
                                                                   @RequestBody ParkingBoy parkingBoy){
         return ResponseEntity.ok(parkingOrderService.parkingBoyGetParkingOrder(orderId, parkingBoy));
     }
+
 
 
 

@@ -45,9 +45,6 @@ public class ParkingOrderService {
         return orderComment;
     }
 
-    public ParkingOrder updateParkingOrder(ParkingOrder parkingOrder, long id) {
-        return null;
-    }
 
     public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy, int type, int status) {
         List<ParkingOrder> allParkingOrders = repository.findAllByTypeAndStatusOrderByCreatTimeAsc(type, status);
