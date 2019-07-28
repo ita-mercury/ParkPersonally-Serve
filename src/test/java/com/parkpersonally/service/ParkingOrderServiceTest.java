@@ -299,4 +299,32 @@ public class ParkingOrderServiceTest {
 
         assertEquals(service.parkingBoyGetParkingOrder(anyLong(), parkingBoy), order);
     }
+
+    @Test(expected = ParkingLotIsFullException.class)
+    public void should_throw_ParkingLotIsFullException_when_parking_lots_of_parking_boy_are_full(){
+        ParkingLot firstLot = new ParkingLot();
+        ParkingLot secondLot = new ParkingLot();
+
+        firstLot.setRestCapacity(0);
+        secondLot.setRestCapacity(0);
+
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        parkingBoy.setParkingLots(new ArrayList<>());
+        parkingBoy.getParkingLots().add(firstLot);
+        parkingBoy.getParkingLots().add(secondLot);
+
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+
+        ParkingOrder order = new ParkingOrder();
+        order.setStatus(ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED);
+
+        given(repository.findById(anyLong())).willReturn(Optional.of(order));
+
+        order.setParkingBoy(parkingBoy);
+
+        given(repository.save(any(ParkingOrder.class))).willReturn(order);
+
+        service.parkingBoyGetParkingOrder(anyLong(), parkingBoy);
+    }
 }
