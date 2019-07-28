@@ -159,7 +159,6 @@ public class ParkingOrderControllerTest {
     }
 
     @Test
-
     public void should_return_parking_lot_is_full_when_all_parking_lot_of_parking_boy_is_full() throws Exception {
         ParkingBoy parkingBoy = new ParkingBoy();
 
@@ -168,7 +167,9 @@ public class ParkingOrderControllerTest {
 
         mvc.perform(post("/parking-orders/1/parking-boy")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(parkingBoy)));
+                .content(objectMapper.writeValueAsString(parkingBoy)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("你管理的所有停车场已满"));
     }
     @Test
     public void should_return_a_update_Order_when_updateParkingOrder() throws Exception{
