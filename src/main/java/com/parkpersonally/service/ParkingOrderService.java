@@ -1,13 +1,10 @@
 package com.parkpersonally.service;
 
 
-import com.parkpersonally.exception.NoSuchOrderException;
-
-import com.parkpersonally.exception.NoSuchParkingBoyException;
+import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -32,10 +29,15 @@ public class ParkingOrderService {
         ParkingOrder parkingOrder = repository.findById(parkingOrderId).orElseThrow(()->new NoSuchParkingOrderException("没有找到ParkingOrder信息"));
         return parkingOrder;
     }
-    public ParkingOrder appraiseOrder(long id, ParkingOrder parkingOrder) {
-        ParkingOrder targetOrder = repository.findById(id).orElseThrow(() -> new NoSuchOrderException("抱歉,没有查到该订单"));
+    public OrderComment appraiseOrder(long id, ParkingOrder parkingOrder) {
+        ParkingOrder targetOrder = repository.findById(id).orElseThrow(() -> new NoSuchParkingOrderException("抱歉,没有查到该订单"));
         targetOrder.setComments(parkingOrder.getComments());
-        return repository.save(targetOrder);
+
+        repository.save(targetOrder);
+
+        OrderComment orderComment = new OrderComment(id,parkingOrder.getComments());
+
+        return orderComment;
     }
 
     public ParkingOrder updateParkingOrder(ParkingOrder parkingOrder, long id) {

@@ -1,6 +1,5 @@
 package com.parkpersonally.controller;
 
-import com.parkpersonally.exception.NoSuchOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.service.ParkingOrderService;
@@ -39,18 +38,10 @@ public class ParkingOrderController {
     }
 
 
-
-
     @PutMapping("/parking-orders/{ordersId}/comments")
-    public ResponseEntity appriaseOrder(@PathVariable("ordersId")long id,ParkingOrder parkingOrder){
+    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id,ParkingOrder parkingOrder){
         return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
     }
-
-    @ExceptionHandler(NoSuchOrderException.class)
-    public ResponseEntity handleNoSuchOrderException(NoSuchOrderException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
 
 
 
