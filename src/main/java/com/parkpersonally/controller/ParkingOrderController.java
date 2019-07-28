@@ -33,7 +33,7 @@ public class ParkingOrderController {
         return  parkingOrderService.findOrderById(parkingOrderId);
     }
     @ExceptionHandler(NoSuchParkingOrderException.class)
-    public ResponseEntity handlNoSuchParkingOrder(NoSuchParkingOrderException e) {
+    public ResponseEntity handlNoSuchParkingOrderException(NoSuchParkingOrderException e) {
         return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -46,9 +46,11 @@ public class ParkingOrderController {
 
 
     @PutMapping("/orders/{orderId}")
+
     public ParkingOrder updateParkingOrder(@RequestBody ParkingOrder parkingOrder,@PathVariable long orderId){
         return parkingOrderService.updateParkingOrder(parkingOrder,orderId);
     }
+
 
 
 }
