@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkpersonally.dto.OrderComment;
 
 import com.parkpersonally.exception.NoSuchParkingOrderException;
+import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.*;
 import com.parkpersonally.service.ParkingOrderService;
 import org.junit.Test;
@@ -180,4 +181,17 @@ public class ParkingOrderControllerTest {
 
     }
 
+    @Test
+    public void should_return_parking_lot_is_full_when_all_parking_lot_of_parking_boy_is_full() throws Exception{
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        given(service.parkingBoyGetParkingOrder(anyLong(), any(ParkingBoy.class)))
+                .willThrow(new ParkingLotIsFullException("你管理的所有停车场已满"));
+
+        mvc.perform(post("/parking-orders/1/parking-boy")
+            .contentType(MediaType.APPLICATION_JSON_UTF8)
+            .content(objectMapper.writeValueAsString(parkingBoy)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("你管理的所有停车场已满"));
+    }
 }

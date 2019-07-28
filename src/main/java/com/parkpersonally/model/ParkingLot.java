@@ -34,6 +34,9 @@ public class ParkingLot {
         this.restCapacity = restCapacity;
     }
 
+    public ParkingLot() {
+    }
+
     public long getId() {
         return id;
     }
