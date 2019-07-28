@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 public class ParkingOrderService {
 
     @Autowired
+    private ParkingLotService parkingLotService;
+
+    @Autowired
     private ParkingBoyService parkingBoyService;
 
     private final ParkingOrderRepository repository;
@@ -131,6 +134,9 @@ public class ParkingOrderService {
         } else {
             parkingLot.setRestCapacity(parkingLot.getRestCapacity()+1);
         }
+
+        parkingLot = parkingLotService.saveService(parkingLot);
+
         parkingOrder.setParkingLot(parkingLot);
         parkingOrder = repository.save(parkingOrder);
 

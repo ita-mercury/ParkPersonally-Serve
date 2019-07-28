@@ -193,27 +193,27 @@ public class ParkingOrderServiceTest {
         assertSame("司机会漂移",orderComment.getComment());
     }
 
-    @Test
-    public void should_return_a_new_Order_when_addPositionToParkingOrder(){
-
-        //given
-        Customer customer = new Customer();
-        customer.setId(1);
-        List<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("smart"));
-        tags.add(new Tag("handsome"));
-
-        ParkingLot inputLot = new ParkingLot(1,"停车场1",50,20);
-        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
-        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
-        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_COMPLETE, 1, 24, expectLot);
-
-
-        given(repository.save(expect)).willReturn(expect);
-
-        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
-
-    }
+//    @Test
+//    public void should_return_a_new_Order_when_addPositionToParkingOrder(){
+//
+//        //given
+//        Customer customer = new Customer();
+//        customer.setId(1);
+//        List<Tag> tags = new ArrayList<>();
+//        tags.add(new Tag("smart"));
+//        tags.add(new Tag("handsome"));
+//
+//        ParkingLot inputLot = new ParkingLot(1,"停车场1",50,20);
+//        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
+//        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
+//        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_COMPLETE, 1, 24, expectLot);
+//
+//
+//        given(repository.save(expect)).willReturn(expect);
+//
+//        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
+//
+//    }
 
     @Test
     public void should_return_parking_boy_when_parking_lots_of_parking_boy_is_not_full() {
