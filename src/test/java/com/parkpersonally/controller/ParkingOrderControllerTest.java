@@ -1,7 +1,8 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkpersonally.exception.NoSuchOrderException;
+import com.parkpersonally.dto.OrderComment;
+import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.*;
 import com.parkpersonally.service.ParkingOrderService;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -104,7 +104,7 @@ public class ParkingOrderControllerTest {
         ParkingOrder parkingOrder = new ParkingOrder();
         parkingOrder.setId(1);
         parkingOrder.setComments("司机真帅");
-        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willThrow(new NoSuchOrderException("抱歉,没有查到该订单"));
+        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willThrow(new NoSuchParkingOrderException("抱歉,没有查到该订单"));
         //when
         mvc.perform(put("/parking-orders/2/comments")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -119,15 +119,16 @@ public class ParkingOrderControllerTest {
         //given
         ParkingOrder parkingOrder = new ParkingOrder();
         parkingOrder.setId(1L);
-        parkingOrder.setComments("司机真帅");
-        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willReturn(parkingOrder);
+        parkingOrder.setComments("司机会漂移");
+        OrderComment orderComment = new OrderComment(1L,"司机会漂移");
+        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willReturn(orderComment);
         //when
         mvc.perform(put("/parking-orders/1/comments")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(parkingOrder)))
                 //then
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.comments").value("司机真帅"));
+                .andExpect(jsonPath("$.comment").value("司机会漂移"));
     }
 
     @Test
