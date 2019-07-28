@@ -2,7 +2,9 @@ package com.parkpersonally.service;
 
 
 import com.parkpersonally.dto.OrderComment;
+import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
+import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
@@ -94,6 +96,22 @@ public class ParkingOrderService {
         return null;
     }
 
+    public ParkingBoy validateParkingLotTheRest(ParkingBoy parkingBoy){
+        parkingBoy = parkingBoyService.findOneById(parkingBoy.getId());
+        if (parkingBoy.getParkingLots().stream()
+                .filter(parkingLot -> parkingLot.getRestCapacity() != 0)
+                .collect(Collectors.toList())
+                .size() == 0) throw new ParkingLotIsFullException("你所管理的停车场已满");
+
+        return parkingBoy;
+    }
+
+    public ParkingOrder validateOrderStatus(long orderId){
+        ParkingOrder order = repository.findById(orderId).get();
+        if (order.getStatus() != 1) throw new GetParkingOrderException("该订单已被其他人接取");
+
+        return order;
+    }
 
     public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
 
