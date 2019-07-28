@@ -203,13 +203,16 @@ public class ParkingOrderServiceTest {
         tags.add(new Tag("smart"));
         tags.add(new Tag("handsome"));
 
-        ParkingLot parkingLot = new ParkingLot(1,"停车场1",50,20);
-        ParkingOrder order1 = new ParkingOrder(1,1,1,24,parkingLot);
-        ParkingOrder order2 = new ParkingOrder(1,3,1,24,parkingLot);
+        ParkingLot inputLot = new ParkingLot(1,"停车场1",50,20);
+        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
+        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
+        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_COMPLETE, 1, 24, expectLot);
 
-        given(repository.save(any(ParkingOrder.class))).willReturn(order2);
 
-        assertSame(3,service.updateParkingOrderStatus(1,order1).getStatus());
+        given(repository.save(expect)).willReturn(expect);
+
+        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
+
     }
 
     @Test

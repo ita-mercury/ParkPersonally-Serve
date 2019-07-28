@@ -3,6 +3,7 @@ package com.parkpersonally.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class ParkingOrder {
@@ -86,6 +87,20 @@ public class ParkingOrder {
         this.type = type;
         this.positionNumber = positionNumber;
         this.parkingLot = parkingLot;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ParkingOrder order = (ParkingOrder) o;
+        return id == order.id &&
+                parkingLot.equals(order.parkingLot);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, parkingLot);
     }
 
     public List<Tag> getTags() {

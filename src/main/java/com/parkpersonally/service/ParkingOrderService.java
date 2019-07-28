@@ -6,6 +6,7 @@ import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.ParkingBoy;
+import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -123,6 +124,14 @@ public class ParkingOrderService {
     public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
 
         parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_COMPLETE);
+        ParkingLot parkingLot = parkingOrder.getParkingLot();
+        int type = parkingOrder.getType();
+        if (type==ParkingOrder.ORDER_TYPE_PARK_CAR) {
+            parkingLot.setRestCapacity(parkingLot.getRestCapacity()-1);
+        } else {
+            parkingLot.setRestCapacity(parkingLot.getRestCapacity()+1);
+        }
+        parkingOrder.setParkingLot(parkingLot);
         parkingOrder = repository.save(parkingOrder);
 
         return parkingOrder;
