@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.parkpersonally.exception.NoSuchParkingBoyException;
+import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.model.Tag;
@@ -28,4 +29,16 @@ public class CustomerController {
     public ResponseEntity handlNoSuchParkingBoy(NoSuchParkingBoyException e) {
         return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     }
+//    @GetMapping("/customers")
+//    public  ResponseEntity getAllCarOrders(@RequestParam("type")int type,@RequestParam("customerId")int customerId){
+//        List<ParkingOrder> parkingOrders=customerService.getAllOrders(type,customerId);
+//        return ResponseEntity.ok(parkingOrders);
+//    }
+    @GetMapping(value = "/customers/{customerId}/allOrders")
+    public  ResponseEntity getAllCarOrders(@PathVariable long customerId){
+        List<ParkingOrder> parkingOrders=customerService.getAllOrders(customerId);
+        return ResponseEntity.ok(parkingOrders);
+    }
+
+
 }

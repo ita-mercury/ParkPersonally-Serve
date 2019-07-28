@@ -1,5 +1,7 @@
 package com.parkpersonally.repository;
 
+import com.parkpersonally.model.Customer;
+import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.model.Tag;
 import org.assertj.core.api.Assertions;
@@ -101,6 +103,27 @@ public class ParkingOrderRepositoryTest {
 
 
         assertEquals(2,fetchParkingOrders.size());
+
+    }
+    @Test
+    public  void should_return_all_order_contatins_fetch_car_and_parking_car(){
+        Customer customer=new Customer();
+        customer.setPassword("1213123");
+        customer.setPhone("12345678912");
+        customer.setCarNumber("888888");
+        customer.setEmail("2458461623@qq.com");
+        customer = entityManager.persist(customer);
+        long id = customer.getId();
+        ParkingOrder firstParkingOrder = new ParkingOrder();
+        firstParkingOrder.setCustomer(customer);
+        firstParkingOrder.setType(1);
+        firstParkingOrder.setFetchCarAddress("澳门");
+        firstParkingOrder.setPositionNumber(100);
+        entityManager.persist(firstParkingOrder);
+
+        List<ParkingOrder> allCarOrders=parkingOrderRepository.findAllByCustomerId(id);
+        assertEquals(1,allCarOrders.size());
+
 
     }
 
