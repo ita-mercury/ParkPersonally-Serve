@@ -55,10 +55,10 @@ public class ParkingOrderRepositoryTest {
         entityManager.persist(fourthParkingOrder);
         entityManager.persist(fifthParkingOrder);
 
-        List<ParkingOrder> fetchParkingOrders = parkingOrderRepository.findAllByTypeAndStatusOrderByCreatTimeAsc(1,0);
+        List<ParkingOrder> fetchParkingOrders = parkingOrderRepository.findAllByTypeAndStatusOrderByCreateTimeAsc(1,0);
 
-        assertEquals(firstParkingOrder.getCreatTime(),fetchParkingOrders.get(0).getCreatTime());
-        assertEquals(secondParkingOrder.getCreatTime(),fetchParkingOrders.get(1).getCreatTime());
+        assertEquals(firstParkingOrder.getCreateTime(),fetchParkingOrders.get(0).getCreateTime());
+        assertEquals(secondParkingOrder.getCreateTime(),fetchParkingOrders.get(1).getCreateTime());
 
     }
 

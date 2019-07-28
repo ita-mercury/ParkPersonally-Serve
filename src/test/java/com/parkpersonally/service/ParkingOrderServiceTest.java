@@ -116,7 +116,7 @@ public class ParkingOrderServiceTest {
         fourthParkingOrder.setTags(thirdTags);
         allParkingOrders.add(fourthParkingOrder);
 
-        given(repository.findAllByTypeAndStatusOrderByCreatTimeAsc(anyInt(),anyInt())).willReturn(allParkingOrders);
+        given(repository.findAllByTypeAndStatusOrderByCreateTimeAsc(anyInt(),anyInt())).willReturn(allParkingOrders);
 
         assertSame(1,service.getAllParkingOrdersOfParkingBoy(parkingBoy,1,0).size());
     }
@@ -165,7 +165,7 @@ public class ParkingOrderServiceTest {
         fourthParkingOrder.setTags(thirdTags);
         allParkingOrders.add(fourthParkingOrder);
 
-        given(repository.findAllByTypeAndStatusOrderByCreatTimeAsc(anyInt(), anyInt())).willReturn(allParkingOrders);
+        given(repository.findAllByTypeAndStatusOrderByCreateTimeAsc(anyInt(), anyInt())).willReturn(allParkingOrders);
         given(repository.findDistinctByTagsIsIn(parkingBoy.getTags())).willReturn(parkingOrdersWithTags);
 
         assertSame(3, service.getAllParkingOrdersOfParkingBoy(parkingBoy, 1, 0).size());

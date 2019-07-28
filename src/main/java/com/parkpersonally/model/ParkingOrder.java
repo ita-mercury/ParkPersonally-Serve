@@ -36,7 +36,7 @@ public class ParkingOrder {
 
     @Column(nullable = false)
     @NotNull
-    private long creatTime = System.currentTimeMillis();
+    private long createTime = System.currentTimeMillis();
 
     @ManyToOne(fetch = FetchType.EAGER)
     private ParkingBoy parkingBoy;
@@ -152,12 +152,12 @@ public class ParkingOrder {
         this.fetchCarAddress = fetchCarAddress;
     }
 
-    public long getCreatTime() {
-        return creatTime;
+    public long getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(long creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(long createTime) {
+        this.createTime = createTime;
     }
 
     public ParkingBoy getParkingBoy() {
