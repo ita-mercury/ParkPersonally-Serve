@@ -40,7 +40,7 @@ public class ParkingOrderService {
 
         repository.save(targetOrder);
 
-        OrderComment orderComment = new OrderComment(id,parkingOrder.getComments());
+        OrderComment orderComment = new OrderComment(id,targetOrder.getComments());
 
         return orderComment;
     }

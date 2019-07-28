@@ -1,10 +1,13 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.OrderComment;
+import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.model.Tag;
 import com.parkpersonally.repository.ParkingOrderRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -161,5 +164,25 @@ public class ParkingOrderServiceTest {
 
         assertSame(3,service.getAllParkingOrdersOfParkingBoy(parkingBoy,1,0).size());
     }
-
+    @Test(expected = NoSuchParkingOrderException.class)
+    public void should_throw_exception_when_find_a_order_is_not_exist(){
+        //given
+        ParkingOrder parkingOrder = new ParkingOrder();
+        given(repository.findById(anyLong())).willThrow(new NoSuchParkingOrderException("抱歉,该订单不存在"));
+        //when
+        service.appraiseOrder(1,parkingOrder);
+        //then
+    }
+    @Test
+    public void should_return_order_comments_when_appraise_order(){
+        //given
+        ParkingOrder parkingOrder = new ParkingOrder();
+        parkingOrder.setComments("司机会漂移");
+        parkingOrder.setId(1L);
+        given(repository.findById(anyLong())).willReturn(Optional.of(parkingOrder));
+        //when
+        OrderComment orderComment = service.appraiseOrder(1, parkingOrder);
+        //then
+        assertSame("司机会漂移",orderComment.getComment());
+    }
 }
