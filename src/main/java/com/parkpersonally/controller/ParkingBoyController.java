@@ -19,9 +19,9 @@ public class ParkingBoyController {
     private ParkingBoyService service;
 
     @GetMapping("/parking-boys/{parkingBoyId}/parking-lots")
-    public List<ParkingLot> getAllParkingLotOnParkingBoy(@PathVariable long parkingBoyId){
+    public ResponseEntity<List<ParkingLot>> getAllParkingLotOnParkingBoy(@PathVariable long parkingBoyId){
 
-        return service.getAllParkingLotOnParkingBoy(parkingBoyId);
+        return ResponseEntity.ok(service.getAllParkingLotOnParkingBoy(parkingBoyId));
     }
 
     @ExceptionHandler(NoSuchParkingBoyException.class)

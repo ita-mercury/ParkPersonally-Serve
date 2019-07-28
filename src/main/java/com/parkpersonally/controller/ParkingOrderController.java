@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
@@ -37,9 +38,9 @@ public class ParkingOrderController {
 
 
     @GetMapping("/parking-orders/{parkingOrderId}")
-    public ParkingOrder getOrderById(@PathVariable long parkingOrderId){
+    public ResponseEntity<ParkingOrder> getOrderById(@PathVariable long parkingOrderId){
 
-        return  parkingOrderService.findOrderById(parkingOrderId);
+        return  ResponseEntity.ok(parkingOrderService.findOrderById(parkingOrderId));
     }
     @ExceptionHandler(NoSuchParkingOrderException.class)
     public ResponseEntity handlNoSuchParkingOrderException(NoSuchParkingOrderException e) {
@@ -47,13 +48,13 @@ public class ParkingOrderController {
     }
 
     @GetMapping("/parking-orders")
-    public List<ParkingOrder> getOrdersOfParkingBoy(@RequestParam("type")int type,@RequestParam("parkingBoyId") long parkingBoyId){
+    public ResponseEntity<List<ParkingOrder>> getOrdersOfParkingBoy(@RequestParam("type")int type,@RequestParam("parkingBoyId") long parkingBoyId){
         ParkingBoy parkingBoy = parkingBoyService.findOneById(parkingBoyId);
-        return  parkingOrderService.getAllParkingOrdersOfParkingBoy(parkingBoy,type,0);
+        return  ResponseEntity.ok(parkingOrderService.getAllParkingOrdersOfParkingBoy(parkingBoy,type,0));
     }
 
     @PutMapping("/parking-orders/{ordersId}/comments")
-    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id,ParkingOrder parkingOrder){
+    public ResponseEntity<OrderComment> appraiseOrder(@PathVariable("ordersId")long id, ParkingOrder parkingOrder){
         return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
     }
 
