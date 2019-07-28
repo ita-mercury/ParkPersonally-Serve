@@ -3,6 +3,7 @@ package com.parkpersonally.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkpersonally.dto.OrderComment;
 
+import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.*;
@@ -260,8 +261,18 @@ public class ParkingOrderControllerTest {
                 .andExpect(jsonPath("$.positionNumber").value(20));
     }
 
+    @Test
+    public void should_return_your_order_is_accepted_by_others_when_validate_throw_exception() throws Exception{
+        ParkingBoy parkingBoy = new ParkingBoy();
 
+        given(service.parkingBoyGetParkingOrder(anyLong(), any(ParkingBoy.class)))
+                .willThrow(new GetParkingOrderException("该订单已被其他人接取"));
 
-
+        mvc.perform(post("/parking-orders/1/parking-boy")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(parkingBoy)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("该订单已被其他人接取"));
+    }
 
 }
