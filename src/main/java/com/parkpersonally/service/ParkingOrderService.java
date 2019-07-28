@@ -10,6 +10,7 @@ import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -91,9 +92,14 @@ public class ParkingOrderService {
 
         }
     }
+    @Transactional
     public ParkingOrder parkingBoyGetParkingOrder(long orderId, ParkingBoy parkingBoy){
+        parkingBoy = validateParkingLotTheRest(parkingBoy);
 
-        return null;
+        ParkingOrder order = validateOrderStatus(orderId);
+        order.setParkingBoy(parkingBoy);
+
+        return repository.save(order);
     }
 
     public ParkingBoy validateParkingLotTheRest(ParkingBoy parkingBoy){
