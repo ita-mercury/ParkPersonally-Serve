@@ -327,4 +327,32 @@ public class ParkingOrderServiceTest {
 
         service.parkingBoyGetParkingOrder(anyLong(), parkingBoy);
     }
+
+    @Test(expected = GetParkingOrderException.class)
+    public void should_throw_GetParkingOrderException_when_order_status_is_accepted(){
+        ParkingLot firstLot = new ParkingLot();
+        ParkingLot secondLot = new ParkingLot();
+
+        firstLot.setRestCapacity(1);
+        secondLot.setRestCapacity(0);
+
+        ParkingBoy parkingBoy = new ParkingBoy();
+
+        parkingBoy.setParkingLots(new ArrayList<>());
+        parkingBoy.getParkingLots().add(firstLot);
+        parkingBoy.getParkingLots().add(secondLot);
+
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+
+        ParkingOrder order = new ParkingOrder();
+        order.setStatus(ParkingOrder.ORDER_STATUS_BE_ACCEPTED);
+
+        given(repository.findById(anyLong())).willReturn(Optional.of(order));
+
+        order.setParkingBoy(parkingBoy);
+
+        given(repository.save(any(ParkingOrder.class))).willReturn(order);
+
+        service.parkingBoyGetParkingOrder(anyLong(), parkingBoy);
+    }
 }
