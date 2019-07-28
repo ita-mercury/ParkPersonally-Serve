@@ -97,6 +97,7 @@ public class ParkingOrderService {
         parkingBoy = validateParkingLotTheRest(parkingBoy);
 
         ParkingOrder order = validateOrderStatus(orderId);
+        order.setStatus(ParkingOrder.ORDER_STATUS_BE_ACCEPTED);
         order.setParkingBoy(parkingBoy);
 
         return repository.save(order);
