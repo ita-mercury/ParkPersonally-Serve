@@ -75,6 +75,14 @@ public class ParkingOrder {
         this.tags = tags;
     }
 
+    public ParkingOrder(long id, @NotNull int status, @NotNull int type, int positionNumber, ParkingLot parkingLot) {
+        this.id = id;
+        this.status = status;
+        this.type = type;
+        this.positionNumber = positionNumber;
+        this.parkingLot = parkingLot;
+    }
+
     public List<Tag> getTags() {
         return tags;
     }

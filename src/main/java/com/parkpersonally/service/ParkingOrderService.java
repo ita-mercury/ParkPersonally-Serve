@@ -94,7 +94,10 @@ public class ParkingOrderService {
 
     public ParkingOrder addPositionToParkingOrder(long parkingOrderId, ParkingOrder parkingOrder) {
 
-        return null;
+        parkingOrder.setStatus(2);
+        ParkingOrder parkingOrder2 = repository.save(parkingOrder);
+
+        return parkingOrder2;
 
     }
 }

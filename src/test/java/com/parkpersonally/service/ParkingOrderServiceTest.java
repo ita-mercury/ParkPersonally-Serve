@@ -3,10 +3,7 @@ package com.parkpersonally.service;
 
 import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
-import com.parkpersonally.model.Customer;
-import com.parkpersonally.model.ParkingBoy;
-import com.parkpersonally.model.ParkingOrder;
-import com.parkpersonally.model.Tag;
+import com.parkpersonally.model.*;
 import com.parkpersonally.repository.ParkingOrderRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
@@ -188,6 +185,28 @@ public class ParkingOrderServiceTest {
         OrderComment orderComment = service.appraiseOrder(1, parkingOrder);
         //then
         assertSame("司机会漂移",orderComment.getComment());
+    }
+
+    @Test
+    public void should_return_a_new_Order_when_addPositionToParkingOrder(){
+
+        //given
+        Customer customer = new Customer();
+        customer.setId(1);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("smart"));
+        tags.add(new Tag("handsome"));
+
+        ParkingLot parkingLot = new ParkingLot(1,"停车场1",50,20);
+        ParkingOrder order1 = new ParkingOrder(1,1,1,24,parkingLot);
+        ParkingOrder order2 = new ParkingOrder(1,2,1,24,parkingLot);
+
+
+        given(repository.save(any(ParkingOrder.class))).willReturn(order2);
+
+        assertSame(2,service.addPositionToParkingOrder(1,order1).getStatus());
+
+
     }
 
 }
