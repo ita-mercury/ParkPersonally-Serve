@@ -87,4 +87,9 @@ public class ParkingOrderService {
         }
     }
 
+    public ParkingOrder parkingBoyGetParkingOrder(long orderId, ParkingBoy parkingBoy){
+
+        return null;
+    }
+
 }

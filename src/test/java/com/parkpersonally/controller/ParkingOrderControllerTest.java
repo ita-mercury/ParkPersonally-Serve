@@ -157,31 +157,6 @@ public class ParkingOrderControllerTest {
     }
 
     @Test
-    public void should_return_a_update_Order_when_updateParkingOrder() throws Exception{
-        //given
-        Customer customer = new Customer();
-        customer.setId(1);
-        List<Tag> tags = new ArrayList<>();
-        tags.add(new Tag("smart"));
-        tags.add(new Tag("handsome"));
-
-        ParkingOrder order = new ParkingOrder(1,0,1,25);
-        order.setCustomer(customer);
-        order.setTags(tags);
-
-
-        given(service.updateParkingOrder(any(ParkingOrder.class),anyLong())).willReturn(order);
-
-        mvc.perform(put("/orders/1")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(order)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.status").value(0));
-
-
-    }
-
-    @Test
     public void should_return_parking_lot_is_full_when_all_parking_lot_of_parking_boy_is_full() throws Exception{
         ParkingBoy parkingBoy = new ParkingBoy();
 

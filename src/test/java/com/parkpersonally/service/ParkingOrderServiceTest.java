@@ -1,11 +1,8 @@
 package com.parkpersonally.service;
 
-<<<<<<< HEAD
+
 import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
-=======
-import com.parkpersonally.exception.NoSuchParkingBoyException;
->>>>>>> 1f38d893340d890fbcdc1665a9da5f2269a81869
 import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
