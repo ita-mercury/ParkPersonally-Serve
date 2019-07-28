@@ -23,7 +23,7 @@ public class ParkingBoy {
     @ManyToMany
     private List<ParkingLot> parkingLots;
 
-    @OneToMany
+    @ManyToMany
     private List<Tag> tags;
 
     public ParkingBoy(long id, @NotNull String name, @NotNull String number, List<ParkingLot> parkingLots, List<Tag> tags) {
