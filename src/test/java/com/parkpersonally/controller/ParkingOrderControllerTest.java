@@ -6,6 +6,7 @@ import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.*;
+import com.parkpersonally.service.ParkingBoyService;
 import com.parkpersonally.service.ParkingOrderService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +21,7 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -34,6 +34,8 @@ public class ParkingOrderControllerTest {
 
     @MockBean
     private ParkingOrderService service;
+    @MockBean
+    private ParkingBoyService parkingBoyService;
 
     @Autowired
     private MockMvc mvc;
@@ -157,16 +159,76 @@ public class ParkingOrderControllerTest {
     }
 
     @Test
-    public void should_return_parking_lot_is_full_when_all_parking_lot_of_parking_boy_is_full() throws Exception{
+
+    public void should_return_parking_lot_is_full_when_all_parking_lot_of_parking_boy_is_full() throws Exception {
         ParkingBoy parkingBoy = new ParkingBoy();
 
         given(service.parkingBoyGetParkingOrder(anyLong(), any(ParkingBoy.class)))
                 .willThrow(new ParkingLotIsFullException("你管理的所有停车场已满"));
 
         mvc.perform(post("/parking-orders/1/parking-boy")
-            .contentType(MediaType.APPLICATION_JSON_UTF8)
-            .content(objectMapper.writeValueAsString(parkingBoy)))
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(parkingBoy)));
+    }
+    @Test
+    public void should_return_a_update_Order_when_updateParkingOrder() throws Exception{
+        //given
+        ParkingBoy parkingBoy = new ParkingBoy("zhangsan","12324");
+        parkingBoy.setId(1);
+        Tag firstTag = new Tag("好看的");
+        Tag secondTag = new Tag("爆炸");
+        Tag thirdTag = new Tag("会唱rap");
+        Tag fourthTag = new Tag("服务好的");
+        List<Tag> fristTags = new ArrayList<>();
+        fristTags.add(firstTag);
+        fristTags.add(secondTag);
+        parkingBoy.setTags(fristTags);
+
+        List<Tag> secondTags = new ArrayList<>();
+        secondTags.add(thirdTag);
+        secondTags.add(fourthTag);
+        secondTags.add(firstTag);
+
+        List<ParkingOrder> allParkingOrders = new ArrayList<>();
+        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        allParkingOrders.add(firstParkingOrder);
+        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        secondParkingOrder.setTags(fristTags);
+        allParkingOrders.add(secondParkingOrder);
+        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        thirdParkingOrder.setTags(secondTags);
+        allParkingOrders.add(thirdParkingOrder);
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+        given(service.getAllParkingOrdersOfParkingBoy(any(ParkingBoy.class),anyInt(),anyInt())).willReturn(allParkingOrders);
+
+        mvc.perform(get("/parking-orders?type=1&parkingBoyId=1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(allParkingOrders.size()));
+
+
+
+    }
+
+
+    @Test
+    public void should_return_orders_of_parkingboy_when_parkingboy_query_own_parking_orders() throws Exception {
+
+        //given
+        Customer customer = new Customer();
+        customer.setId(1);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("smart"));
+        tags.add(new Tag("handsome"));
+
+        ParkingOrder order = new ParkingOrder(1, 20, "南方软件园");
+        order.setCustomer(customer);
+        order.setTags(tags);
+
+        given(service.findOrderById(anyLong())).willThrow(new NoSuchParkingOrderException("抱歉,没有查到该订单"));
+
+        mvc.perform(get("/parking-orders/{parkingOrderId}",1))
                 .andExpect(status().isNotFound())
-                .andExpect(content().string("你管理的所有停车场已满"));
+                .andExpect(content().string("抱歉,没有查到该订单"));
+
     }
 }
