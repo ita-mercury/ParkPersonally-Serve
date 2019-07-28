@@ -17,9 +17,8 @@ pipeline {
         sh '''if [ ! -n $pid ]; then
  kill -9 $pid
 fi'''
-        sh 'cd /usr/local/bin'
         sh '''JENKINS_NODE_COOKIE=dontKillMe
-nohup java -jar ParkPersonally.jar > out.log & sleep 20s'''
+nohup java -jar /usr/local/bin/ParkPersonally.jar > out.log & sleep 20s'''
       }
     }
   }
