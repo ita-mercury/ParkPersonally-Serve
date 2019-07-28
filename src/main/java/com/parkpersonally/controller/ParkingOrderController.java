@@ -17,8 +17,8 @@ public class ParkingOrderController {
     private ParkingOrderService parkingOrderService;
 
     @PostMapping("/parking-orders")
-    public ParkingOrder createOrder(@RequestBody ParkingOrder order) {
-        return parkingOrderService.createParkingOrder(order);
+    public ResponseEntity<ParkingOrder> createOrder(@RequestBody ParkingOrder order) {
+        return ResponseEntity.ok(parkingOrderService.createParkingOrder(order));
     }
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity handEntityValid(ConstraintViolationException e) {
@@ -49,4 +49,6 @@ public class ParkingOrderController {
     public ParkingOrder updateParkingOrder(@RequestBody ParkingOrder parkingOrder,@PathVariable long orderId){
         return parkingOrderService.updateParkingOrder(parkingOrder,orderId);
     }
+
+
 }
