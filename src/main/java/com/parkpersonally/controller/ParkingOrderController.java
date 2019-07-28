@@ -57,4 +57,11 @@ public class ParkingOrderController {
         return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
     }
 
+
+    @PutMapping("/parking-orders/{parkingOrderId}")
+    public ResponseEntity<ParkingOrder> addPositionToParkingOrder(@PathVariable long parkingOrderId,@RequestBody ParkingOrder parkingOrder){
+
+        return  ResponseEntity.ok(parkingOrderService.addPositionToParkingOrder(parkingOrderId,parkingOrder));
+    }
+
 }

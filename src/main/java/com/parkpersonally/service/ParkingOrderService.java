@@ -92,4 +92,9 @@ public class ParkingOrderService {
     }
 
 
+    public ParkingOrder addPositionToParkingOrder(long parkingOrderId, ParkingOrder parkingOrder) {
+
+        return null;
+
+    }
 }

@@ -231,4 +231,38 @@ public class ParkingOrderControllerTest {
                 .andExpect(content().string("抱歉,没有查到该订单"));
 
     }
+
+
+    @Test
+    public void should_return_a_new_parkingOrder_when_addPositionToParkingOrder() throws Exception{
+        //given
+        Customer customer = new Customer();
+        customer.setId(1);
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("smart"));
+        tags.add(new Tag("handsome"));
+
+        ParkingLot parkingLot = new ParkingLot(1,"停车场1",50,20);
+        ParkingOrder order = new ParkingOrder(1, 20, "南方软件园");
+        order.setCustomer(customer);
+        order.setTags(tags);
+        order.setParkingLot(parkingLot);
+
+
+        given(service.addPositionToParkingOrder(anyLong(),any(ParkingOrder.class))).willReturn(order);
+
+        mvc.perform(put("/parking-orders/{parkingOrderId}",1)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(order)))
+                //then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.positionNumber").value(20));
+
+
+    }
+
+
+
+
+
 }
