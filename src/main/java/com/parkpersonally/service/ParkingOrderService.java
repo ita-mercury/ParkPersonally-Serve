@@ -55,13 +55,13 @@ public class ParkingOrderService {
     public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy, int type, int status) {
         List<ParkingOrder> allParkingOrders = repository.findAllByTypeAndStatusOrderByCreatTimeAsc(type, status);
 
-        if (allParkingOrders != null) {
+        if (allParkingOrders != null || allParkingOrders.size() != 0) {
 
             List<ParkingOrder> allParkingOrdersWithoutTags = allParkingOrders.stream()
-                    .filter(parkingOrder -> parkingOrder.getTags() == null)
+                    .filter(parkingOrder -> parkingOrder.getTags().size() == 0)
                     .collect(Collectors.toList());
 
-            if (parkingBoy.getTags() != null) {
+            if (parkingBoy.getTags().size() != 0) {
 
                 List<ParkingOrder> parkingBoyMeetsParkingOrdersTags = repository.findDistinctByTagsIsIn(parkingBoy.getTags());
 
@@ -69,10 +69,10 @@ public class ParkingOrderService {
                         .mapToLong(ParkingOrder::getId)
                         .boxed().collect(Collectors.toList());
 
-                if (parkingBoyMeetsParkingOrdersTags != null) {
+                if (parkingBoyMeetsParkingOrdersTags.size() != 0) {
 
                     return allParkingOrders.stream()
-                            .filter(parkingOrder -> parkingOrder.getTags() == null
+                            .filter(parkingOrder -> parkingOrder.getTags().size() == 0
                                     || parkingBoyMeetsParkingOrdersTagsId.contains(parkingOrder.getId()))
                             .collect(Collectors.toList());
 

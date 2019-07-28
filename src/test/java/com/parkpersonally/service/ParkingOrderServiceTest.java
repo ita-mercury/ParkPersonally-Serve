@@ -89,7 +89,7 @@ public class ParkingOrderServiceTest {
 
 
         ParkingBoy parkingBoy = new ParkingBoy("zhangsan","13");
-
+        parkingBoy.setTags(new ArrayList<>());
         List<Tag> fristTags = new ArrayList<>();
         fristTags.add(firstTag);
         fristTags.add(secondTag);
@@ -102,6 +102,7 @@ public class ParkingOrderServiceTest {
 
         List<ParkingOrder> allParkingOrders = new ArrayList<>();
         ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        firstParkingOrder.setTags(new ArrayList<>());
         allParkingOrders.add(firstParkingOrder);
         ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
         secondParkingOrder.setTags(fristTags);
@@ -145,6 +146,7 @@ public class ParkingOrderServiceTest {
         List<ParkingOrder> parkingOrdersWithTags = new ArrayList<>();
         ParkingOrder firstParkingOrder = new ParkingOrder(0, 1, 11, "珠海");
         firstParkingOrder.setId(1);
+        firstParkingOrder.setTags(new ArrayList<>());
         allParkingOrders.add(firstParkingOrder);
         ParkingOrder secondParkingOrder = new ParkingOrder(0, 1, 1, "珠海");
         secondParkingOrder.setId(2);
