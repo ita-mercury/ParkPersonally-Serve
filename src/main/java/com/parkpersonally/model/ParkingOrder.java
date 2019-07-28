@@ -1,13 +1,18 @@
 package com.parkpersonally.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 public class ParkingOrder {
 
-    public static final int PARK_CAR = 1;
+    public static final int ORDER_TYPE_PARK_CAR = 1;
+    public static final int ORDER_TYPE_FETCH_CAR = 2;
+
+    public static final int ORDER_STATUS_NOT_BE_ACCEPTED = 1;
+    public static final int ORDER_STATUS_BE_ACCEPTED = 2;
+    public static final int ORDER_STATUS_COMPLETE = 3;
 
     @Id
     @GeneratedValue
@@ -73,14 +78,6 @@ public class ParkingOrder {
         this.positionNumber = positionNumber;
         this.fetchCarAddress = fetchCarAddress;
         this.tags = tags;
-    }
-
-    public ParkingOrder(long id, @NotNull int status, @NotNull int type, int positionNumber, ParkingLot parkingLot) {
-        this.id = id;
-        this.status = status;
-        this.type = type;
-        this.positionNumber = positionNumber;
-        this.parkingLot = parkingLot;
     }
 
     public List<Tag> getTags() {
