@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
@@ -24,12 +25,15 @@ public class ParkingOrderServiceTest {
 
     private ParkingOrderService service;
     private ParkingOrderRepository repository;
+    private ParkingBoyService parkingBoyService;
 
 
     @Before
     public void initTest() {
         repository = mock(ParkingOrderRepository.class);
         service = new ParkingOrderService(repository);
+        parkingBoyService = mock(ParkingBoyService.class);
+
     }
 
     @Test
@@ -113,7 +117,7 @@ public class ParkingOrderServiceTest {
     }
 
     @Test
-    public void should_return_Orders_contain_confirm_tags_and_without_tags_when_parking_boy_with_tags(){
+    public void should_return_Orders_contain_confirm_tags_and_without_tags_when_parking_boy_with_tags() {
         //given
         Tag firstTag = new Tag("好看的");
         Tag secondTag = new Tag("爆炸");
@@ -122,8 +126,7 @@ public class ParkingOrderServiceTest {
         Tag fifthTag = new Tag("小星星");
 
 
-
-        ParkingBoy parkingBoy = new ParkingBoy("zhangsan","13");
+        ParkingBoy parkingBoy = new ParkingBoy("zhangsan", "13");
 
         List<Tag> fristTags = new ArrayList<>();
         fristTags.add(firstTag);
@@ -138,28 +141,29 @@ public class ParkingOrderServiceTest {
 
         List<ParkingOrder> allParkingOrders = new ArrayList<>();
         List<ParkingOrder> parkingOrdersWithTags = new ArrayList<>();
-        ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
+        ParkingOrder firstParkingOrder = new ParkingOrder(0, 1, 11, "珠海");
         firstParkingOrder.setId(1);
         allParkingOrders.add(firstParkingOrder);
-        ParkingOrder secondParkingOrder = new ParkingOrder(0,1,1,"珠海");
+        ParkingOrder secondParkingOrder = new ParkingOrder(0, 1, 1, "珠海");
         secondParkingOrder.setId(2);
         secondParkingOrder.setTags(fristTags);
         allParkingOrders.add(secondParkingOrder);
         parkingOrdersWithTags.add(secondParkingOrder);
-        ParkingOrder thirdParkingOrder = new ParkingOrder(0,1,4,"珠海");
+        ParkingOrder thirdParkingOrder = new ParkingOrder(0, 1, 4, "珠海");
         thirdParkingOrder.setId(3);
         thirdParkingOrder.setTags(secondTags);
         allParkingOrders.add(thirdParkingOrder);
         parkingOrdersWithTags.add(thirdParkingOrder);
-        ParkingOrder fourthParkingOrder = new ParkingOrder(0,1,10,"珠海");
+        ParkingOrder fourthParkingOrder = new ParkingOrder(0, 1, 10, "珠海");
         fourthParkingOrder.setId(4);
         fourthParkingOrder.setTags(thirdTags);
         allParkingOrders.add(fourthParkingOrder);
 
-        given(repository.findAllByTypeAndStatusOrderByCreatTimeAsc(anyInt(),anyInt())).willReturn(allParkingOrders);
+        given(repository.findAllByTypeAndStatusOrderByCreatTimeAsc(anyInt(), anyInt())).willReturn(allParkingOrders);
         given(repository.findDistinctByTagsIsIn(parkingBoy.getTags())).willReturn(parkingOrdersWithTags);
 
-        assertSame(3,service.getAllParkingOrdersOfParkingBoy(parkingBoy,1,0).size());
+        assertSame(3, service.getAllParkingOrdersOfParkingBoy(parkingBoy, 1, 0).size());
     }
+
 
 }

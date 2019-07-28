@@ -41,4 +41,6 @@ public class ParkingBoyServiceTest {
         //then
         assertSame(2,parkingBoyService.getAllParkingLotOnParkingBoy(000001L).size());
     }
+
+
 }

@@ -1,6 +1,9 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
+import com.parkpersonally.exception.ParkingLotIsFullException;
+import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.service.ParkingOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +54,11 @@ public class ParkingOrderController {
         return parkingOrderService.updateParkingOrder(parkingOrder,orderId);
     }
 
+    @PostMapping("/parking-orders/{orderId}/parking-boy")
+    public ResponseEntity<ParkingOrder> parkingBoyGetParkingOrder(@PathVariable(name = "orderId") long orderId,
+                                                                  @RequestBody ParkingBoy parkingBoy){
+        return ResponseEntity.ok(parkingOrderService.parkingBoyGetParkingOrder(orderId, parkingBoy));
+    }
 
 
 }
