@@ -82,11 +82,4 @@ public class ParkingOrderController {
     public ResponseEntity handleGetParkingOrderException(GetParkingOrderException e) {
         return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     }
-
-    @PutMapping("/parking-orders/{orderId}/parking-lots/{parkingLotId}")
-    public ResponseEntity setOrderStatusAndSetParkingLot(@PathVariable long orderId,
-                                                         @PathVariable long parkingLotId){
-        return null;
-
-    }
 }
