@@ -20,7 +20,7 @@ public class ParkingBoyService {
     }
 
     public List<ParkingLot> getAllParkingLotOnParkingBoy(long parkingBoyId) {
-        ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(()->new NoSuchParkingBoyException("没有找到ParkingBoy信息"));
+        ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(()->new NoSuchParkingBoyException("抱歉,没有查到停车员"));
         return parkingBoy.getParkingLots();
     }
 
