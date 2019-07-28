@@ -15,6 +15,10 @@ public class ParkingBoyService {
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
 
+    public ParkingBoyService(ParkingBoyRepository parkingBoyRepository) {
+        this.parkingBoyRepository=parkingBoyRepository;
+    }
+
     public List<ParkingLot> getAllParkingLotOnParkingBoy(long parkingBoyId) {
         ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(()->new NoSuchParkingBoyException("没有找到ParkingBoy信息"));
         return parkingBoy.getParkingLots();
