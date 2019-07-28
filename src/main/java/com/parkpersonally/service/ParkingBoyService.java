@@ -23,4 +23,12 @@ public class ParkingBoyService {
         ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(()->new NoSuchParkingBoyException("抱歉,没有查到停车员"));
         return parkingBoy.getParkingLots();
     }
+
+    public ParkingBoy findOneById(long id){
+        ParkingBoy parkingBoy = parkingBoyRepository.findById(id).orElseThrow(
+                () -> new NoSuchParkingBoyException("没有找到ParkingBoy信息")
+        );
+
+        return parkingBoy;
+    }
 }
