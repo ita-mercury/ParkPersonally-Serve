@@ -49,7 +49,9 @@ public class ParkingOrderService {
         return fetchCarOrder;
     }
 
-
+    public List<ParkingOrder> findAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy){
+        return repository.findAllByParkingBoy(parkingBoy);
+    }
     public ParkingOrderService(ParkingOrderRepository repository) {
         this.repository = repository;
     }

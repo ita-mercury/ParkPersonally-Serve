@@ -233,6 +233,23 @@ public class ParkingOrderServiceTest {
         assertEquals(service.validateParkingLotTheRest(parkingBoy), parkingBoy);
     }
 
+    @Test
+    public void should_return_parking_orders_of_parking_boy_when_get_parking_boy_history_orders() {
+
+        ParkingBoy parkingBoy = new ParkingBoy("zhangsan","15");
+        ParkingOrder firstParkingOrder = new ParkingOrder(2,1,11,"珠海");
+        firstParkingOrder.setParkingBoy(parkingBoy);
+        ParkingOrder secondParkingOrder = new ParkingOrder(3,1,1,"珠海");
+        secondParkingOrder.setParkingBoy(parkingBoy);
+        List<ParkingOrder> parkingOrders=new ArrayList<>();
+        parkingOrders.add(firstParkingOrder);
+        parkingOrders.add(secondParkingOrder);
+
+        given(repository.findAllByParkingBoy(any(ParkingBoy.class))).willReturn(parkingOrders);
+
+        assertEquals(2,parkingOrders.size());
+    }
+
     @Test(expected = ParkingLotIsFullException.class)
     public void should_throw_ParkingLotIsFullException_when_parking_lots_of_parking_boy_is_full() {
         ParkingLot firstLot = new ParkingLot();

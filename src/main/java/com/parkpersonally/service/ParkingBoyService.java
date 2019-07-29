@@ -5,6 +5,7 @@ import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingBoyRepository;
+import com.parkpersonally.repository.ParkingOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +14,14 @@ import java.util.List;
 @Service
 public class ParkingBoyService {
 
-    @Autowired
-    private ParkingBoyRepository parkingBoyRepository;
+    private final ParkingBoyRepository parkingBoyRepository;
 
-    public ParkingBoyService(ParkingBoyRepository parkingBoyRepository) {
-        this.parkingBoyRepository=parkingBoyRepository;
+    private final ParkingOrderService parkingOrderService;
+
+
+    public ParkingBoyService(ParkingBoyRepository parkingBoyRepository, ParkingOrderService parkingOrderService) {
+        this.parkingBoyRepository = parkingBoyRepository;
+        this.parkingOrderService = parkingOrderService;
     }
 
     public List<ParkingLot> getAllParkingLotOnParkingBoy(long parkingBoyId) {
@@ -41,5 +45,9 @@ public class ParkingBoyService {
 
     public ParkingBoy saveParkingBoy(ParkingBoy parkingBoy){
         return parkingBoyRepository.save(parkingBoy);
+    }
+
+    public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy){
+        return parkingOrderService.findAllParkingOrdersOfParkingBoy(parkingBoy);
     }
 }
