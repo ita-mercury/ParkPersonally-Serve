@@ -119,6 +119,9 @@ public class ParkingOrderService {
 
         order.setStatus(ParkingOrder.ORDER_STATUS_BE_ACCEPTED);
         order.setParkingBoy(parkingBoy);
+        parkingBoy.setStatus(ParkingBoy.PARKING_BOY_STATUS_BUSY);
+
+        parkingBoyService.saveParkingBoy(parkingBoy);
 
         return repository.save(order);
     }
