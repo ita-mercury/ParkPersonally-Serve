@@ -1,11 +1,14 @@
 package com.parkpersonally.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Data
 public class ParkingOrder {
 
     public static final int ORDER_TYPE_PARK_CAR = 1;
@@ -104,94 +107,6 @@ public class ParkingOrder {
     @Override
     public int hashCode() {
         return Objects.hash(id, parkingLot);
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public int getPositionNumber() {
-        return positionNumber;
-    }
-
-    public void setPositionNumber(int positionNumber) {
-        this.positionNumber = positionNumber;
-    }
-
-    public Comment getComment() {
-        return comment;
-    }
-
-    public void setComment(Comment comment) {
-        this.comment = comment;
-    }
-
-    public String getFetchCarAddress() {
-        return fetchCarAddress;
-    }
-
-    public void setFetchCarAddress(String fetchCarAddress) {
-        this.fetchCarAddress = fetchCarAddress;
-    }
-
-    public long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(long createTime) {
-        this.createTime = createTime;
-    }
-
-    public ParkingBoy getParkingBoy() {
-        return parkingBoy;
-    }
-
-    public void setParkingBoy(ParkingBoy parkingBoy) {
-        this.parkingBoy = parkingBoy;
-    }
-
-    public ParkingLot getParkingLot() {
-        return parkingLot;
-    }
-
-    public void setParkingLot(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
     }
 
 }

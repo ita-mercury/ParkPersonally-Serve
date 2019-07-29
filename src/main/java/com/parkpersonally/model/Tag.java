@@ -1,5 +1,7 @@
 package com.parkpersonally.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
 @Entity
+@Data
 public class Tag {
 
     @Id
@@ -26,17 +29,5 @@ public class Tag {
     }
 
     public Tag() {
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getFeature() {
-        return feature;
-    }
-
-    public void setFeature(String feature) {
-        this.feature = feature;
     }
 }

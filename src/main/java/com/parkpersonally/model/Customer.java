@@ -1,6 +1,7 @@
 package com.parkpersonally.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
+@Data
 public class Customer {
 
     @Id
@@ -36,6 +38,9 @@ public class Customer {
     @NotNull
     private String carNumber;
 
+    public Customer() {
+    }
+
     public Customer(@Email String email, @NotNull @Size(min = 5) String password,
                     @NotNull @Size(min = 5, max = 13) String phone, @NotNull String carNumber) {
         this.email = email;
@@ -44,46 +49,4 @@ public class Customer {
         this.carNumber = carNumber;
     }
 
-    public Customer() {
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getCarNumber() {
-        return carNumber;
-    }
-
-    public void setCarNumber(String carNumber) {
-        this.carNumber = carNumber;
-    }
 }

@@ -1,12 +1,15 @@
 package com.parkpersonally.model;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Data
 public class ParkingLot {
 
     @Id
@@ -52,43 +55,4 @@ public class ParkingLot {
     public ParkingLot() {
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public int getRestCapacity() {
-        return restCapacity;
-    }
-
-    public void setRestCapacity(int restCapacity) {
-        this.restCapacity = restCapacity;
-    }
-
-    public List<ParkingBoy> getParkingBoys() {
-        return parkingBoys;
-    }
-
-    public void setParkingBoys(List<ParkingBoy> parkingBoys) {
-        this.parkingBoys = parkingBoys;
-    }
 }
