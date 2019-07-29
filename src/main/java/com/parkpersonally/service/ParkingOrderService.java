@@ -27,11 +27,10 @@ public class ParkingOrderService {
     private final ParkingOrderRepository repository;
 
     public ParkingOrder createParkingOrder(@Valid ParkingOrder order) {
-        if (order.getType() == ParkingOrder.ORDER_TYPE_PARK_CAR)
+        if (order.getType() == ParkingOrder.ORDER_TYPE_PARK_CAR && order.getStatus() == ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED)
             return repository.save(order);
-        else if (order.getType() == ParkingOrder.ORDER_TYPE_FETCH_CAR) {
+        else if (order.getStatus() == ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE)
             return createFetchOrderModel(order);
-        }
 
         throw new CreateParkingOrderException("创建订单失败");
     }
@@ -45,7 +44,6 @@ public class ParkingOrderService {
                 parkCarOrder.getFetchCarAddress());
 
         fetchCarOrder.setParkingLot(parkCarOrder.getParkingLot());
-        fetchCarOrder.setTags(parkCarOrder.getTags());
         fetchCarOrder.setCustomer(parkCarOrder.getCustomer());
 
         parkCarOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_AND_START_FETCH_CAR);
