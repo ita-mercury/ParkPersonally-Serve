@@ -6,10 +6,14 @@ import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingBoyRepository;
 import com.parkpersonally.repository.ParkingOrderRepository;
+import org.apache.logging.log4j.util.PropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.comparator.Comparators;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("ParkingBoyService")
 public class ParkingBoyService {
@@ -42,7 +46,11 @@ public class ParkingBoyService {
     }
 
     public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy){
-        return parkingOrderService.findAllParkingOrdersOfParkingBoy(parkingBoy);
+        return parkingOrderService
+                .findAllParkingOrdersOfParkingBoy(parkingBoy)
+                .stream()
+                .sorted(Comparator.comparingLong(ParkingOrder::getCreateTime).reversed())
+                .collect(Collectors.toList());
     }
 
     public ParkingBoyRepository getParkingBoyRepository() {
