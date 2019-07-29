@@ -31,7 +31,7 @@ public class ParkingBoyService {
     }
 
     public ParkingBoy changeParkingBoyStatus(long id, int status){
-        ParkingBoy parkingBoy = parkingBoyRepository.findById(id).get();
+        ParkingBoy parkingBoy = findOneById(id);
         parkingBoy.setStatus(status);
 
         return parkingBoyRepository.save(parkingBoy);
