@@ -29,7 +29,9 @@ public class ParkingBoyServiceTest {
     public void initTest() {
         parkingBoyRepository= mock(ParkingBoyRepository.class);
         parkingOrderService = mock(ParkingOrderService.class);
-        parkingBoyService= new ParkingBoyService(parkingBoyRepository,parkingOrderService);
+        parkingBoyService= new ParkingBoyService();
+        parkingBoyService.setParkingBoyRepository(parkingBoyRepository);
+        parkingBoyService.setParkingOrderService(parkingOrderService);
     }
 
     @Test

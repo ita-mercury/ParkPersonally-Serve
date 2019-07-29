@@ -11,18 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Service("ParkingBoyService")
 public class ParkingBoyService {
-
-    private final ParkingBoyRepository parkingBoyRepository;
-
-    private final ParkingOrderService parkingOrderService;
-
-
-    public ParkingBoyService(ParkingBoyRepository parkingBoyRepository, ParkingOrderService parkingOrderService) {
-        this.parkingBoyRepository = parkingBoyRepository;
-        this.parkingOrderService = parkingOrderService;
-    }
+    @Autowired
+    private ParkingBoyRepository parkingBoyRepository;
+    @Autowired
+    private ParkingOrderService parkingOrderService;
 
     public List<ParkingLot> getAllParkingLotOnParkingBoy(long parkingBoyId) {
         ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(()->new NoSuchParkingBoyException("抱歉,没有查到停车员"));
@@ -49,5 +43,21 @@ public class ParkingBoyService {
 
     public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy){
         return parkingOrderService.findAllParkingOrdersOfParkingBoy(parkingBoy);
+    }
+
+    public ParkingBoyRepository getParkingBoyRepository() {
+        return parkingBoyRepository;
+    }
+
+    public void setParkingBoyRepository(ParkingBoyRepository parkingBoyRepository) {
+        this.parkingBoyRepository = parkingBoyRepository;
+    }
+
+    public ParkingOrderService getParkingOrderService() {
+        return parkingOrderService;
+    }
+
+    public void setParkingOrderService(ParkingOrderService parkingOrderService) {
+        this.parkingOrderService = parkingOrderService;
     }
 }
