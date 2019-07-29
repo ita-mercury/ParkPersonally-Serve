@@ -101,4 +101,11 @@ public class ParkingBoy {
         this.parkingLots = parkingLots;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 }
