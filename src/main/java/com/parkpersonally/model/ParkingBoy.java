@@ -29,9 +29,6 @@ public class ParkingBoy {
     @ManyToMany
     private List<Tag> tags;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Manager manager;
-
     public ParkingBoy(long id, @NotNull String name, @NotNull String number, List<ParkingLot> parkingLots, List<Tag> tags) {
         this.id = id;
         this.name = name;
@@ -96,11 +93,4 @@ public class ParkingBoy {
         this.parkingLots = parkingLots;
     }
 
-    public Manager getManager() {
-        return manager;
-    }
-
-    public void setManager(Manager manager) {
-        this.manager = manager;
-    }
 }

@@ -199,6 +199,7 @@ public class ParkingOrderServiceTest {
         assertEquals("司机会漂移", service.appraiseOrder(1, comment).getComment().getContent());
     }
 
+
     // todo commit complete park car
     @Test
     public void should_return_the_right_park_car_order_when_complete_park_car(){
@@ -209,6 +210,7 @@ public class ParkingOrderServiceTest {
         ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE, 1, 24, expectLot);
 
         given(parkingLotService.saveService(expectLot)).willReturn(expectLot);
+
         given(repository.save(expect)).willReturn(expect);
 
         assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
