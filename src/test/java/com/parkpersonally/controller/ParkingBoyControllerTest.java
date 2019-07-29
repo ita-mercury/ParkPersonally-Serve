@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -20,9 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -59,6 +62,20 @@ public class ParkingBoyControllerTest {
         mockMvc.perform(get("/parking-boys/{parkingBoyId}/parking-lots",1))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("抱歉,没有查到停车员"));
+    }
+
+    @Test
+    public void should_return_parking_boy_when_manager_tag_a_parking_boy() throws Exception{
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new Tag("smart"));
+        tags.add(new Tag("handsome"));
+        ParkingBoy parkingBoy = new ParkingBoy(100000L,"zhangsan","15",tags);
+        given(service.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
+        mockMvc.perform(post("/parking-boys")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(parkingBoy)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.tags[0].feature").value("smart"));
     }
 
 }

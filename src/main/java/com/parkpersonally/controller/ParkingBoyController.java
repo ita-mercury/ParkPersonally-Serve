@@ -24,6 +24,11 @@ public class ParkingBoyController {
         return ResponseEntity.ok(service.getAllParkingLotOnParkingBoy(parkingBoyId));
     }
 
+    @PostMapping("/parking-boys")
+    public ResponseEntity<ParkingBoy> tagParkingBoy(@RequestBody ParkingBoy parkingBoy){
+
+        return ResponseEntity.ok(service.saveParkingBoy(parkingBoy));
+    }
 
 
 
