@@ -8,6 +8,10 @@ import java.util.List;
 @Entity
 public class ParkingBoy {
 
+    public static final int PARKING_BOY_STATUS_FREEZE = 0;
+    public static final int PARKING_BOY_STATUS_FREE = 1;
+    public static final int PARKING_BOY_STATUS_BUSY = 2;
+
     @Id
     @GeneratedValue
     private long id;
@@ -22,6 +26,10 @@ public class ParkingBoy {
     @NotNull
     @Column(nullable = false)
     private String number;
+
+    @NotNull
+    @Column(nullable = false)
+    private int status = PARKING_BOY_STATUS_FREE;
 
     @ManyToMany
     private List<ParkingLot> parkingLots;
