@@ -126,12 +126,14 @@ public class ParkingOrderService {
 
     public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
 
-        parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_COMPLETE);
+        //parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_COMPLETE);
         ParkingLot parkingLot = parkingOrder.getParkingLot();
         int type = parkingOrder.getType();
         if (type==ParkingOrder.ORDER_TYPE_PARK_CAR) {
+            parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE);
             parkingLot.setRestCapacity(parkingLot.getRestCapacity()-1);
         } else {
+            parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_TOTAL_COMPLETE);
             parkingLot.setRestCapacity(parkingLot.getRestCapacity()+1);
         }
 
