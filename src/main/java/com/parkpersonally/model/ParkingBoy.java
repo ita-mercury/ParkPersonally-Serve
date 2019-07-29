@@ -16,6 +16,9 @@ public class ParkingBoy {
     @Column(nullable = false)
     private String name;
 
+    // todo
+    private String password;
+
     @NotNull
     @Column(nullable = false)
     private String number;
