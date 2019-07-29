@@ -46,7 +46,7 @@ public class ParkingOrderService {
         fetchCarOrder.setTags(parkCarOrder.getTags());
         fetchCarOrder.setCustomer(parkCarOrder.getCustomer());
 
-        return fetchCarOrder;
+        return repository.save(fetchCarOrder);
     }
 
 
