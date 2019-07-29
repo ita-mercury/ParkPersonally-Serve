@@ -29,6 +29,7 @@ public class ParkingOrderRepositoryTest {
     private TestEntityManager entityManager;
     private List<ParkingOrder> list=new ArrayList();
     private List<Long> listId=new ArrayList<>();
+    private ParkingBoy parkingBoy = new ParkingBoy();
     private  List<List<Tag>> listTag=new ArrayList<>();
     @Autowired
     private ParkingOrderRepository parkingOrderRepository;
@@ -60,6 +61,9 @@ public class ParkingOrderRepositoryTest {
         firstCustomer.setCarNumber("888888");
         firstCustomer.setEmail("2458461623@qq.com");
         firstCustomer = entityManager.persist(firstCustomer);
+        parkingBoy.setName("张三");
+        parkingBoy.setNumber("SL1232432");
+        parkingBoy = entityManager.persist(parkingBoy);
         long id = firstCustomer.getId();
         ParkingOrder firstParkingOrder = new ParkingOrder(0,1,11,"珠海");
         firstParkingOrder.setCustomer(firstCustomer);
@@ -67,9 +71,11 @@ public class ParkingOrderRepositoryTest {
         secondParkingOrder.setTags(fristTags);
         ParkingOrder thirdParkingOrder = new ParkingOrder(1,1,4,"珠海");
         thirdParkingOrder.setTags(secondTags);
+        thirdParkingOrder.setParkingBoy(parkingBoy);
         ParkingOrder fourthParkingOrder = new ParkingOrder(0,2,10,"珠海");
         fourthParkingOrder.setTags(thirdTags);
         ParkingOrder fifthParkingOrder = new ParkingOrder(2,1,18,"珠海");
+        fifthParkingOrder.setParkingBoy(parkingBoy);
         listId.add(id);
         list.add(firstParkingOrder);
         list.add(secondParkingOrder);
@@ -109,6 +115,13 @@ public class ParkingOrderRepositoryTest {
     public  void should_return_all_order_contatins_fetch_car_and_parking_car(){
         List<ParkingOrder> allCarOrders=parkingOrderRepository.findAllByCustomerId(listId.get(0));
         assertEquals(list.get(1).getCreateTime(),allCarOrders.get(0).getCreateTime());
+
+
+    }
+    @Test
+    public  void should_return_all_order_of_parking_boy(){
+        List<ParkingOrder> allCarOrders=parkingOrderRepository.findAllByParkingBoy(parkingBoy);
+        assertEquals(2,allCarOrders.size());
 
 
     }
