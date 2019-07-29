@@ -44,7 +44,7 @@ public class ParkingOrderController {
     }
 
     @PostMapping("/parking-orders/{ordersId}/comments")
-    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id, Comment comment){
+    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id, @RequestBody Comment comment){
         return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,comment));
     }
 
