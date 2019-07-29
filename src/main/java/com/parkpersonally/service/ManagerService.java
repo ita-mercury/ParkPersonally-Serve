@@ -1,14 +1,26 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.exception.NoSuchManagerException;
+import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingLot;
-import org.springframework.http.ResponseEntity;
+import com.parkpersonally.repository.ManagerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ManagerService {
+
+    private final ManagerRepository managerRepository;
+
+    public ManagerService(ManagerRepository managerRepository) {
+        this.managerRepository = managerRepository;
+    }
+
+
     public List<ParkingLot> getAllParkingLotOnManager(long managerId) {
-        return null;
+        Manager manager = managerRepository.findById(managerId).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到manager"));
+        return manager.getParkingLots();
     }
 }
