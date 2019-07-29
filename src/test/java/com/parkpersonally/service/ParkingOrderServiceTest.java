@@ -198,21 +198,21 @@ public class ParkingOrderServiceTest {
         assertEquals("司机会漂移", service.appraiseOrder(1, comment).getComment().getContent());
     }
 
-    @Test
-    public void should_return_the_right_park_car_order_when_complete_park_car(){
-        //given
-        ParkingLot inputLot = new ParkingLot(1,"停车场1",50,20);
-        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
-        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
-        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE, 1, 24, expectLot);
-
-        given(parkingLotService.saveService(expectLot)).willReturn(expectLot);
-
-        given(repository.save(expect)).willReturn(expect);
-
-        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
-
-    }
+//    @Test
+//    public void should_return_the_right_park_car_order_when_complete_park_car(){
+//        //given
+//        ParkingLot inputLot = new ParkingLot(1,"停车场1",50,20);
+//        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
+//        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
+//        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE, 1, 24, expectLot);
+//
+//        given(parkingLotService.saveService(expectLot)).willReturn(expectLot);
+//
+//        given(repository.save(expect)).willReturn(expect);
+//
+//        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
+//
+//    }
 
     @Test
     public void should_return_parking_boy_when_parking_lots_of_parking_boy_is_not_full() {
