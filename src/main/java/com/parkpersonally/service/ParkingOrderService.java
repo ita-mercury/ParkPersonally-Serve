@@ -1,9 +1,6 @@
 package com.parkpersonally.service;
 
-import com.parkpersonally.exception.CreateParkingOrderException;
-import com.parkpersonally.exception.GetParkingOrderException;
-import com.parkpersonally.exception.NoSuchParkingOrderException;
-import com.parkpersonally.exception.ParkingLotIsFullException;
+import com.parkpersonally.exception.*;
 import com.parkpersonally.model.Comment;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
@@ -114,9 +111,12 @@ public class ParkingOrderService {
 
     @Transactional
     public ParkingOrder parkingBoyGetParkingOrder(long orderId, ParkingBoy parkingBoy) {
-        parkingBoy = validateParkingLotTheRest(parkingBoy);
+        parkingBoy = parkingBoyService.findOneById(parkingBoy.getId());
 
+        parkingBoy = validateParkingBoyStatus(parkingBoy);
+        parkingBoy = validateParkingLotTheRest(parkingBoy);
         ParkingOrder order = validateOrderStatus(orderId);
+
         order.setStatus(ParkingOrder.ORDER_STATUS_BE_ACCEPTED);
         order.setParkingBoy(parkingBoy);
 
@@ -124,7 +124,6 @@ public class ParkingOrderService {
     }
 
     public ParkingBoy validateParkingLotTheRest(ParkingBoy parkingBoy) {
-        parkingBoy = parkingBoyService.findOneById(parkingBoy.getId());
         if (parkingBoy.getParkingLots().stream()
                 .filter(parkingLot -> parkingLot.getRestCapacity() != 0)
                 .collect(Collectors.toList())
@@ -138,6 +137,18 @@ public class ParkingOrderService {
         if (order.getStatus() != 1) throw new GetParkingOrderException("该订单已被其他人接取");
 
         return order;
+    }
+
+    private ParkingBoy validateParkingBoyStatus(ParkingBoy parkingBoy){
+        if (parkingBoy.getStatus() != ParkingBoy.PARKING_BOY_STATUS_FREE){
+            if (parkingBoy.getStatus() == ParkingBoy.PARKING_BOY_STATUS_BUSY)
+                throw new ParkingBoyHasAOrderException("抢单失败，你已经有一个订单在进行");
+
+            if (parkingBoy.getStatus() == ParkingBoy.PARKING_BOY_STATUS_FREEZE)
+                throw new ParkingBoyIsIllegalException("抢单失败，你的账号已被冻结");
+        }
+
+        return parkingBoy;
     }
 
     public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
