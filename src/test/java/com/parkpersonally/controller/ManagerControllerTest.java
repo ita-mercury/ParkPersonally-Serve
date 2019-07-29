@@ -64,7 +64,7 @@ public class ManagerControllerTest {
         parkingBoys.add(new ParkingBoy("张一","134554"));
         parkingBoys.add(new ParkingBoy("张一","134554"));
         parkingBoys.add(new ParkingBoy("张一","134554"));
-        given(managerService.getParkingboys(anyLong())).willReturn(parkingBoys);
+        given(managerService.getParkingBoys(anyLong())).willReturn(parkingBoys);
 
         mockMvc.perform(get("/managers/1/parking-boys"))
                 .andDo(print())
@@ -80,7 +80,7 @@ public class ManagerControllerTest {
 
         given(managerService.getAllParkingLotOnManager(anyLong())).willThrow(new NoSuchManagerException("抱歉,没有查到manager"));
 
-        mockMvc.perform(get("/manager/1/parking-lots"))
+        mockMvc.perform(get("/managers/1/parking-lots"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("抱歉,没有查到manager"));
     }

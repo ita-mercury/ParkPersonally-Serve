@@ -23,7 +23,7 @@ public class ManagerController {
     }
     @GetMapping("/managers/{managerId}/parking-boys")
     public ResponseEntity<List<ParkingBoy>> getAllParkingBoys(@PathVariable long managerId){
-        return ResponseEntity.ok(managerService.getParkingboys(managerId));
+        return ResponseEntity.ok(managerService.getParkingBoys(managerId));
     }
 
 }
