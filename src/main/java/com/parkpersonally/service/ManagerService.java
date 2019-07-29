@@ -26,7 +26,8 @@ public class ManagerService {
         return manager.getParkingLots();
     }
 
-    public List<ParkingBoy> getParkingboys(long managerId) {
-        return  new ArrayList<>();
+    public List<ParkingBoy> getParkingBoys(long managerId) {
+       Manager manager = managerRepository.findById(managerId).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到manager"));
+        return  manager.getParkingBoys();
     }
 }

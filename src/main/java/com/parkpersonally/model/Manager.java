@@ -39,6 +39,8 @@ public class Manager {
         this.parkingLots = parkingLots;
     }
 
+
+
     public long getId() {
         return id;
     }
