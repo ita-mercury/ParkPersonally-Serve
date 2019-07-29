@@ -1,20 +1,14 @@
 package com.parkpersonally.controller;
 
-import com.parkpersonally.exception.GetParkingOrderException;
-import com.parkpersonally.exception.NoSuchParkingBoyException;
-import com.parkpersonally.exception.NoSuchParkingOrderException;
-import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.Comment;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.service.ParkingBoyService;
 import com.parkpersonally.service.ParkingOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @RestController
