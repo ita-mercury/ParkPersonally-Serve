@@ -1,5 +1,7 @@
 package com.parkpersonally.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +24,7 @@ public class Customer {
     @Column(nullable = false)
     @NotNull
     @Size(min = 5)
+    @JsonIgnore
     private String password;
 
     @Column(nullable = false)
