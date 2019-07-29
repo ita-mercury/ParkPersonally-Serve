@@ -1,8 +1,8 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkpersonally.model.Manager;
-import com.parkpersonally.model.ParkingLot;
+import com.parkpersonally.exception.NoSuchManagerException;
+import com.parkpersonally.model.*;
 import com.parkpersonally.service.ManagerService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,8 +19,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ManagerController.class)
@@ -50,6 +49,17 @@ public class ManagerControllerTest {
                 .andExpect(jsonPath("$.length()").value(3));
 
 
+    }
+
+
+    @Test
+    public void should_return_A_Exception_when_managerId_id_error() throws Exception{
+
+        given(managerService.getAllParkingLotOnManager(anyLong())).willThrow(new NoSuchManagerException("抱歉,没有查到manager"));
+
+        mockMvc.perform(get("/manager/1/parking-lots"))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("抱歉,没有查到manager"));
     }
 
 }
