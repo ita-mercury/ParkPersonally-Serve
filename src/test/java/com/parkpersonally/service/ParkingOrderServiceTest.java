@@ -49,16 +49,6 @@ public class ParkingOrderServiceTest {
         Assert.assertEquals(expect, actual);
     }
 
-//    @Test
-//    public void should_throw_exception_when_new_order_have_null_property() {
-//        // given
-//        ParkingOrder expect = new ParkingOrder();
-//        expect.setPositionNumber(16);
-//        // when
-//        service.createParkingOrder(expect);
-//        // then
-//    }
-
     @Test
     public void should_return_Order_when_findOrderById(){
         //given
@@ -90,9 +80,9 @@ public class ParkingOrderServiceTest {
 
         ParkingBoy parkingBoy = new ParkingBoy("zhangsan","13");
         parkingBoy.setTags(new ArrayList<>());
-        List<Tag> fristTags = new ArrayList<>();
-        fristTags.add(firstTag);
-        fristTags.add(secondTag);
+        List<Tag> firstTags = new ArrayList<>();
+        firstTags.add(firstTag);
+        firstTags.add(secondTag);
         List<Tag> secondTags = new ArrayList<>();
         secondTags.add(thirdTag);
         secondTags.add(fourthTag);
@@ -105,7 +95,7 @@ public class ParkingOrderServiceTest {
         firstParkingOrder.setTags(new ArrayList<>());
         allParkingOrders.add(firstParkingOrder);
         ParkingOrder secondParkingOrder = new ParkingOrder(1,1,1,"珠海");
-        secondParkingOrder.setTags(fristTags);
+        secondParkingOrder.setTags(firstTags);
         allParkingOrders.add(secondParkingOrder);
         ParkingOrder thirdParkingOrder = new ParkingOrder(1,1,4,"珠海");
         thirdParkingOrder.setTags(secondTags);
