@@ -12,6 +12,14 @@ public class Comment {
     private double rate;
     private String content;
 
+    public Comment() {
+    }
+
+    public Comment(double rate, String content) {
+        this.rate = rate;
+        this.content = content;
+    }
+
     public long getId() {
         return id;
     }

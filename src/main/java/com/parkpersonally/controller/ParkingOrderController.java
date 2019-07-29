@@ -4,6 +4,7 @@ import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
+import com.parkpersonally.model.Comment;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.service.ParkingBoyService;
@@ -42,9 +43,9 @@ public class ParkingOrderController {
         return  parkingOrderService.getAllParkingOrdersOfParkingBoy(parkingBoy,type,1);
     }
 
-    @PutMapping("/parking-orders/{ordersId}/comments")
-    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id, ParkingOrder parkingOrder){
-        return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,parkingOrder));
+    @PostMapping("/parking-orders/{ordersId}/comments")
+    public ResponseEntity appraiseOrder(@PathVariable("ordersId")long id, Comment comment){
+        return ResponseEntity.ok(parkingOrderService.appraiseOrder(id,comment));
     }
 
     @PutMapping("/parking-orders/{parkingOrderId}")

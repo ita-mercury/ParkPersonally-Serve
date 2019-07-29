@@ -1,7 +1,6 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.parkpersonally.dto.OrderComment;
 
 import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
@@ -131,12 +130,13 @@ public class ParkingOrderControllerTest {
         //given
         ParkingOrder parkingOrder = new ParkingOrder();
         parkingOrder.setId(1);
-        parkingOrder.setComments("司机真帅");
-        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willThrow(new NoSuchParkingOrderException("抱歉,没有查到该订单"));
+        Comment comment = new Comment(7.5, "司机真帅");
+        parkingOrder.setComment(comment);
+        given(service.appraiseOrder(anyLong(),any(Comment.class))).willThrow(new NoSuchParkingOrderException("抱歉,没有查到该订单"));
         //when
-        mvc.perform(put("/parking-orders/2/comments")
+        mvc.perform(post("/parking-orders/2/comments")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(parkingOrder)))
+                .content(objectMapper.writeValueAsString(comment)))
                 //then
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("抱歉,没有查到该订单"));
@@ -147,16 +147,16 @@ public class ParkingOrderControllerTest {
         //given
         ParkingOrder parkingOrder = new ParkingOrder();
         parkingOrder.setId(1L);
-        parkingOrder.setComments("司机会漂移");
-        OrderComment orderComment = new OrderComment(1L,"司机会漂移");
-        given(service.appraiseOrder(anyLong(),any(ParkingOrder.class))).willReturn(orderComment);
+        Comment comment = new Comment(7.5, "司机真帅");
+        parkingOrder.setComment(comment);
+        given(service.appraiseOrder(anyLong(),any(Comment.class))).willReturn(parkingOrder);
         //when
-        mvc.perform(put("/parking-orders/1/comments")
+        mvc.perform(post("/parking-orders/1/comments")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(parkingOrder)))
+                .content(objectMapper.writeValueAsString(comment)))
                 //then
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.comment").value("司机会漂移"));
+                .andExpect(content().string(objectMapper.writeValueAsString(parkingOrder)));
     }
 
     @Test

@@ -14,7 +14,8 @@ public class ParkingOrder {
     public static final int ORDER_STATUS_NOT_BE_ACCEPTED = 1;
     public static final int ORDER_STATUS_BE_ACCEPTED = 2;
     public static final int ORDER_STATUS_PARK_CAR_COMPLETE = 3;
-    public static final int ORDER_STATUS_TOTAL_COMPLETE = 4;
+    public static final int ORDER_STATUS_CUSTOMER_CHECK = 5;
+    public static final int ORDER_STATUS_PARKING_BOY_FETCH_CAR = 4;
 
     @Id
     @GeneratedValue
@@ -30,7 +31,8 @@ public class ParkingOrder {
 
     private int positionNumber;
 
-    private String comments;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Comment comment;
 
     @Column(nullable = false)
     @NotNull
@@ -152,12 +154,12 @@ public class ParkingOrder {
         this.positionNumber = positionNumber;
     }
 
-    public String getComments() {
-        return comments;
+    public Comment getComment() {
+        return comment;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setComment(Comment comment) {
+        this.comment = comment;
     }
 
     public String getFetchCarAddress() {
@@ -191,4 +193,5 @@ public class ParkingOrder {
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
     }
+
 }

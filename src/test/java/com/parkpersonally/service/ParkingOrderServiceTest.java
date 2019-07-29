@@ -1,7 +1,6 @@
 package com.parkpersonally.service;
 
 
-import com.parkpersonally.dto.OrderComment;
 import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
@@ -29,7 +28,7 @@ public class ParkingOrderServiceTest {
     private ParkingOrderService service;
     private ParkingOrderRepository repository;
     private ParkingBoyService parkingBoyService;
-
+    private ParkingLotService parkingLotService;
 
     @Before
     public void initTest() {
@@ -37,7 +36,8 @@ public class ParkingOrderServiceTest {
         service = new ParkingOrderService(repository);
         parkingBoyService = mock(ParkingBoyService.class);
         service.setParkingBoyService(parkingBoyService);
-
+        parkingLotService = mock(ParkingLotService.class);
+        service.setParkingLotService(parkingLotService);
     }
 
     @Test
@@ -177,43 +177,43 @@ public class ParkingOrderServiceTest {
         ParkingOrder parkingOrder = new ParkingOrder();
         given(repository.findById(anyLong())).willThrow(new NoSuchParkingOrderException("抱歉,该订单不存在"));
         //when
-        service.appraiseOrder(1,parkingOrder);
+        service.appraiseOrder(1,parkingOrder.getComment());
         //then
     }
+     // todo commit add comment to order test
     @Test
     public void should_return_order_comments_when_appraise_order(){
-        //given
-        ParkingOrder parkingOrder = new ParkingOrder();
-        parkingOrder.setComments("司机会漂移");
-        parkingOrder.setId(1L);
-        given(repository.findById(anyLong())).willReturn(Optional.of(parkingOrder));
-        //when
-        OrderComment orderComment = service.appraiseOrder(1, parkingOrder);
-        //then
-        assertSame("司机会漂移",orderComment.getComment());
+
+        ParkingOrder inputSaveOrder = new ParkingOrder();
+        ParkingOrder expectOrder = new ParkingOrder();
+
+        expectOrder.setId(1L);
+        inputSaveOrder.setId(1L);
+        Comment comment = new Comment(7.5, "司机会漂移");
+        inputSaveOrder.setComment(comment);
+        expectOrder.setComment(comment);
+
+        given(repository.findById(anyLong())).willReturn(Optional.of(inputSaveOrder));
+        given(repository.save(inputSaveOrder)).willReturn(expectOrder);
+
+        assertEquals("司机会漂移", service.appraiseOrder(1, comment).getComment().getContent());
     }
 
-//    @Test
-//    public void should_return_a_new_Order_when_addPositionToParkingOrder(){
-//
-//        //given
-//        Customer customer = new Customer();
-//        customer.setId(1);
-//        List<Tag> tags = new ArrayList<>();
-//        tags.add(new Tag("smart"));
-//        tags.add(new Tag("handsome"));
-//
-//        ParkingLot inputLot = new ParkingLot(1,"停车场1",50,20);
-//        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
-//        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
-//        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_COMPLETE, 1, 24, expectLot);
-//
-//
-//        given(repository.save(expect)).willReturn(expect);
-//
-//        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
-//
-//    }
+    // todo commit complete park car
+    @Test
+    public void should_return_the_right_park_car_order_when_complete_park_car(){
+        //given
+        ParkingLot inputLot = new ParkingLot(1,"停车场1",50,20);
+        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
+        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
+        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE, 1, 24, expectLot);
+
+        given(parkingLotService.saveService(expectLot)).willReturn(expectLot);
+        given(repository.save(expect)).willReturn(expect);
+
+        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
+
+    }
 
     @Test
     public void should_return_parking_boy_when_parking_lots_of_parking_boy_is_not_full() {

@@ -1,14 +1,15 @@
 package com.parkpersonally.service;
 
-
-import com.parkpersonally.dto.OrderComment;
+import com.parkpersonally.exception.CreateParkingOrderException;
 import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
+import com.parkpersonally.model.Comment;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingOrderRepository;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,27 @@ public class ParkingOrderService {
 
     private final ParkingOrderRepository repository;
 
-    public ParkingOrder createParkingOrder(@Valid ParkingOrder order){
+    public ParkingOrder createParkingOrder(@Valid ParkingOrder order) {
+        if (order.getType() == ParkingOrder.ORDER_TYPE_PARK_CAR)
+            return repository.save(order);
+        else if (order.getType() == ParkingOrder.ORDER_TYPE_FETCH_CAR) {
+            return createFetchOrderModel(order);
+        }
 
-        return repository.save(order);
+        throw new CreateParkingOrderException("创建订单失败");
+    }
+
+    private ParkingOrder createFetchOrderModel(ParkingOrder parkCarOrder) {
+        ParkingOrder fetchCarOrder = new ParkingOrder(ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED,
+                ParkingOrder.ORDER_TYPE_FETCH_CAR,
+                parkCarOrder.getPositionNumber(),
+                parkCarOrder.getFetchCarAddress());
+
+        fetchCarOrder.setParkingLot(parkCarOrder.getParkingLot());
+        fetchCarOrder.setTags(parkCarOrder.getTags());
+        fetchCarOrder.setCustomer(parkCarOrder.getCustomer());
+
+        return fetchCarOrder;
     }
 
 
@@ -39,20 +58,16 @@ public class ParkingOrderService {
     }
 
     public ParkingOrder findOrderById(long parkingOrderId) {
-        ParkingOrder parkingOrder = repository.findById(parkingOrderId).orElseThrow(()->new NoSuchParkingOrderException("抱歉，没有查到相应订单"));
+        ParkingOrder parkingOrder = repository.findById(parkingOrderId).orElseThrow(() -> new NoSuchParkingOrderException("抱歉，没有查到相应订单"));
         return parkingOrder;
     }
 
-    public OrderComment appraiseOrder(long id, ParkingOrder parkingOrder) {
+    public ParkingOrder appraiseOrder(long id, Comment comment) {
         ParkingOrder targetOrder = repository.findById(id).orElseThrow(() -> new NoSuchParkingOrderException("抱歉,没有查到该订单"));
 
-        targetOrder.setComments(parkingOrder.getComments());
+        targetOrder.setComment(comment);
 
-        repository.save(targetOrder);
-
-        OrderComment orderComment = new OrderComment(id,targetOrder.getComments());
-
-        return orderComment;
+        return repository.save(targetOrder);
     }
 
 
@@ -96,8 +111,9 @@ public class ParkingOrderService {
 
         }
     }
+
     @Transactional
-    public ParkingOrder parkingBoyGetParkingOrder(long orderId, ParkingBoy parkingBoy){
+    public ParkingOrder parkingBoyGetParkingOrder(long orderId, ParkingBoy parkingBoy) {
         parkingBoy = validateParkingLotTheRest(parkingBoy);
 
         ParkingOrder order = validateOrderStatus(orderId);
@@ -107,7 +123,7 @@ public class ParkingOrderService {
         return repository.save(order);
     }
 
-    public ParkingBoy validateParkingLotTheRest(ParkingBoy parkingBoy){
+    public ParkingBoy validateParkingLotTheRest(ParkingBoy parkingBoy) {
         parkingBoy = parkingBoyService.findOneById(parkingBoy.getId());
         if (parkingBoy.getParkingLots().stream()
                 .filter(parkingLot -> parkingLot.getRestCapacity() != 0)
@@ -117,7 +133,7 @@ public class ParkingOrderService {
         return parkingBoy;
     }
 
-    public ParkingOrder validateOrderStatus(long orderId){
+    public ParkingOrder validateOrderStatus(long orderId) {
         ParkingOrder order = repository.findById(orderId).get();
         if (order.getStatus() != 1) throw new GetParkingOrderException("该订单已被其他人接取");
 
@@ -125,27 +141,52 @@ public class ParkingOrderService {
     }
 
     public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
-
-        //parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_COMPLETE);
-        ParkingLot parkingLot = parkingOrder.getParkingLot();
-        int type = parkingOrder.getType();
-        if (type==ParkingOrder.ORDER_TYPE_PARK_CAR) {
-            parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE);
-            parkingLot.setRestCapacity(parkingLot.getRestCapacity()-1);
-        } else {
-            parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_TOTAL_COMPLETE);
-            parkingLot.setRestCapacity(parkingLot.getRestCapacity()+1);
+        switch (parkingOrder.getType()) {
+            case ParkingOrder.ORDER_TYPE_PARK_CAR: {
+                parkingOrder = changeParkCarOrderStatusAndLot(parkingOrder);
+                break;
+            }
+            case ParkingOrder.ORDER_TYPE_FETCH_CAR: {
+                parkingOrder = changeFetchCarOrderStatusAndLot(parkingOrder);
+                break;
+            }
         }
+        parkingLotService.saveService(parkingOrder.getParkingLot());
 
-        parkingLot = parkingLotService.saveService(parkingLot);
+        return repository.save(parkingOrder);
+    }
 
-        parkingOrder.setParkingLot(parkingLot);
-        parkingOrder = repository.save(parkingOrder);
+    private ParkingOrder changeParkCarOrderStatusAndLot(ParkingOrder parkingOrder) {
+        ParkingLot parkingLot = parkingOrder.getParkingLot();
+
+        parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE);
+        parkingLot.setRestCapacity(parkingLot.getRestCapacity() - 1);
 
         return parkingOrder;
     }
 
-    public void setParkingBoyService(ParkingBoyService parkingBoyService) {
+    private ParkingOrder changeFetchCarOrderStatusAndLot(ParkingOrder parkingOrder) {
+        ParkingLot parkingLot = parkingOrder.getParkingLot();
+
+        switch (parkingOrder.getStatus()) {
+            case ParkingOrder.ORDER_STATUS_BE_ACCEPTED: {
+                parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARKING_BOY_FETCH_CAR);
+                parkingLot.setRestCapacity(parkingLot.getRestCapacity() + 1);
+                break;
+            }
+            case ParkingOrder.ORDER_STATUS_PARKING_BOY_FETCH_CAR: {
+                parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_CUSTOMER_CHECK);
+                break;
+            }
+        }
+        return parkingOrder;
+    }
+
+    public void setParkingBoyService (ParkingBoyService parkingBoyService){
         this.parkingBoyService = parkingBoyService;
+    }
+
+    public void setParkingLotService(ParkingLotService parkingLotService) {
+        this.parkingLotService = parkingLotService;
     }
 }
