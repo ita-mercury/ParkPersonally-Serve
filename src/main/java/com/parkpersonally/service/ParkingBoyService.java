@@ -60,4 +60,5 @@ public class ParkingBoyService {
     public void setParkingOrderService(ParkingOrderService parkingOrderService) {
         this.parkingOrderService = parkingOrderService;
     }
+
 }

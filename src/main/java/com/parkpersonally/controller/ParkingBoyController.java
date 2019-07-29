@@ -40,4 +40,5 @@ public class ParkingBoyController {
         return service.changeParkingBoyStatus(parkingBoyId, parkingBoy.getStatus());
     }
 
+
 }
