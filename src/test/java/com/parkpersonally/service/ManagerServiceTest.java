@@ -2,6 +2,7 @@ package com.parkpersonally.service;
 
 import com.parkpersonally.exception.NoSuchManagerException;
 import com.parkpersonally.model.Manager;
+import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.repository.ManagerRepository;
 import org.junit.Before;
@@ -56,5 +57,43 @@ public class ManagerServiceTest {
         given(managerRepository.findById(anyLong())).willReturn(Optional.ofNullable(null));
 
         managerService.getAllParkingLotOnManager(anyLong());
+    }
+
+    @Test
+    public void should_All_ParkingBoys_when_getAllParkingBoysOfManager(){
+        //given
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(new ParkingLot(1,"停车场1",50,20));
+        parkingLots.add(new ParkingLot(2,"停车场2",50,10));
+        parkingLots.add(new ParkingLot(3,"停车场3",55,25));
+        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        parkingBoys.add(new ParkingBoy("张一","134554"));
+        parkingBoys.add(new ParkingBoy("张一","134554"));
+        parkingBoys.add(new ParkingBoy("张一","134554"));
+
+        Manager manager = new Manager(1,"经理1","123456","45",parkingLots);
+        manager.setParkingBoys(parkingBoys);
+
+        given(managerRepository.findById(anyLong())).willReturn(Optional.ofNullable(manager));
+
+        assertSame(parkingBoys.size(),managerService.getParkingBoys(1).size());
+    }
+
+    @Test(expected = NoSuchManagerException.class)
+    public void should_throw_NoSuchManagerException_when_managerId_is_error_and_get_all_parking_boys(){
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(new ParkingLot(1,"停车场1",50,20));
+        parkingLots.add(new ParkingLot(2,"停车场2",50,10));
+        parkingLots.add(new ParkingLot(3,"停车场3",55,25));
+        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        parkingBoys.add(new ParkingBoy("张一","134554"));
+        parkingBoys.add(new ParkingBoy("张一","134554"));
+        parkingBoys.add(new ParkingBoy("张一","134554"));
+
+        Manager manager = new Manager(1,"经理1","123456","45",parkingLots);
+        manager.setParkingBoys(parkingBoys);
+        given(managerRepository.findById(anyLong())).willReturn(Optional.ofNullable(null));
+
+        managerService.getParkingBoys(anyLong());
     }
 }

@@ -37,6 +37,8 @@ public class ParkingOrderService {
     }
 
     private ParkingOrder createFetchOrderModel(ParkingOrder parkCarOrder) {
+        parkCarOrder = findOrderById(parkCarOrder.getId());
+
         ParkingOrder fetchCarOrder = new ParkingOrder(ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED,
                 ParkingOrder.ORDER_TYPE_FETCH_CAR,
                 parkCarOrder.getPositionNumber(),
@@ -45,6 +47,9 @@ public class ParkingOrderService {
         fetchCarOrder.setParkingLot(parkCarOrder.getParkingLot());
         fetchCarOrder.setTags(parkCarOrder.getTags());
         fetchCarOrder.setCustomer(parkCarOrder.getCustomer());
+
+        parkCarOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_AND_START_FETCH_CAR);
+        repository.save(parkCarOrder);
 
         return repository.save(fetchCarOrder);
     }

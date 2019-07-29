@@ -19,6 +19,7 @@ public class ParkingOrder {
     public static final int ORDER_STATUS_PARK_CAR_COMPLETE = 3;
     public static final int ORDER_STATUS_CUSTOMER_CHECK = 5;
     public static final int ORDER_STATUS_PARKING_BOY_FETCH_CAR = 4;
+    public static final int ORDER_STATUS_PARK_CAR_AND_START_FETCH_CAR = 6;
 
     @Id
     @GeneratedValue

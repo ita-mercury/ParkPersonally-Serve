@@ -6,11 +6,9 @@ import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
 import com.parkpersonally.model.*;
 import com.parkpersonally.repository.ParkingOrderRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +18,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.*;
 
 public class ParkingOrderServiceTest {
 
@@ -198,6 +196,7 @@ public class ParkingOrderServiceTest {
         assertEquals("司机会漂移", service.appraiseOrder(1, comment).getComment().getContent());
     }
 
+    // todo updateOrderStatus test
 //    @Test
 //    public void should_return_the_right_park_car_order_when_complete_park_car(){
 //        //given
@@ -205,13 +204,20 @@ public class ParkingOrderServiceTest {
 //        ParkingLot expectLot = new ParkingLot(1, "停车场1", 50, 19);
 //        ParkingOrder input = new ParkingOrder(1,ParkingOrder.ORDER_STATUS_BE_ACCEPTED,1,24,inputLot);
 //        ParkingOrder expect = new ParkingOrder(1, ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE, 1, 24, expectLot);
+//        ParkingBoy parkingBoy = new ParkingBoy();
+//        parkingBoy.setId(10);
+//        input.setParkingBoy(parkingBoy);
+//        expect.setParkingBoy(parkingBoy);
 //
 //        given(parkingLotService.saveService(expectLot)).willReturn(expectLot);
-//
+//        given(parkingBoyService.changeParkingBoyStatus(anyLong(), anyInt())).willReturn(any(ParkingBoy.class));
 //        given(repository.save(expect)).willReturn(expect);
 //
-//        assertSame(19,service.updateParkingOrderStatus(1,input).getParkingLot().getRestCapacity());
+//        ParkingOrder order =  service.updateParkingOrderStatus(1,input);
 //
+//        assertSame(19,service.updateParkingOrderStatus(1,input)
+//                .getParkingLot()
+//                .getRestCapacity());
 //    }
 
     @Test

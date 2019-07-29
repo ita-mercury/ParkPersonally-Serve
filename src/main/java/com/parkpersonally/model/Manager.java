@@ -30,6 +30,10 @@ public class Manager {
     @OneToMany
     private List<ParkingLot> parkingLots;
 
+
+    public Manager() {
+    }
+
     public Manager(long id, @NotNull String name, String password, @NotNull String number, List<ParkingLot> parkingLots) {
         this.id = id;
         this.name = name;
@@ -37,5 +41,7 @@ public class Manager {
         this.number = number;
         this.parkingLots = parkingLots;
     }
+
+
 
 }

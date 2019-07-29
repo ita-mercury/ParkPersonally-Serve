@@ -34,6 +34,11 @@ public class ParkingBoyController {
         return ResponseEntity.ok(service.getAllParkingOrdersOfParkingBoy(parkingBoy));
     }
 
+    @PutMapping("/parking-boys/{parkingBoyId}")
+    public ParkingBoy changeParkingBoyStatus(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
+
+        return service.changeParkingBoyStatus(parkingBoyId, parkingBoy.getStatus());
+    }
 
 
 }

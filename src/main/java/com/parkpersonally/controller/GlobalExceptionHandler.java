@@ -46,4 +46,10 @@ public class GlobalExceptionHandler {
     String handleCreateParkingOrderException(CreateParkingOrderException ex ){
         return ex.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchManagerException.class)
+    String handleNoSuchManagerException(NoSuchManagerException ex){
+        return  ex.getMessage();
+    }
 }
