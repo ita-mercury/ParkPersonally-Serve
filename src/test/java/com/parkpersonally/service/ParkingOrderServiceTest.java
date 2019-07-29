@@ -180,7 +180,6 @@ public class ParkingOrderServiceTest {
         service.appraiseOrder(1,parkingOrder.getComment());
         //then
     }
-     // todo commit add comment to order test
     @Test
     public void should_return_order_comments_when_appraise_order(){
 
@@ -199,8 +198,6 @@ public class ParkingOrderServiceTest {
         assertEquals("司机会漂移", service.appraiseOrder(1, comment).getComment().getContent());
     }
 
-
-    // todo commit complete park car
     @Test
     public void should_return_the_right_park_car_order_when_complete_park_car(){
         //given

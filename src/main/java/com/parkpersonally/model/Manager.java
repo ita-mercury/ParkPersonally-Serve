@@ -14,7 +14,7 @@ public class Manager {
     @Column(nullable = false)
     private String name;
 
-    // todo
+    // todo password validate
     private String password;
 
     @NotNull
