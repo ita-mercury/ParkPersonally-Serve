@@ -3,6 +3,7 @@ package com.parkpersonally.service;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
+import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.repository.ParkingBoyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,5 +30,8 @@ public class ParkingBoyService {
                 () -> new NoSuchParkingBoyException("没有找到ParkingBoy信息")
         );
         return parkingBoy;
+    }
+    public ParkingBoy saveParkingBoy(ParkingBoy parkingBoy){
+        return parkingBoyRepository.save(parkingBoy);
     }
 }
