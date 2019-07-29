@@ -31,6 +31,14 @@ public class ParkingBoyService {
         );
         return parkingBoy;
     }
+
+    public ParkingBoy changeParkingBoyStatus(long id, int status){
+        ParkingBoy parkingBoy = parkingBoyRepository.findById(id).get();
+        parkingBoy.setStatus(status);
+
+        return parkingBoyRepository.save(parkingBoy);
+    }
+
     public ParkingBoy saveParkingBoy(ParkingBoy parkingBoy){
         return parkingBoyRepository.save(parkingBoy);
     }
