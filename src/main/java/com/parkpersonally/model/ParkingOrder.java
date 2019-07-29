@@ -13,7 +13,8 @@ public class ParkingOrder {
 
     public static final int ORDER_STATUS_NOT_BE_ACCEPTED = 1;
     public static final int ORDER_STATUS_BE_ACCEPTED = 2;
-    public static final int ORDER_STATUS_COMPLETE = 3;
+    public static final int ORDER_STATUS_PARK_CAR_COMPLETE = 3;
+    public static final int ORDER_STATUS_TOTAL_COMPLETE = 4;
 
     @Id
     @GeneratedValue
