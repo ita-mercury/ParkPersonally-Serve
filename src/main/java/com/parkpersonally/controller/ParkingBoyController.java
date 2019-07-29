@@ -24,11 +24,6 @@ public class ParkingBoyController {
         return ResponseEntity.ok(service.getAllParkingLotOnParkingBoy(parkingBoyId));
     }
 
-    @ExceptionHandler(NoSuchParkingBoyException.class)
-    public ResponseEntity handlNoSuchParkingBoy(NoSuchParkingBoyException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
 
 
 

@@ -30,19 +30,10 @@ public class ParkingOrderController {
     public ResponseEntity<ParkingOrder> createOrder(@RequestBody ParkingOrder order) {
         return ResponseEntity.ok(parkingOrderService.createParkingOrder(order));
     }
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity handEntityValid(ConstraintViolationException e) {
-        return new ResponseEntity(e, HttpStatus.BAD_REQUEST);
-    }
-
     @GetMapping("/parking-orders/{parkingOrderId}")
     public ParkingOrder getOrderById(@PathVariable long parkingOrderId){
 
         return  parkingOrderService.findOrderById(parkingOrderId);
-    }
-    @ExceptionHandler(NoSuchParkingOrderException.class)
-    public ResponseEntity handlNoSuchParkingOrderException(NoSuchParkingOrderException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/parking-orders")
@@ -68,18 +59,6 @@ public class ParkingOrderController {
         return ResponseEntity.ok(parkingOrderService.parkingBoyGetParkingOrder(orderId, parkingBoy));
     }
 
-    @ExceptionHandler(ParkingLotIsFullException.class)
-    public ResponseEntity handleParkingLotIsFull(ParkingLotIsFullException ex){
-        return new ResponseEntity(ex.getMessage(), HttpStatus.NOT_FOUND);
-    }
 
-    @ExceptionHandler(NoSuchParkingBoyException.class)
-    public ResponseEntity handleNoSuchParkingBoy(NoSuchParkingBoyException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
 
-    @ExceptionHandler(GetParkingOrderException.class)
-    public ResponseEntity handleGetParkingOrderException(GetParkingOrderException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
 }

@@ -26,10 +26,6 @@ public class CustomerController {
         List<Tag> tags =customerService.getAllTags(parkingBoyId);
         return  ResponseEntity.ok(tags);
     }
-    @ExceptionHandler(NoSuchParkingBoyException.class)
-    public ResponseEntity handlNoSuchParkingBoy(NoSuchParkingBoyException e) {
-        return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
 //    @GetMapping("/customers")
 //    public  ResponseEntity getAllCarOrders(@RequestParam("type")int type,@RequestParam("customerId")int customerId){
 //        List<ParkingOrder> parkingOrders=customerService.getAllOrders(type,customerId);
