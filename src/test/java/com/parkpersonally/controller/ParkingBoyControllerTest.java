@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
+import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.model.Tag;
 import com.parkpersonally.service.ParkingBoyService;
 import org.junit.Test;
@@ -76,6 +77,28 @@ public class ParkingBoyControllerTest {
                 .content(mapper.writeValueAsString(parkingBoy)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.tags[0].feature").value("smart"));
+    }
+
+    @Test
+    public  void should_return_all_parkingOrders_when_getAllParkingOrdersOfParkingBoy() throws Exception {
+
+        ParkingBoy parkingBoy = new ParkingBoy("zhangsan","15");
+        ParkingOrder firstParkingOrder = new ParkingOrder(2,1,11,"珠海");
+        firstParkingOrder.setParkingBoy(parkingBoy);
+        ParkingOrder secondParkingOrder = new ParkingOrder(3,1,1,"珠海");
+        secondParkingOrder.setParkingBoy(parkingBoy);
+        List<ParkingOrder> parkingOrders=new ArrayList<>();
+        parkingOrders.add(firstParkingOrder);
+        parkingOrders.add(secondParkingOrder);
+
+        given(service.findOneById(anyLong())).willReturn(parkingBoy);
+        given(service.getAllParkingOrdersOfParkingBoy(any(ParkingBoy.class))).willReturn(parkingOrders);
+
+        mockMvc.perform(get("/parking-boys/{parkingBoyId}/parking-orders",1L))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+
     }
 
 }
