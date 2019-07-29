@@ -59,4 +59,10 @@ public class GlobalExceptionHandler {
     public String handleUpdateParkingLotCapacitySmallerException(UpdateParkingLotCapacitySmallerException ex ){
         return ex.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoSuchParkingLotException.class)
+    public String handleNoSuchParkingLotException(NoSuchParkingLotException ex ){
+        return ex.getMessage();
+    }
 }

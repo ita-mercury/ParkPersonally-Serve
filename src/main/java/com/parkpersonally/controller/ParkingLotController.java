@@ -17,6 +17,6 @@ public class ParkingLotController {
     @PutMapping("/parking-lots/{parkingLotId}")
     public ParkingLot updateParkingLot(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot){
 
-        return null;
+        return service.updateParkingLot(parkingLotId, parkingLot);
     }
 }
