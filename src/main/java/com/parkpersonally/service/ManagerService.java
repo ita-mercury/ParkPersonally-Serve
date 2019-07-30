@@ -4,6 +4,7 @@ import com.parkpersonally.exception.NoSuchManagerException;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
+import com.parkpersonally.model.Tag;
 import com.parkpersonally.repository.ManagerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,9 +31,9 @@ public class ManagerService {
         return  manager.getParkingBoys();
     }
 
-    public ParkingBoy allocateParkingLots(long managerId, long parkingBoyId, ParkingBoy parkingBoy) {
+    public ParkingBoy allocateParkingLots(long managerId, long parkingBoyId, List<ParkingLot> parkingLots) {
         ParkingBoy updateParkingBoy = parkingBoyService.findOneById(parkingBoyId);
-        updateParkingBoy.setParkingLots(parkingBoy.getParkingLots());
+        updateParkingBoy.setParkingLots(parkingLots);
         return parkingBoyService.saveParkingBoy(updateParkingBoy);
     }
 
@@ -55,7 +56,9 @@ public class ManagerService {
         return  managerRepository.save(manager);
     }
 
-    public ParkingBoy tagParkingBoy(long managerId, long parkingBoyId, ParkingBoy parkingBoy) {
-        return null;
+    public ParkingBoy tagParkingBoy(long managerId, long parkingBoyId, List<Tag> tags) {
+        ParkingBoy updateParkingBoy = parkingBoyService.findOneById(parkingBoyId);
+        updateParkingBoy.setTags(tags);
+        return parkingBoyService.saveParkingBoy(updateParkingBoy);
     }
 }

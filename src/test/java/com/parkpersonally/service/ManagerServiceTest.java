@@ -114,7 +114,23 @@ public class ManagerServiceTest {
         parkingBoy.setParkingLots(parkingLots);
         given(parkingBoyService.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
 
-        assertSame(parkingBoy.getParkingLots().size(), managerService.allocateParkingLots(1, 1, parkingBoy).getParkingLots().size());
+        assertSame(parkingBoy.getParkingLots().size(), managerService.allocateParkingLots(1, 1, parkingLots).getParkingLots().size());
+    }
+
+    @Test
+    public void should_return_ParkingBoy_when_manager_tag_parkingBoy() {
+        //given
+        List<Tag> tags = new ArrayList<>();
+        Tag firstTag = new Tag("有腹肌的");
+        Tag secondTag = new Tag("会唱rap的");
+        tags.add(firstTag);
+        tags.add(secondTag);
+        ParkingBoy parkingBoy = new ParkingBoy("张一", "134554");
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+        parkingBoy.setTags(tags);
+        given(parkingBoyService.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
+
+        assertSame(parkingBoy.getTags().size(), managerService.tagParkingBoy(1, 1, tags).getTags().size());
     }
 
     @Test

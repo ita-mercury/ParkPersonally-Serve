@@ -22,8 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -95,11 +94,11 @@ public class ManagerControllerTest {
         parkingLots.add(new ParkingLot(000001L,"停车场1",100,18));
         parkingLots.add(new ParkingLot(000002L,"停车场2",100,20));
         parkingBoy.setParkingLots(parkingLots);
-        given(managerService.allocateParkingLots(anyLong(),anyLong(),any(ParkingBoy.class))).willReturn(parkingBoy);
+        given(managerService.allocateParkingLots(anyLong(),anyLong(),anyList())).willReturn(parkingBoy);
 
         mockMvc.perform(put("/managers/{managerId}/parking-boys/{parkingBoyId}/parking-lots",1,1)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(mapper.writeValueAsString(parkingBoy)))
+                .content(mapper.writeValueAsString(parkingLots)))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.parkingLots.size()").value(2));
@@ -117,11 +116,11 @@ public class ManagerControllerTest {
         tags.add(firstTag);
         tags.add(secondTag);
         parkingBoy.setTags(tags);
-        given(managerService.tagParkingBoy(anyLong(),anyLong(),any(ParkingBoy.class))).willReturn(parkingBoy);
+        given(managerService.tagParkingBoy(anyLong(),anyLong(),anyList())).willReturn(parkingBoy);
 
         mockMvc.perform(put("/managers/{managerId}/parking-boys/{parkingBoyId}/tags",1,1)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(mapper.writeValueAsString(parkingBoy)))
+                .content(mapper.writeValueAsString(tags)))
                 //then
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.tags.size()").value(2));
