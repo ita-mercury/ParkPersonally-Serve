@@ -4,6 +4,7 @@ import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
+import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.repository.AdministratorRepository;
 import com.parkpersonally.repository.ManagerRepository;
 import com.parkpersonally.repository.ParkingBoyRepository;
@@ -12,12 +13,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @Data
 public class AdministratorService {
+    @Autowired
+    private ManagerService managerService;
+    @Autowired
+    private ParkingLotService parkingLotService;
 
     @Autowired
     private AdministratorRepository administratorRepository;
@@ -38,5 +44,20 @@ public class AdministratorService {
 
     public List<Manager> findAllManager() {
         return managerRepository.findAll();
+    }
+    public List<ParkingLot> findUnmatchedParkingLots() {
+        List<Manager> managers=managerService.findAllManagers();
+        List<ParkingLot> parkingLots=new ArrayList<>();
+        List<ParkingLot> parkingLotsOne=new ArrayList<>();
+
+        for (Manager manager:managers){
+            parkingLotsOne=manager.getParkingLots();
+            parkingLots.addAll(parkingLotsOne);
+        }
+        List<ParkingLot> listParkingLots=parkingLotService.findParkingLots();
+        return listParkingLots
+                .stream()
+                .filter(n -> !parkingLots.contains(n))
+                .collect(Collectors.toList());
     }
 }

@@ -25,6 +25,10 @@ public class AdministratorController {
     public ResponseEntity<Manager> updateManagerOfAdministrator(@PathVariable long managerId , @RequestBody Manager manager){
         return ResponseEntity.ok(administratorService.updateManagerOfAdministrator(managerId,manager));
     }
+    @GetMapping("/managers/unmatchedParkingLots")
+    public  ResponseEntity getAllUnmatchedParkingLots(){
+        return ResponseEntity.ok(administratorService.findUnmatchedParkingLots());
+    }
 
 }
 

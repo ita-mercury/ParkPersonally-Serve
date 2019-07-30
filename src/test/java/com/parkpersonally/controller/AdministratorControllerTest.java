@@ -60,23 +60,6 @@ public class AdministratorControllerTest {
     }
 
     @Test
-    public void should_return_all_managers_when_getAllManagers() throws Exception {
-        //given
-        Manager firstManager = new Manager();
-        Manager secondManager = new Manager();
-        List<Manager> managers = new ArrayList<>();
-        managers.add(firstManager);
-        managers.add(secondManager);
-        //when
-        given(administratorService.findAllManager()).willReturn(managers);
-        //then
-        mockMvc.perform(get("/admin/managers"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
-    }
-
-    @Test
     public void should_return_A_new_Manager_when_updateManagerOfAdministrator() throws Exception{
         //given
         Manager manager = new Manager(1,"经理1","123456","452654");
@@ -90,5 +73,20 @@ public class AdministratorControllerTest {
                 .andExpect(jsonPath("$.name").value("经理1"));
 
 
+    }
+    @Test
+    public  void should_return_unmatchedParkingLots_when_getAllUnmatchedParkingLots() throws Exception {
+        //given
+        ParkingLot thirdParkingLot=new ParkingLot();
+        ParkingLot fourthParkingLot=new ParkingLot();
+        List<ParkingLot> unmatchedParkingLots=new ArrayList<>();
+        unmatchedParkingLots.add(thirdParkingLot);
+        unmatchedParkingLots.add(fourthParkingLot);
+
+        given(administratorService.findUnmatchedParkingLots()).willReturn(unmatchedParkingLots);
+
+        mockMvc.perform(get("/admin/managers/unmatchedParkingLots"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
     }
 }

@@ -23,11 +23,18 @@ public class AdministratorServiceTest {
 
     private AdministratorService administratorService;
     private ManagerRepository managerRepository;
+    private  ManagerService managerService;
+    private  ParkingLotService parkingLotService;
 
     @Before
     public void init() {
-        managerRepository=mock(ManagerRepository.class);
         administratorService = new AdministratorService();
+        managerRepository = mock(ManagerRepository.class);
+        managerService = mock(ManagerService.class);
+        parkingLotService = mock(ParkingLotService.class);
+
+        administratorService.setManagerService(managerService);
+        administratorService.setParkingLotService(parkingLotService);
         administratorService.setManagerRepository(managerRepository);
     }
 
@@ -43,6 +50,29 @@ public class AdministratorServiceTest {
         given(managerRepository.findAll()).willReturn(managers);
         //then
         assertSame(2,administratorService.findAllManager().size());
+    }
+    @Test
+    public void should_return_unmatch_parkingLots_when_getAllUnmatchParkingLots(){
+        //given
+        List<Manager> managers = new ArrayList<>();
+        ParkingLot firstParkingLot=new ParkingLot(1,"南方软件园",100,30);
+        ParkingLot secondParkingLot=new ParkingLot(2,"北方软件园",100,30);
+        ParkingLot thirdParkingLot=new ParkingLot(3,"南方软件园",100,30);
+        ParkingLot fourthParkingLot=new ParkingLot(4,"南方软件园",100,30);
+        List<ParkingLot> allParkingLots=new ArrayList<>();
+        allParkingLots.add(firstParkingLot);
+        allParkingLots.add(secondParkingLot);
+        allParkingLots.add(thirdParkingLot);
+        allParkingLots.add(fourthParkingLot);
+        Manager manager=new Manager();
+        List<ParkingLot> manageParkingLots = new ArrayList<>();
+        manageParkingLots.add(firstParkingLot);
+        manageParkingLots.add(secondParkingLot);
+        manager.setParkingLots(manageParkingLots);
+        managers.add(manager);
+        given(managerService.findAllManagers()).willReturn(managers);
+        given(parkingLotService.findParkingLots()).willReturn(allParkingLots);
+        assertSame(2,administratorService.findUnmatchedParkingLots().size());
     }
 
 }
