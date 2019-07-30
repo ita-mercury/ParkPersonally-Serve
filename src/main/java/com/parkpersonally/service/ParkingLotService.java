@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Service
 public class ParkingLotService {
 
@@ -31,5 +33,9 @@ public class ParkingLotService {
         }else throw new UpdateParkingLotCapacitySmallerException("无法把停车场容量缩小");
 
         return repository.save(parkingLot);
+    }
+
+    public List<ParkingLot> findParkingLots() {
+        return  null;
     }
 }

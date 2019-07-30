@@ -14,12 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ParkingLotController.class)
@@ -68,4 +72,22 @@ public class ParkingLotControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(updateParkingLot)));
     }
+    @Test
+    public  void should_retrun_all_parkinglots_when_find_ParkingLots() throws Exception {
+        //given
+        ParkingLot firstParkingLot=new ParkingLot();
+        ParkingLot secondParkingLot=new ParkingLot();
+        List<ParkingLot> parkingLots=new ArrayList<>();
+        parkingLots.add(firstParkingLot);
+        parkingLots.add(secondParkingLot);
+        //when
+        given(service.findParkingLots()).willReturn(parkingLots);
+        //then
+        mockMvc.perform(get("/parking-lots"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+
+    }
+
 }
