@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -25,7 +26,6 @@ public class ParkingBoy {
 
     // todo password validate
     private String password;
-
     @NotNull
     @Column(nullable = false)
     private String number;
@@ -33,6 +33,11 @@ public class ParkingBoy {
     @NotNull
     @Column(nullable = false)
     private int status = PARKING_BOY_STATUS_FREE;
+
+    @Column(nullable = false)
+    @NotNull
+    @Size(min = 5, max = 13)
+    private String phone;
 
     @ManyToMany
     private List<ParkingLot> parkingLots;

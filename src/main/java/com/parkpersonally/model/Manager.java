@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,11 @@ public class Manager {
     @NotNull
     @Column(nullable = false)
     private String number;
+
+    @Column(nullable = false)
+    @NotNull
+    @Size(min = 5, max = 13)
+    private String phone;
 
     @OneToMany
     private List<ParkingBoy> parkingBoys;

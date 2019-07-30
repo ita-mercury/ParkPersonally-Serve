@@ -21,6 +21,7 @@ public class ManagerController {
     public ResponseEntity<List<ParkingLot>> getAllParkingLotOnManeger(@PathVariable long managerId){
         return ResponseEntity.ok(managerService.getAllParkingLotOnManager(managerId));
     }
+
     @GetMapping("/managers/{managerId}/parking-boys")
     public ResponseEntity<List<ParkingBoy>> getAllParkingBoys(@PathVariable long managerId){
         return ResponseEntity.ok(managerService.getParkingBoys(managerId));
