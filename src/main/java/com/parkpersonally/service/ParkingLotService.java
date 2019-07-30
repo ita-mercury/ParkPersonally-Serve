@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.exception.ChangeParkingLotStatusException;
 import com.parkpersonally.exception.NoSuchParkingLotException;
 import com.parkpersonally.exception.UpdateParkingLotCapacitySmallerException;
 import com.parkpersonally.model.ParkingLot;
@@ -34,6 +35,8 @@ public class ParkingLotService {
             parkingLot.setCapacity(updateParkingLot.getCapacity());
         }else throw new UpdateParkingLotCapacitySmallerException("无法把停车场容量缩小");
 
+        parkingLot.setName(updateParkingLot.getName());
+
         return repository.save(parkingLot);
     }
 
@@ -41,18 +44,29 @@ public class ParkingLotService {
         return repository.findAll();
     }
 
-//    public ParkingLot changeParkingLotStatus(long id, ParkingLot updateParkingLot){
-//        ParkingLot parkingLot = repository.findById(id)
-//                .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
-//
-//        switch (updateParkingLot.getStatus()){
-//            case ParkingLot.LOT_STATUS_FREEZE: {
-//                if (parkingLot.getStatus() == )
-//            }
-//        }
-//    }
-//
-//    private int switchParkingLotStatus
+    public ParkingLot changeParkingLotStatus(long id, ParkingLot updateParkingLot){
+        ParkingLot parkingLot = repository.findById(id)
+                .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
+
+        switch (updateParkingLot.getStatus()){
+            case ParkingLot.LOT_STATUS_FREEZE: {
+                parkingLot.setStatus(switchParkingLotStatusFreeze(parkingLot));
+                break;
+            }
+            case ParkingLot.LOT_STATUS_NORMAL: {
+                parkingLot.setStatus(updateParkingLot.getStatus());
+                break;
+            }
+            default: throw new ChangeParkingLotStatusException("传入的目标状态不合法");
+        }
+
+        return repository.save(parkingLot);
+    }
+
+    private int switchParkingLotStatusFreeze(ParkingLot parkingLot){
+        if (parkingLot.getStatus() == ParkingLot.LOT_STATUS_FREEZE) return ParkingLot.LOT_STATUS_NORMAL;
+        else return ParkingLot.LOT_STATUS_FREEZE;
+    }
 
     public ParkingLotService() {
     }
