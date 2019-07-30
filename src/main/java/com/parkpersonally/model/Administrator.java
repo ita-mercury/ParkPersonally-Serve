@@ -40,4 +40,12 @@ public class Administrator {
 
     public Administrator() {
     }
+
+    public Administrator(long id, @NotNull String name, @NotNull String number, @NotNull @Size(min = 5, max = 13) String phone, List<ParkingBoy> parkingBoys) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.phone = phone;
+        this.parkingBoys = parkingBoys;
+    }
 }

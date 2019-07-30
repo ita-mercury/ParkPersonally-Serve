@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.service.AdministratorService;
@@ -18,8 +19,8 @@ public class AdministratorController {
     @Autowired
     private AdministratorService administratorService;
 
-    @PutMapping("/administratorController/parking-boys/{parkingBoyId}")
-    public ResponseEntity<ParkingBoy> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
-        return ResponseEntity.ok(administratorService.updateParkingBoyOfAdministrator(parkingBoyId,parkingBoy));
+    @PutMapping("/admin/parking-boys/{parkingBoyId}")
+    public ResponseEntity<ParkingBoy> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody Administrator administrator){
+        return ResponseEntity.ok(administratorService.updateParkingBoyOfAdministrator(parkingBoyId,administrator));
     }
 }

@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.service.AdministratorService;
@@ -45,9 +46,9 @@ public class AdministratorControllerTest {
         parkingLots.add(new ParkingLot(000002L,"停车场2",100,20));
         parkingBoy.setParkingLots(parkingLots);
 
-        given(administratorService.updateParkingBoyOfAdministrator(anyLong(),any(ParkingBoy.class))).willReturn(parkingBoy);
+        given(administratorService.updateParkingBoyOfAdministrator(anyLong(),any(Administrator.class))).willReturn(parkingBoy);
 
-        mockMvc.perform(put("/administratorController/parking-boys/1")
+        mockMvc.perform(put("/admin/parking-boys/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(parkingBoy)))
                 .andExpect(status().isOk())

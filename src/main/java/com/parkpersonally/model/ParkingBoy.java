@@ -68,4 +68,10 @@ public class ParkingBoy {
         this.tags = tags;
     }
 
+    public ParkingBoy(long id, @NotNull String name, @NotNull String number, @Size(min = 5, max = 13) String phone) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.phone = phone;
+    }
 }
