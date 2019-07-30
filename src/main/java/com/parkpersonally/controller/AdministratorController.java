@@ -25,10 +25,6 @@ public class AdministratorController {
     public ResponseEntity<Manager> updateManagerOfAdministrator(@PathVariable long managerId , @RequestBody Manager manager){
         return ResponseEntity.ok(administratorService.updateManagerOfAdministrator(managerId,manager));
     }
-    @GetMapping("/managers")
-    public  ResponseEntity getAllManagers(){
-        return ResponseEntity.ok(administratorService.findAllManager());
-    }
 
 }
 

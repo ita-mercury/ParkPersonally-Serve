@@ -45,6 +45,7 @@ public class ManagerController {
     public ResponseEntity<List<Manager>> getAllManagers(){
         return ResponseEntity.ok(managerService.findAllManagers());
     }
+
 }
 
 
