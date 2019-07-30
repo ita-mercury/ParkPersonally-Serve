@@ -13,8 +13,8 @@ import java.util.Objects;
 @Data
 public class ParkingLot {
 
-    private static final int LOT_STATUS_NORMAL = 1;
-    private static final int LOT_STATUS_FREEZE = 0;
+    public static final int LOT_STATUS_NORMAL = 1;
+    public static final int LOT_STATUS_FREEZE = 0;
 
     @Id
     @GeneratedValue
