@@ -31,4 +31,8 @@ public class AdministratorService {
         administratorRepository.save(administrator);
         return parkingBoy;
     }
+
+    public List<Manager> findAllManager() {
+        return null;
+    }
 }

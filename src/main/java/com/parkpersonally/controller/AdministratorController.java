@@ -7,10 +7,7 @@ import com.parkpersonally.service.AdministratorService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Data
@@ -23,4 +20,9 @@ public class AdministratorController {
     public ResponseEntity<ParkingBoy> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody Administrator administrator){
         return ResponseEntity.ok(administratorService.updateParkingBoyOfAdministrator(parkingBoyId,administrator));
     }
+    @GetMapping("/admin/managers")
+    public  ResponseEntity getAllManagers(){
+        return ResponseEntity.ok(administratorService.findAllManager());
+    }
+
 }

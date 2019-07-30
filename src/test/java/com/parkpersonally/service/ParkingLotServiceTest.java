@@ -36,3 +36,4 @@ public class ParkingLotServiceTest {
         assertSame(2,parkingLotService.findParkingLots().size());
     }
 }
+

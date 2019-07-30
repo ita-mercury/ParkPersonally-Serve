@@ -73,7 +73,7 @@ public class ParkingLotControllerTest {
                 .andExpect(content().string(objectMapper.writeValueAsString(updateParkingLot)));
     }
     @Test
-    public  void should_retrun_all_parkinglots_when_find_ParkingLots() throws Exception {
+    public  void should_return_all_parkinglots_when_find_ParkingLots() throws Exception {
         //given
         ParkingLot firstParkingLot=new ParkingLot();
         ParkingLot secondParkingLot=new ParkingLot();

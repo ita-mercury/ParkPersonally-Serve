@@ -2,6 +2,7 @@ package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.parkpersonally.model.Administrator;
+import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.service.AdministratorService;
@@ -21,7 +22,9 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 @RunWith(SpringRunner.class)
@@ -53,6 +56,23 @@ public class AdministratorControllerTest {
                 .content(mapper.writeValueAsString(parkingBoy)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("张一"));
+
+    }
+    @Test
+    public void should_return_all_managers_when_getAllManagers() throws Exception{
+        //given
+        Manager firstManager=new Manager();
+        Manager secondManager=new Manager();
+        List<Manager> managers=new ArrayList<>();
+        managers.add(firstManager);
+        managers.add(secondManager);
+        //when
+        given(administratorService.findAllManager()).willReturn(managers);
+        //then
+        mockMvc.perform(get("/admin/managers"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
 
     }
 }
