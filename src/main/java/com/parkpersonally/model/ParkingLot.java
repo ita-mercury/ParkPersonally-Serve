@@ -1,6 +1,7 @@
 package com.parkpersonally.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class ParkingLot {
     private int restCapacity;
 
     @ManyToMany
+    @JsonIgnore
     private List<ParkingBoy> parkingBoys;
 
     @Override
