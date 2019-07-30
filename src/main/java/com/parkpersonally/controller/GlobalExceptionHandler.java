@@ -74,4 +74,10 @@ public class GlobalExceptionHandler {
     public String handleParkingBoyIsIllegalException(ParkingBoyIsIllegalException ex){
         return ex.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ChangeParkingLotStatusException.class)
+    public String handleChangeParkingLotStatusException(ParkingBoyIsIllegalException ex){
+        return ex.getMessage();
+    }
 }

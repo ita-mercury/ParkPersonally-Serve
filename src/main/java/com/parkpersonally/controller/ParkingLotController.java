@@ -30,6 +30,6 @@ public class ParkingLotController {
 
     @PatchMapping("/Parking-lots/{parkingLotId}")
     public ResponseEntity changeParkingLotStatus(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot){
-        return null;
+        return ResponseEntity.ok(service.changeParkingLotStatus(parkingLotId, parkingLot));
     }
 }
