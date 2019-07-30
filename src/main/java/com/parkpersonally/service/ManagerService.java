@@ -52,6 +52,6 @@ public class ManagerService {
         this.parkingBoyService = parkingBoyService;
     }
     public Manager saveManager(Manager manager) {
-        return  null;
+        return  managerRepository.save(manager);
     }
 }

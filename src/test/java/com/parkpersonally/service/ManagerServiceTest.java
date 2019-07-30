@@ -4,6 +4,7 @@ import com.parkpersonally.exception.NoSuchManagerException;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
+import com.parkpersonally.model.Tag;
 import com.parkpersonally.repository.ManagerRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,17 +103,30 @@ public class ManagerServiceTest {
     }
 
     @Test
-    public void should_return_ParkingBoy_when_manager_allocate_parkingLots_to_parkingBoy(){
+    public void should_return_ParkingBoy_when_manager_allocate_parkingLots_to_parkingBoy() {
         //given
         List<ParkingLot> parkingLots = new ArrayList<>();
-        parkingLots.add(new ParkingLot(1,"停车场1",50,20));
-        parkingLots.add(new ParkingLot(2,"停车场2",50,10));
-        parkingLots.add(new ParkingLot(3,"停车场3",55,25));
-        ParkingBoy parkingBoy = new ParkingBoy("张一","134554");
+        parkingLots.add(new ParkingLot(1, "停车场1", 50, 20));
+        parkingLots.add(new ParkingLot(2, "停车场2", 50, 10));
+        parkingLots.add(new ParkingLot(3, "停车场3", 55, 25));
+        ParkingBoy parkingBoy = new ParkingBoy("张一", "134554");
         given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
         parkingBoy.setParkingLots(parkingLots);
         given(parkingBoyService.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
 
-        assertSame(parkingBoy.getParkingLots().size(),managerService.allocateParkingLots(1,1,parkingBoy).getParkingLots().size());
+        assertSame(parkingBoy.getParkingLots().size(), managerService.allocateParkingLots(1, 1, parkingBoy).getParkingLots().size());
+    }
+
+    @Test
+    public void should_return_manager_when_save_a_manager(){
+        //Given
+        List<ParkingLot> parkingLots=new ArrayList<>();
+        parkingLots.add(new ParkingLot(1,"南方软件园",100,30));
+        parkingLots.add(new ParkingLot(2,"唐家市场",200,20));
+        Manager manager=new Manager(1,"李四","10001",parkingLots);
+        //when
+        given(managerService.saveManager(any(Manager.class))).willReturn(manager);
+        //then
+        assertSame(parkingLots,managerService.saveManager(manager).getParkingLots());
     }
 }
