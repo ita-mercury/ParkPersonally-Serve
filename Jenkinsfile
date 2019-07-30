@@ -8,12 +8,17 @@ pipeline {
         sh 'cp /usr/local/bin/application.properties ./src/main/resources/application.properties'
         sh 'cp /usr/local/bin/application-test.properties ./src/main/resources/application-test.properties'
         sh 'cp /usr/local/bin/application-prod.properties ./src/main/resources/application-prod.properties'
-        sh './gradlew test'
+        sh './gradlew run jacocoTestReport'
+      }
+      post {
+        always {
+          junit 'build/reposrt/**/*.xml'
+          junit 'test-results/**/*.xml'
+        }
       }
     }
     stage('QA') {
       steps {
-        sh './gradlew build'
         sh 'cp -f ./build/libs/parkpersonally-0.0.1-SNAPSHOT.jar /usr/local/bin/ParkPersonally.jar'
         sh '''pid=$(jps | grep jar | cut -d \' \' -f 1)
 kill -9 $pid'''
