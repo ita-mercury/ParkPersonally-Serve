@@ -5,6 +5,7 @@ import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.repository.AdministratorRepository;
+import com.parkpersonally.repository.ManagerRepository;
 import com.parkpersonally.repository.ParkingBoyRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class AdministratorService {
 
     @Autowired
     private AdministratorRepository administratorRepository;
+    @Autowired
+    private ManagerRepository managerRepository;
 
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
@@ -33,6 +36,6 @@ public class AdministratorService {
     }
 
     public List<Manager> findAllManager() {
-        return null;
+        return managerRepository.findAll();
     }
 }

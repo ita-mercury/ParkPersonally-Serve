@@ -4,6 +4,7 @@ import com.parkpersonally.exception.NoSuchParkingLotException;
 import com.parkpersonally.exception.UpdateParkingLotCapacitySmallerException;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.repository.ParkingLotRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+@Data
 @Service
 public class ParkingLotService {
 

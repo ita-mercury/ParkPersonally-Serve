@@ -20,7 +20,8 @@ public class ParkingLotServiceTest {
     @Before
     public  void initData(){
         parkingLotRepository= mock(ParkingLotRepository.class);
-        parkingLotService=new ParkingLotService(parkingLotRepository);
+        parkingLotService=new ParkingLotService();
+        parkingLotService.setRepository(parkingLotRepository);
     }
     @Test
     public  void should_return_all_parking_lots_when_findAll() {
