@@ -72,7 +72,7 @@ public class ParkingOrderService {
     }
 
 
-    public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy, int type, int status) {
+    public List<ParkingOrder> filterParkingOrders(ParkingBoy parkingBoy, int type, int status) {
         List<ParkingOrder> allParkingOrders = repository.findAllByTypeAndStatusOrderByCreateTimeAsc(type, status);
 
         if (allParkingOrders != null || allParkingOrders.size() != 0) {
