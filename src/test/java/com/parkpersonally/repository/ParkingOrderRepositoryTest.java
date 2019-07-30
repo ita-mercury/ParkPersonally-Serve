@@ -122,8 +122,6 @@ public class ParkingOrderRepositoryTest {
     public  void should_return_all_order_of_parking_boy(){
         List<ParkingOrder> allCarOrders=parkingOrderRepository.findAllByParkingBoy(parkingBoy);
         assertEquals(2,allCarOrders.size());
-
-
     }
 
 

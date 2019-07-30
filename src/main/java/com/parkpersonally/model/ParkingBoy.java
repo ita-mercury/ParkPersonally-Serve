@@ -34,8 +34,7 @@ public class ParkingBoy {
     @Column(nullable = false)
     private int status = PARKING_BOY_STATUS_FREE;
 
-    @Column(nullable = false)
-    @NotNull
+    @Column
     @Size(min = 5, max = 13)
     private String phone;
 

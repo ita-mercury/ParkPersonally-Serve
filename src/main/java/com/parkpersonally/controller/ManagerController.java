@@ -27,12 +27,13 @@ public class ManagerController {
     }
 
     @PutMapping("/managers/{managerId}/parking-boys/{parkingBoyId}/parking-lots")
-    public ParkingBoy allocateParkingLots(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
-        return managerService.allocateParkingLots(managerId,parkingBoyId,parkingBoy);
+    public ParkingBoy allocateParkingLots(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy) {
+        return managerService.allocateParkingLots(managerId, parkingBoyId, parkingBoy);
+    }
     @PostMapping("/managers")
     public ResponseEntity<Manager> createManager(@RequestBody Manager manager){
         return ResponseEntity.ok(managerService.saveManager(manager));
     }
-    }
-
 }
+
+
