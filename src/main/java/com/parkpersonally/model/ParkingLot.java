@@ -13,6 +13,9 @@ import java.util.Objects;
 @Data
 public class ParkingLot {
 
+    private static final int LOT_STATUS_NORMAL = 1;
+    private static final int LOT_STATUS_FREEZE = 0;
+
     @Id
     @GeneratedValue
     private long id;
@@ -24,6 +27,10 @@ public class ParkingLot {
     @Column(nullable = false)
     @NotNull
     private int capacity;
+
+    @NotNull
+    @Column(nullable = false)
+    private int status = LOT_STATUS_NORMAL;
 
     @Column(nullable = false)
     @NotNull
