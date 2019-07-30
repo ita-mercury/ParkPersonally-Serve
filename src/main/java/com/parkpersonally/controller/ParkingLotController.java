@@ -13,22 +13,23 @@ public class ParkingLotController {
     private ParkingLotService service;
 
     @PutMapping("/parking-lots/{parkingLotId}")
-    public ParkingLot updateParkingLot(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot){
+    public ParkingLot updateParkingLot(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot) {
 
         return service.updateParkingLot(parkingLotId, parkingLot);
     }
+
     @GetMapping("/parking-lots")
-    public ResponseEntity getAllParkingLots(){
+    public ResponseEntity getAllParkingLots() {
         return ResponseEntity.ok(service.findParkingLots());
     }
 
     @PostMapping("/parking-lots")
-    public ResponseEntity addParkingLot(@RequestBody ParkingLot parkingLot){
-        return  ResponseEntity.ok(service.saveService(parkingLot));
+    public ResponseEntity addParkingLot(@RequestBody ParkingLot parkingLot) {
+        return ResponseEntity.ok(service.saveService(parkingLot));
     }
 
-    @PutMapping("/parking-lots")
-    public ResponseEntity updateParkingLot(@RequestBody ParkingLot parkingLot){
-        return  ResponseEntity.ok(service.saveService(parkingLot));
+    @PatchMapping("/Parking-lots/{parkingLotId}")
+    public ResponseEntity changeParkingLotStatus(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot){
+        return null;
     }
 }
