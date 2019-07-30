@@ -101,6 +101,6 @@ public class ParkingBoyService {
     }
 
     public List<ParkingBoy> findAllParkingBoys() {
-        return null;
+        return parkingBoyRepository.findAll();
     }
 }
