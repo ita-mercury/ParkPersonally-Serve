@@ -10,9 +10,10 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(GetParkingOrderException.class)
-    public ResponseEntity<String> handleGetParkingOrderException(GetParkingOrderException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public String handleGetParkingOrderException(GetParkingOrderException ex){
+        return ex.getMessage();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -28,8 +29,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ParkingLotIsFullException.class)
-    public ResponseEntity<String> handleParkingLotIsFullException(ParkingLotIsFullException ex ){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String handleParkingLotIsFullException(ParkingLotIsFullException ex ){
+        return ex.getMessage();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -62,13 +64,15 @@ public class GlobalExceptionHandler {
         return ex.getMessage();
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ParkingBoyHasAOrderException.class)
-    public ResponseEntity<String> handleParkingBoyHasAOrderException(ParkingBoyHasAOrderException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public String handleParkingBoyHasAOrderException(ParkingBoyHasAOrderException ex){
+        return ex.getMessage();
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ParkingBoyIsIllegalException.class)
-    public ResponseEntity<String> handleParkingBoyIsIllegalException(ParkingBoyHasAOrderException ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public String handleParkingBoyIsIllegalException(ParkingBoyHasAOrderException ex){
+        return ex.getMessage();
     }
 }
