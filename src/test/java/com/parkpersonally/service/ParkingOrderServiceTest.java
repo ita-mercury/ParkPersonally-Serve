@@ -106,7 +106,7 @@ public class ParkingOrderServiceTest {
 
         given(repository.findAllByTypeAndStatusOrderByCreateTimeAsc(anyInt(),anyInt())).willReturn(allParkingOrders);
 
-        assertSame(1,service.getAllParkingOrdersOfParkingBoy(parkingBoy,1,0).size());
+        assertSame(1,service.filterParkingOrders(parkingBoy,1,0).size());
     }
 
     @Test
@@ -156,7 +156,7 @@ public class ParkingOrderServiceTest {
         given(repository.findAllByTypeAndStatusOrderByCreateTimeAsc(anyInt(), anyInt())).willReturn(allParkingOrders);
         given(repository.findDistinctByTagsIsIn(parkingBoy.getTags())).willReturn(parkingOrdersWithTags);
 
-        assertSame(3, service.getAllParkingOrdersOfParkingBoy(parkingBoy, 1, 0).size());
+        assertSame(3, service.filterParkingOrders(parkingBoy, 1, 0).size());
     }
 
     @Test(expected = NoSuchParkingOrderException.class)

@@ -201,7 +201,7 @@ public class ParkingOrderControllerTest {
         thirdParkingOrder.setTags(secondTags);
         allParkingOrders.add(thirdParkingOrder);
         given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
-        given(service.getAllParkingOrdersOfParkingBoy(any(ParkingBoy.class),anyInt(),anyInt())).willReturn(allParkingOrders);
+        given(service.filterParkingOrders(any(ParkingBoy.class),anyInt(),anyInt())).willReturn(allParkingOrders);
 
         mvc.perform(get("/parking-orders?type=1&parkingBoyId=1"))
                 .andExpect(status().isOk())
