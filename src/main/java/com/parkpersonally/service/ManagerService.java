@@ -14,11 +14,10 @@ import java.util.List;
 @Service
 public class ManagerService {
 
-    private final ManagerRepository managerRepository;
-
-    public ManagerService(ManagerRepository managerRepository) {
-        this.managerRepository = managerRepository;
-    }
+    @Autowired
+    private ManagerRepository managerRepository;
+    @Autowired
+    private ParkingBoyService parkingBoyService;
 
 
     public List<ParkingLot> getAllParkingLotOnManager(long managerId) {
@@ -32,7 +31,25 @@ public class ManagerService {
     }
 
     public ParkingBoy allocateParkingLots(long managerId, long parkingBoyId, ParkingBoy parkingBoy) {
-        return null;
+        ParkingBoy updateParkingBoy = parkingBoyService.findOneById(parkingBoyId);
+        updateParkingBoy.setParkingLots(parkingBoy.getParkingLots());
+        return parkingBoyService.saveParkingBoy(updateParkingBoy);
+    }
+
+    public ManagerRepository getManagerRepository() {
+        return managerRepository;
+    }
+
+    public void setManagerRepository(ManagerRepository managerRepository) {
+        this.managerRepository = managerRepository;
+    }
+
+    public ParkingBoyService getParkingBoyService() {
+        return parkingBoyService;
+    }
+
+    public void setParkingBoyService(ParkingBoyService parkingBoyService) {
+        this.parkingBoyService = parkingBoyService;
     }
     public Manager saveManager(Manager manager) {
         return  null;

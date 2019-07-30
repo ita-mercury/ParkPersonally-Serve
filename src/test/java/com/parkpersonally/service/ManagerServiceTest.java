@@ -20,12 +20,16 @@ import static org.mockito.Mockito.*;
 public class ManagerServiceTest {
 
     private ManagerRepository managerRepository;
+    private ParkingBoyService parkingBoyService;
     private ManagerService managerService;
 
     @Before
     public void init() {
         managerRepository = mock(ManagerRepository.class);
-        managerService = new ManagerService(managerRepository);
+        parkingBoyService = mock(ParkingBoyService.class);
+        managerService = new ManagerService();
+        managerService.setManagerRepository(managerRepository);
+        managerService.setParkingBoyService(parkingBoyService);
     }
 
     @Test
@@ -95,5 +99,20 @@ public class ManagerServiceTest {
         given(managerRepository.findById(anyLong())).willReturn(Optional.ofNullable(null));
 
         managerService.getParkingBoys(anyLong());
+    }
+
+    @Test
+    public void should_return_ParkingBoy_when_manager_allocate_parkingLots_to_parkingBoy(){
+        //given
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(new ParkingLot(1,"停车场1",50,20));
+        parkingLots.add(new ParkingLot(2,"停车场2",50,10));
+        parkingLots.add(new ParkingLot(3,"停车场3",55,25));
+        ParkingBoy parkingBoy = new ParkingBoy("张一","134554");
+        given(parkingBoyService.findOneById(anyLong())).willReturn(parkingBoy);
+        parkingBoy.setParkingLots(parkingLots);
+        given(parkingBoyService.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
+
+        assertSame(parkingBoy.getParkingLots().size(),managerService.allocateParkingLots(1,1,parkingBoy).getParkingLots().size());
     }
 }
