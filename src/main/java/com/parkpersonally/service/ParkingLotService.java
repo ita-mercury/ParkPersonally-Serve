@@ -26,8 +26,8 @@ public class ParkingLotService {
 
         // todo 没有解决考虑并发问题
         if (updateParkingLot.getCapacity() > parkingLot.getCapacity()) {
+            parkingLot.setRestCapacity(updateParkingLot.getCapacity()-(parkingLot.getCapacity()-parkingLot.getRestCapacity()));
             parkingLot.setCapacity(updateParkingLot.getCapacity());
-            parkingLot.setRestCapacity(updateParkingLot.getCapacity() - (parkingLot.getCapacity() - parkingLot.getRestCapacity()));
         }else throw new UpdateParkingLotCapacitySmallerException("无法把停车场容量缩小");
 
         return saveService(parkingLot);
