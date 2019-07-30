@@ -20,11 +20,6 @@ public class CustomerController {
         List<Tag> tags =customerService.getAllTags(parkingBoyId);
         return  ResponseEntity.ok(tags);
     }
-//    @GetMapping("/customers")
-//    public  ResponseEntity getAllCarOrders(@RequestParam("type")int type,@RequestParam("customerId")int customerId){
-//        List<ParkingOrder> parkingOrders=customerService.getAllOrders(type,customerId);
-//        return ResponseEntity.ok(parkingOrders);
-//    }
     @GetMapping(value = "/customers/{customerId}/allOrders")
     public  ResponseEntity getAllCarOrders(@PathVariable long customerId){
         List<ParkingOrder> parkingOrders=customerService.getAllOrders(customerId);
