@@ -54,4 +54,11 @@ public class Manager {
         this.number = number;
         this.parkingLots = parkingLots;
     }
+
+    public Manager(long id, @NotNull String name, @NotNull String number, @NotNull @Size(min = 5, max = 13) String phone) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.phone = phone;
+    }
 }

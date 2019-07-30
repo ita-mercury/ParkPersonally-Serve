@@ -17,8 +17,13 @@ public class AdministratorController {
     private AdministratorService administratorService;
 
     @PutMapping("/admin/parking-boys/{parkingBoyId}")
-    public ResponseEntity<ParkingBoy> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody Administrator administrator){
-        return ResponseEntity.ok(administratorService.updateParkingBoyOfAdministrator(parkingBoyId,administrator));
+    public ResponseEntity<ParkingBoy> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
+        return ResponseEntity.ok(administratorService.updateParkingBoyOfAdministrator(parkingBoyId,parkingBoy));
+    }
+
+    @PutMapping("/admin/managers/{managerId}")
+    public ResponseEntity<Manager> updateManagerOfAdministrator(@PathVariable long managerId , @RequestBody Manager manager){
+        return ResponseEntity.ok(administratorService.updateManagerOfAdministrator(managerId,manager));
     }
     @GetMapping("/admin/managers")
     public  ResponseEntity getAllManagers(){

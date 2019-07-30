@@ -49,7 +49,7 @@ public class AdministratorControllerTest {
         parkingLots.add(new ParkingLot(000002L,"停车场2",100,20));
         parkingBoy.setParkingLots(parkingLots);
 
-        given(administratorService.updateParkingBoyOfAdministrator(anyLong(),any(Administrator.class))).willReturn(parkingBoy);
+        given(administratorService.updateParkingBoyOfAdministrator(anyLong(),any(ParkingBoy.class))).willReturn(parkingBoy);
 
         mockMvc.perform(put("/admin/parking-boys/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -58,12 +58,13 @@ public class AdministratorControllerTest {
                 .andExpect(jsonPath("$.name").value("张一"));
 
     }
+
     @Test
-    public void should_return_all_managers_when_getAllManagers() throws Exception{
+    public void should_return_all_managers_when_getAllManagers() throws Exception {
         //given
-        Manager firstManager=new Manager();
-        Manager secondManager=new Manager();
-        List<Manager> managers=new ArrayList<>();
+        Manager firstManager = new Manager();
+        Manager secondManager = new Manager();
+        List<Manager> managers = new ArrayList<>();
         managers.add(firstManager);
         managers.add(secondManager);
         //when
@@ -73,6 +74,21 @@ public class AdministratorControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    public void should_return_A_new_Manager_when_updateManagerOfAdministrator() throws Exception{
+        //given
+        Manager manager = new Manager(1,"经理1","123456","452654");
+
+        given(administratorService.updateManagerOfAdministrator(anyLong(),any(Manager.class))).willReturn(manager);
+
+        mockMvc.perform(put("/admin/managers/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(manager)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("经理1"));
+
 
     }
 }

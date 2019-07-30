@@ -27,12 +27,13 @@ public class AdministratorService {
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
 
-    public ParkingBoy updateParkingBoyOfAdministrator(long parkingBoyId, Administrator administrator) {
-        List<ParkingBoy> parkingBoys = administrator.getParkingBoys();
-        ParkingBoy parkingBoy =  parkingBoys.stream().filter(x->x.getId()==parkingBoyId).collect(Collectors.toList()).get(0);
-        parkingBoyRepository.save(parkingBoy);
-        administratorRepository.save(administrator);
-        return parkingBoy;
+
+    public ParkingBoy updateParkingBoyOfAdministrator(long parkingBoyId, ParkingBoy parkingBoy) {
+        return parkingBoyRepository.save(parkingBoy);
+    }
+
+    public Manager updateManagerOfAdministrator(long managerId, Manager manager) {
+        return managerRepository.save(manager);
     }
 
     public List<Manager> findAllManager() {
