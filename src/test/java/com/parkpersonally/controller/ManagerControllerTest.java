@@ -108,11 +108,14 @@ public class ManagerControllerTest {
     }
     @Test
     public void should_return_manager_when_admin_add_a_manager() throws Exception{
+        //given
        List<ParkingLot> parkingLots=new ArrayList<>();
        parkingLots.add(new ParkingLot(1,"南方软件园",100,30));
        parkingLots.add(new ParkingLot(2,"唐家市场",200,20));
        Manager manager=new Manager(1,"李四","10001",parkingLots);
+       //when
        given(managerService.saveManager(any(Manager.class))).willReturn(manager);
+       //then
        mockMvc.perform(post("/managers")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(mapper.writeValueAsString(manager)))
