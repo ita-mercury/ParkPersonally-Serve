@@ -90,5 +90,21 @@ public class ParkingBoyServiceTest {
         assertSame(2,parkingBoyService.getAllParkingOrdersOfParkingBoy(parkingBoy).size());
     }
 
+    @Test
+    public void should_return_all_parking_boys(){
+        //Given
+        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        ParkingBoy firstParkingBoy = new ParkingBoy("Dillon1","15");
+        ParkingBoy secondParkingBoy = new ParkingBoy("Dillon1","15");
+        ParkingBoy thirdParkingBoy = new ParkingBoy("Dillon1","15");
+        parkingBoys.add(firstParkingBoy);
+        parkingBoys.add(secondParkingBoy);
+        parkingBoys.add(thirdParkingBoy);
+        //when
+        given(parkingBoyRepository.findAll()).willReturn(parkingBoys);
+        //then
+        assertSame(3,parkingBoyService.findAllParkingBoys().size());
+    }
+
 
 }
