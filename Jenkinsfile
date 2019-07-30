@@ -2,6 +2,13 @@ pipeline {
   agent any
   stages {
     stage('Gradle Test') {
+      post {
+        always {
+          junit 'build/reports/**/*.xml'
+
+        }
+
+      }
       steps {
         sh 'cp /usr/local/bin/build.gradle ./build.gradle'
         sh 'chmod 777 ./gradlew'
@@ -9,11 +16,6 @@ pipeline {
         sh 'cp /usr/local/bin/application-test.properties ./src/main/resources/application-test.properties'
         sh 'cp /usr/local/bin/application-prod.properties ./src/main/resources/application-prod.properties'
         sh './gradlew build jacocoTestReport'
-      }
-      post {
-        always {
-          junit 'build/reports/**/*.xml'
-        }
       }
     }
     stage('QA') {
@@ -23,6 +25,11 @@ pipeline {
 kill -9 $pid'''
         sh '''JENKINS_NODE_COOKIE=dontKillMe
 nohup java -jar /usr/local/bin/ParkPersonally.jar --spring.profiles.active=test > /usr/local/bin/out.log & sleep 20s'''
+      }
+    }
+    stage('') {
+      steps {
+        jacoco(buildOverBuild: true, changeBuildStatus: true, execPattern: 'build/jacoco/*.exec', classPattern: 'build/classes', sourcePattern: 'src/main/java', exclusionPattern: 'src/test*')
       }
     }
   }
