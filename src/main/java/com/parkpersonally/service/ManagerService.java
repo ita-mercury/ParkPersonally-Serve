@@ -54,4 +54,8 @@ public class ManagerService {
     public Manager saveManager(Manager manager) {
         return  managerRepository.save(manager);
     }
+
+    public ParkingBoy tagParkingBoy(long managerId, long parkingBoyId, ParkingBoy parkingBoy) {
+        return null;
+    }
 }

@@ -34,6 +34,10 @@ public class ManagerController {
     public ResponseEntity<Manager> createManager(@RequestBody Manager manager){
         return ResponseEntity.ok(managerService.saveManager(manager));
     }
+    @PutMapping("/managers/{managerId}/parking-boys/{parkingBoyId}/tags")
+    public ParkingBoy tagParkingBoy(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
+        return managerService.tagParkingBoy(managerId,parkingBoyId,parkingBoy);
+    }
 }
 
 
