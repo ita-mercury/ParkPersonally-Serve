@@ -123,7 +123,7 @@ public class ParkingOrderService {
 
         order.setStatus(ParkingOrder.ORDER_STATUS_BE_ACCEPTED);
         order.setParkingBoy(parkingBoy);
-        parkingBoy.setStatus(ParkingBoy.PARKING_BOY_STATUS_BUSY);
+        parkingBoy = parkingBoyService.changeParkingBoyStatus(parkingBoy.getId(),ParkingBoy.PARKING_BOY_STATUS_BUSY);
 
         parkingBoyService.saveParkingBoy(parkingBoy);
 
@@ -180,11 +180,10 @@ public class ParkingOrderService {
         parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE);
         parkingLot.setRestCapacity(parkingLot.getRestCapacity() - 1);
 
-        if (parkingBoyService
-                .findOneById(parkingOrder.getParkingBoy().getId()).getStatus()
-                == ParkingBoy.PARKING_BOY_STATUS_BUSY)
-                parkingOrder.setParkingBoy(parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
-                    ParkingBoy.PARKING_BOY_STATUS_FREE));
+        ParkingBoy parkingBoy =  parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
+                ParkingBoy.PARKING_BOY_STATUS_FREE);
+
+        parkingOrder.setParkingBoy(parkingBoy);
 
         return parkingOrder;
     }
@@ -203,11 +202,17 @@ public class ParkingOrderService {
                 break;
             }
         }
-        // todo when parkingBoy not complete fetch car order, don't change status to be free
-        parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
+        ParkingBoy parkingBoy =  parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
                 ParkingBoy.PARKING_BOY_STATUS_FREE);
 
+        parkingOrder.setParkingBoy(parkingBoy);
+
         return parkingOrder;
+    }
+
+    public int CountProcessingParkingOrderByParkingBoyId(long parkingBoyId){
+
+        return repository.countProcessingParkingOrderByParkingBoyId(parkingBoyId);
     }
 
     public void setParkingBoyService (ParkingBoyService parkingBoyService){

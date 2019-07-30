@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.exception.ChangeParkingBoyStatusException;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
@@ -36,13 +37,43 @@ public class ParkingBoyService {
 
     public ParkingBoy changeParkingBoyStatus(long id, int status){
         ParkingBoy parkingBoy = findOneById(id);
-        parkingBoy.setStatus(status);
+        switch (status){
+            case ParkingBoy.PARKING_BOY_STATUS_FREEZE: {
+                parkingBoy.setStatus(switchParkingBoyFreezeStatus(parkingBoy.getStatus(), id));
+                break;
+            }
+            case ParkingBoy.PARKING_BOY_STATUS_FREE: {
+                parkingBoy.setStatus(validateFreeze(parkingBoy, ParkingBoy.PARKING_BOY_STATUS_FREE));
+                break;
+            }
+            case ParkingBoy.PARKING_BOY_STATUS_BUSY: {
+                parkingBoy.setStatus(validateFreeze(parkingBoy, ParkingBoy.PARKING_BOY_STATUS_BUSY));
+                break;
+            }
+            default: throw new ChangeParkingBoyStatusException("传入的目标状态不合法");
+        }
 
         return parkingBoyRepository.save(parkingBoy);
     }
 
     public ParkingBoy saveParkingBoy(ParkingBoy parkingBoy){
         return parkingBoyRepository.save(parkingBoy);
+    }
+
+    private int switchParkingBoyFreezeStatus(int status, long parkingBoyId){
+        if (status == ParkingBoy.PARKING_BOY_STATUS_FREEZE) {
+            if (parkingOrderService.CountProcessingParkingOrderByParkingBoyId(parkingBoyId) > 0)
+                status = ParkingBoy.PARKING_BOY_STATUS_BUSY;
+            else status = ParkingBoy.PARKING_BOY_STATUS_FREE;
+        }else status = ParkingBoy.PARKING_BOY_STATUS_FREEZE;
+
+        return status;
+    }
+
+    private int validateFreeze(ParkingBoy parkingBoy, int status){
+        if (parkingBoy.getStatus() == ParkingBoy.PARKING_BOY_STATUS_FREEZE)
+            return ParkingBoy.PARKING_BOY_STATUS_FREEZE;
+        else return status;
     }
 
     public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy){

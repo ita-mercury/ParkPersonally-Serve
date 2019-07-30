@@ -24,12 +24,12 @@ public class ParkingLotService {
         ParkingLot parkingLot = repository.findById(id)
                 .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
 
-        // todo 没有解决考虑并发问题
+        // todo 没有解决并发问题
         if (updateParkingLot.getCapacity() > parkingLot.getCapacity()) {
             parkingLot.setRestCapacity(updateParkingLot.getCapacity()-(parkingLot.getCapacity()-parkingLot.getRestCapacity()));
             parkingLot.setCapacity(updateParkingLot.getCapacity());
         }else throw new UpdateParkingLotCapacitySmallerException("无法把停车场容量缩小");
 
-        return saveService(parkingLot);
+        return repository.save(parkingLot);
     }
 }
