@@ -8,7 +8,7 @@ pipeline {
         sh 'cp /usr/local/bin/application.properties ./src/main/resources/application.properties'
         sh 'cp /usr/local/bin/application-test.properties ./src/main/resources/application-test.properties'
         sh 'cp /usr/local/bin/application-prod.properties ./src/main/resources/application-prod.properties'
-        sh './gradlew run jacocoTestReport'
+        sh './gradlew build jacocoTestReport'
       }
       post {
         always {

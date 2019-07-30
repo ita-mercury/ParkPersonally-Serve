@@ -4,19 +4,10 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'jacoco'
 
 group = 'com.parkpersonally'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
-
-jacocoTestReport {
-    group = "Reporting"
-    reports {
-        xml.enabled true
-        csv.enabled false
-    }
-}
 
 configurations {
     compileOnly {
