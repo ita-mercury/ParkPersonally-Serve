@@ -122,10 +122,9 @@ public class ParkingOrderService {
         ParkingOrder order = validateOrderStatus(orderId);
 
         order.setStatus(ParkingOrder.ORDER_STATUS_BE_ACCEPTED);
-        order.setParkingBoy(parkingBoy);
         parkingBoy = parkingBoyService.changeParkingBoyStatus(parkingBoy.getId(),ParkingBoy.PARKING_BOY_STATUS_BUSY);
-
-        parkingBoyService.saveParkingBoy(parkingBoy);
+        // todo 可能不需要set
+        order.setParkingBoy(parkingBoy);
 
         return repository.save(order);
     }
