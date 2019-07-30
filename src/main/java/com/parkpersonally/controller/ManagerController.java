@@ -39,6 +39,11 @@ public class ManagerController {
     public ParkingBoy tagParkingBoy(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody List<Tag> tags){
         return managerService.tagParkingBoy(managerId,parkingBoyId,tags);
     }
+
+    @GetMapping("/managers")
+    public ResponseEntity<List<Manager>> getAllManagers(){
+        return ResponseEntity.ok(managerService.findAllManagers());
+    }
 }
 
 

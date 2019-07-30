@@ -145,4 +145,22 @@ public class ManagerServiceTest {
         //then
         assertSame(parkingLots,managerService.saveManager(manager).getParkingLots());
     }
+    @Test
+    public void should_return_all_managers_when_get_all_managers(){
+        //Given
+        List<ParkingLot> parkingLots=new ArrayList<>();
+        parkingLots.add(new ParkingLot(1,"南方软件园",100,30));
+        parkingLots.add(new ParkingLot(2,"唐家市场",200,20));
+        List<Manager> managers = new ArrayList<>();
+        Manager firstManager=new Manager(1,"李四","10001",parkingLots);
+        Manager secondManager=new Manager(2,"小四","10001",parkingLots);
+        Manager thirdManager=new Manager(3,"老张","10001",parkingLots);
+        managers.add(firstManager);
+        managers.add(secondManager);
+        managers.add(thirdManager);
+        //when
+        given(managerService.findAllManagers()).willReturn(managers);
+        //then
+        assertSame(3,managerService.findAllManagers().size());
+    }
 }

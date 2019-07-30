@@ -61,4 +61,8 @@ public class ManagerService {
         updateParkingBoy.setTags(tags);
         return parkingBoyService.saveParkingBoy(updateParkingBoy);
     }
+
+    public List<Manager> findAllManagers() {
+        return managerRepository.findAll();
+    }
 }

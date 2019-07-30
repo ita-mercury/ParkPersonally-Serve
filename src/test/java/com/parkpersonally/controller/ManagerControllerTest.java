@@ -144,5 +144,26 @@ public class ManagerControllerTest {
                 .andExpect(jsonPath("$.parkingLots[0].name").value("南方软件园"));
     }
 
+    @Test
+    public void should_return_all_managers_when_admin_query_all_managers() throws Exception{
+        //given
+        List<ParkingLot> parkingLots=new ArrayList<>();
+        parkingLots.add(new ParkingLot(1,"南方软件园",100,30));
+        parkingLots.add(new ParkingLot(2,"唐家市场",200,20));
+        List<Manager> managers = new ArrayList<>();
+        Manager firstManager=new Manager(1,"李四","10001",parkingLots);
+        Manager secondManager=new Manager(2,"老张","10001",parkingLots);
+        Manager thirdManager=new Manager(3,"老李","10001",parkingLots);
+        managers.add(firstManager);
+        managers.add(secondManager);
+        managers.add(thirdManager);
+        //when
+        given(managerService.findAllManagers()).willReturn(managers);
+        //then
+        mockMvc.perform(get("/managers"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3));
+    }
+
 
 }
