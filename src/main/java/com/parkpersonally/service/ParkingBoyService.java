@@ -25,7 +25,10 @@ public class ParkingBoyService {
 
     public List<ParkingLot> getAllParkingLotOnParkingBoy(long parkingBoyId) {
         ParkingBoy parkingBoy = parkingBoyRepository.findById(parkingBoyId).orElseThrow(()->new NoSuchParkingBoyException("抱歉,没有查到停车员"));
-        return parkingBoy.getParkingLots();
+        return parkingBoy.getParkingLots()
+                .stream()
+                .filter((parkingLot) -> parkingLot.getStatus() != ParkingLot.LOT_STATUS_FREEZE)
+                .collect(Collectors.toList());
     }
 
     public ParkingBoy findOneById(long id){
