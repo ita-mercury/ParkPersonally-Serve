@@ -29,7 +29,7 @@ public class ParkingLotService {
                 .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
 
         // todo 没有解决并发问题
-        if (updateParkingLot.getCapacity() > parkingLot.getCapacity()) {
+        if (updateParkingLot.getCapacity() >= parkingLot.getCapacity()) {
             parkingLot.setRestCapacity(updateParkingLot.getCapacity()-(parkingLot.getCapacity()-parkingLot.getRestCapacity()));
             parkingLot.setCapacity(updateParkingLot.getCapacity());
         }else throw new UpdateParkingLotCapacitySmallerException("无法把停车场容量缩小");
@@ -40,6 +40,19 @@ public class ParkingLotService {
     public List<ParkingLot> findParkingLots() {
         return repository.findAll();
     }
+
+//    public ParkingLot changeParkingLotStatus(long id, ParkingLot updateParkingLot){
+//        ParkingLot parkingLot = repository.findById(id)
+//                .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
+//
+//        switch (updateParkingLot.getStatus()){
+//            case ParkingLot.LOT_STATUS_FREEZE: {
+//                if (parkingLot.getStatus() == )
+//            }
+//        }
+//    }
+//
+//    private int switchParkingLotStatus
 
     public ParkingLotService() {
     }
