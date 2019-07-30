@@ -99,6 +99,24 @@ public class ParkingBoyControllerTest {
 
     }
 
+    @Test
+    public  void should_return_all_parkingBoys_when_getAllParkingBoys() throws Exception {
+        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        ParkingBoy firstParkingBoy = new ParkingBoy("zhangsan","15");
+        ParkingBoy secondParkingBoy = new ParkingBoy("zhansan","15");
+        ParkingBoy thirdParkingBoy = new ParkingBoy("zan","15");
+        parkingBoys.add(firstParkingBoy);
+        parkingBoys.add(secondParkingBoy);
+        parkingBoys.add(thirdParkingBoy);
+        given(service.findAllParkingBoys()).willReturn(parkingBoys);
+
+        mockMvc.perform(get("/parking-boys"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3));
+
+    }
+
 
 
 }

@@ -100,4 +100,7 @@ public class ParkingBoyService {
         this.parkingOrderService = parkingOrderService;
     }
 
+    public List<ParkingBoy> findAllParkingBoys() {
+        return null;
+    }
 }
