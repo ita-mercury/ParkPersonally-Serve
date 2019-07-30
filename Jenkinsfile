@@ -10,6 +10,11 @@ pipeline {
         sh 'cp /usr/local/bin/application-prod.properties ./src/main/resources/application-prod.properties'
         sh './gradlew test'
       }
+      post {
+        always {
+          junit "/usr/local/bin/test/*.xml"
+        }
+      }
     }
     stage('QA') {
       steps {
