@@ -1,13 +1,12 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +24,8 @@ public class ManagerController {
     public ResponseEntity<List<ParkingBoy>> getAllParkingBoys(@PathVariable long managerId){
         return ResponseEntity.ok(managerService.getParkingBoys(managerId));
     }
-
+    @PostMapping("/managers")
+    public ResponseEntity<Manager> createManager(@RequestBody Manager manager){
+        return ResponseEntity.ok(managerService.saveManager(manager));
+    }
 }

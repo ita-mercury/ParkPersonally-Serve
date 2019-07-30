@@ -42,6 +42,10 @@ public class Manager {
         this.parkingLots = parkingLots;
     }
 
-
-
+    public Manager(long id, @NotNull String name, @NotNull String number, List<ParkingLot> parkingLots) {
+        this.id = id;
+        this.name = name;
+        this.number = number;
+        this.parkingLots = parkingLots;
+    }
 }
