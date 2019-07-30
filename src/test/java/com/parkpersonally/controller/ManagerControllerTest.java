@@ -106,6 +106,28 @@ public class ManagerControllerTest {
 
 
     }
+
+    @Test
+    public void should_return_ParkingBoy_when_manager_tag_a_parking_boy() throws Exception{
+        //given
+        ParkingBoy parkingBoy = new ParkingBoy("张一","134554");
+        List<Tag> tags = new ArrayList<>();
+        Tag firstTag = new Tag("有腹肌的");
+        Tag secondTag = new Tag("会唱rap的");
+        tags.add(firstTag);
+        tags.add(secondTag);
+        parkingBoy.setTags(tags);
+        given(managerService.tagParkingBoy(anyLong(),anyLong(),any(ParkingBoy.class))).willReturn(parkingBoy);
+
+        mockMvc.perform(put("/managers/{managerId}/parking-boys/{parkingBoyId}/tags",1,1)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(parkingBoy)))
+                //then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.tags.size()").value(2));
+
+
+    }
     @Test
     public void should_return_manager_when_admin_add_a_manager() throws Exception{
         //given
