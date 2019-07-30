@@ -36,6 +36,10 @@ public class ParkingLotService {
     }
 
     public List<ParkingLot> findParkingLots() {
-        return  null;
+        return  repository.findAll();
+    }
+
+    public ParkingLotService(ParkingLotRepository repository) {
+        this.repository = repository;
     }
 }

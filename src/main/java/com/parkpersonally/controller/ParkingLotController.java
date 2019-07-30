@@ -21,4 +21,5 @@ public class ParkingLotController {
     public ResponseEntity getAllParkingLots(){
         return ResponseEntity.ok(service.findParkingLots());
     }
+
 }
