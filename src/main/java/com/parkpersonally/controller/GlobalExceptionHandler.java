@@ -2,7 +2,6 @@ package com.parkpersonally.controller;
 
 import com.parkpersonally.exception.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ConstraintViolationException;
@@ -19,7 +18,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchParkingBoyException.class)
     public String handleNoSuchParkingBoyException(NoSuchParkingBoyException ex){
-        return  ex.getMessage();
+        return ex.getMessage();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -72,7 +71,7 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ParkingBoyIsIllegalException.class)
-    public String handleParkingBoyIsIllegalException(ParkingBoyHasAOrderException ex){
+    public String handleParkingBoyIsIllegalException(ParkingBoyIsIllegalException ex){
         return ex.getMessage();
     }
 }
