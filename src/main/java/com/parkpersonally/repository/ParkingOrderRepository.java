@@ -21,4 +21,7 @@ public interface ParkingOrderRepository extends JpaRepository<ParkingOrder, Long
     @Query(value = "SELECT p FROM ParkingOrder p where p.customer.id = :customerId order by createTime desc")
     List<ParkingOrder> findAllByCustomerId( @Param("customerId") long customerId);
     List<ParkingOrder> findAllByParkingBoy(ParkingBoy parkingBoy);
+
+    @Query(value = "SELECT COUNT(p.id) FROM ParkingOrder p where p.status = 2 or p.status = 4")
+    int countProcessingParkingOrderByParkingBoyId(long parkingBoyId);
 }
