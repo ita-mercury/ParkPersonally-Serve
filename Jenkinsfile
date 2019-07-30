@@ -12,7 +12,7 @@ pipeline {
       }
       post {
         always {
-          junit "/usr/local/bin/test/*.xml"
+          junit "build/reports/**/*.xml"
         }
       }
     }
