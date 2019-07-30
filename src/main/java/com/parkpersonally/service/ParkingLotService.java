@@ -21,6 +21,7 @@ public class ParkingLotService {
     @Autowired
     private ParkingLotRepository repository;
 
+    @Autowired
     private ParkingOrderService parkingOrderService;
 
     public ParkingLot saveService(ParkingLot parkingLot){
@@ -52,6 +53,8 @@ public class ParkingLotService {
 
         switch (updateParkingLot.getStatus()){
             case ParkingLot.LOT_STATUS_FREEZE: {
+                if (parkingOrderService.countProcessingParkingOrderByParkingLotId(parkingLot.getId()) > 0)
+                    throw new ChangeParkingLotStatusException("该停车场存在还在进行的订单，无法冻结");
                 parkingLot.setStatus(switchParkingLotStatusFreeze(parkingLot));
                 break;
             }
@@ -66,13 +69,8 @@ public class ParkingLotService {
     }
 
     private int switchParkingLotStatusFreeze(ParkingLot parkingLot){
-        if (parkingLot.getStatus() == ParkingLot.LOT_STATUS_FREEZE) {
-            if (parkingOrderService.countProcessingParkingOrderByParkingLotId(parkingLot.getId()) > 0)
-                throw new ChangeParkingLotStatusException("该停车场存在还在进行的订单，无法冻结");
-            return ParkingLot.LOT_STATUS_NORMAL;
-        } else {
-            return ParkingLot.LOT_STATUS_FREEZE;
-        }
+        if (parkingLot.getStatus() == ParkingLot.LOT_STATUS_FREEZE) return ParkingLot.LOT_STATUS_NORMAL;
+        else return ParkingLot.LOT_STATUS_FREEZE;
     }
 
     public ParkingLot findOneById(long id){
