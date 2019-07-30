@@ -31,6 +31,8 @@ public class ManagerService {
         return  manager.getParkingBoys();
     }
 
+    public ParkingBoy allocateParkingLots(long managerId, long parkingBoyId, ParkingBoy parkingBoy) {
+        return null;
     public Manager saveManager(Manager manager) {
         return  null;
     }

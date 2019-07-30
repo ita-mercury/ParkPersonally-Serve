@@ -26,7 +26,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -86,6 +86,26 @@ public class ManagerControllerTest {
         mockMvc.perform(get("/managers/1/parking-lots"))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("抱歉,没有查到manager"));
+    }
+
+    @Test
+    public void should_return_ParkingBoy_when_allocate_parking_lots() throws Exception{
+        //given
+        ParkingBoy parkingBoy = new ParkingBoy("张一","134554");
+        List<ParkingLot> parkingLots = new ArrayList<>();
+        parkingLots.add(new ParkingLot(000001L,"停车场1",100,18));
+        parkingLots.add(new ParkingLot(000002L,"停车场2",100,20));
+        parkingBoy.setParkingLots(parkingLots);
+        given(managerService.allocateParkingLots(anyLong(),anyLong(),any(ParkingBoy.class))).willReturn(parkingBoy);
+
+        mockMvc.perform(put("/managers/{managerId}/parking-boys/{parkingBoyId}/parking-lots",1,1)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(parkingBoy)))
+                //then
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.parkingLots.size()").value(2));
+
+
     }
     @Test
     public void should_return_manager_when_admin_add_a_manager() throws Exception{

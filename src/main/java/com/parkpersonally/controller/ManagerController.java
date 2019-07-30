@@ -24,8 +24,14 @@ public class ManagerController {
     public ResponseEntity<List<ParkingBoy>> getAllParkingBoys(@PathVariable long managerId){
         return ResponseEntity.ok(managerService.getParkingBoys(managerId));
     }
+
+    @PutMapping("/managers/{managerId}/parking-boys/{parkingBoyId}/parking-lots")
+    public ParkingBoy allocateParkingLots(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
+        return managerService.allocateParkingLots(managerId,parkingBoyId,parkingBoy);
     @PostMapping("/managers")
     public ResponseEntity<Manager> createManager(@RequestBody Manager manager){
         return ResponseEntity.ok(managerService.saveManager(manager));
     }
+    }
+
 }
