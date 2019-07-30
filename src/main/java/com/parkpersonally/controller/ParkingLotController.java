@@ -26,4 +26,9 @@ public class ParkingLotController {
     public ResponseEntity addParkingLot(@RequestBody ParkingLot parkingLot){
         return  ResponseEntity.ok(service.saveService(parkingLot));
     }
+
+    @PutMapping("/parking-lots")
+    public ResponseEntity updateParkingLot(@RequestBody ParkingLot parkingLot){
+        return  ResponseEntity.ok(service.saveService(parkingLot));
+    }
 }
