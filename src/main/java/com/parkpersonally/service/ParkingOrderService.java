@@ -179,8 +179,12 @@ public class ParkingOrderService {
 
         parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE);
         parkingLot.setRestCapacity(parkingLot.getRestCapacity() - 1);
-        parkingOrder.setParkingBoy(parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
-                ParkingBoy.PARKING_BOY_STATUS_FREE));
+
+        if (parkingBoyService
+                .findOneById(parkingOrder.getParkingBoy().getId()).getStatus()
+                == ParkingBoy.PARKING_BOY_STATUS_BUSY)
+                parkingOrder.setParkingBoy(parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
+                    ParkingBoy.PARKING_BOY_STATUS_FREE));
 
         return parkingOrder;
     }
