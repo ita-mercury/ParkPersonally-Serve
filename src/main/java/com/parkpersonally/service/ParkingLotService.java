@@ -21,6 +21,8 @@ public class ParkingLotService {
     @Autowired
     private ParkingLotRepository repository;
 
+    private ParkingOrderService parkingOrderService;
+
     public ParkingLot saveService(ParkingLot parkingLot){
         return repository.save(parkingLot);
     }
@@ -64,9 +66,19 @@ public class ParkingLotService {
     }
 
     private int switchParkingLotStatusFreeze(ParkingLot parkingLot){
-        if (parkingLot.getStatus() == ParkingLot.LOT_STATUS_FREEZE) return ParkingLot.LOT_STATUS_NORMAL;
-        else return ParkingLot.LOT_STATUS_FREEZE;
+        if (parkingLot.getStatus() == ParkingLot.LOT_STATUS_FREEZE) {
+            if (parkingOrderService.countProcessingParkingOrderByParkingLotId(parkingLot.getId()) > 0)
+                throw new ChangeParkingLotStatusException("该停车场存在还在进行的订单，无法冻结");
+            return ParkingLot.LOT_STATUS_NORMAL;
+        } else {
+            return ParkingLot.LOT_STATUS_FREEZE;
+        }
     }
+
+    public ParkingLot findOneById(long id){
+        return repository.findById(id).orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
+    }
+
 
     public ParkingLotService() {
     }

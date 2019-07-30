@@ -37,6 +37,9 @@ public class ParkingOrderService {
     private ParkingOrder createFetchOrderModel(ParkingOrder parkCarOrder) {
         parkCarOrder = findOrderById(parkCarOrder.getId());
 
+        if (parkingLotService.findOneById(parkCarOrder.getParkingLot().getId()).getStatus() == ParkingLot.LOT_STATUS_FREEZE)
+            throw new CreateParkingOrderException("由于该停车场已注销, 无法创建取车订单");
+
         ParkingOrder fetchCarOrder = new ParkingOrder(ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED,
                 ParkingOrder.ORDER_TYPE_FETCH_CAR,
                 parkCarOrder.getPositionNumber(),
@@ -213,6 +216,11 @@ public class ParkingOrderService {
     public int CountProcessingParkingOrderByParkingBoyId(long parkingBoyId){
 
         return repository.countProcessingParkingOrderByParkingBoyId(parkingBoyId);
+    }
+
+    public int countProcessingParkingOrderByParkingLotId(long parkingLotId){
+
+        return repository.countProcessingParkingOrderByParkingLotId(parkingLotId);
     }
 
     public void setParkingBoyService (ParkingBoyService parkingBoyService){

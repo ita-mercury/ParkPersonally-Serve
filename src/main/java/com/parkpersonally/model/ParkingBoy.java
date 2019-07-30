@@ -26,6 +26,7 @@ public class ParkingBoy {
 
     // todo password validate
     private String password;
+    // todo number unique
     @NotNull
     @Column(nullable = false)
     private String number;
