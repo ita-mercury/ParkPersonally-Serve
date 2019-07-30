@@ -7,28 +7,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/parking-lots")
 public class ParkingLotController {
 
     @Autowired
     private ParkingLotService service;
 
-    @PutMapping("/parking-lots/{parkingLotId}")
+    @PutMapping("/{parkingLotId}")
     public ParkingLot updateParkingLot(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot) {
 
         return service.updateParkingLot(parkingLotId, parkingLot);
     }
 
-    @GetMapping("/parking-lots")
+    @GetMapping
     public ResponseEntity getAllParkingLots() {
         return ResponseEntity.ok(service.findParkingLots());
     }
 
-    @PostMapping("/parking-lots")
+    @PostMapping
     public ResponseEntity addParkingLot(@RequestBody ParkingLot parkingLot) {
         return ResponseEntity.ok(service.saveService(parkingLot));
     }
 
-    @PatchMapping("/Parking-lots/{parkingLotId}")
+    @PatchMapping("/{parkingLotId}")
     public ResponseEntity changeParkingLotStatus(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot){
         return ResponseEntity.ok(service.changeParkingLotStatus(parkingLotId, parkingLot));
     }

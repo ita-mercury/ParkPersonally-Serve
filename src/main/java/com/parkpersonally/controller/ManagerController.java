@@ -12,35 +12,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/managers")
 public class ManagerController {
 
     @Autowired
     private ManagerService managerService;
 
-    @GetMapping("/managers/{managerId}/parking-lots")
+    @GetMapping("/{managerId}/parking-lots")
     public ResponseEntity<List<ParkingLot>> getAllParkingLotOnManeger(@PathVariable long managerId){
         return ResponseEntity.ok(managerService.getAllParkingLotOnManager(managerId));
     }
 
-    @GetMapping("/managers/{managerId}/parking-boys")
+    @GetMapping("/{managerId}/parking-boys")
     public ResponseEntity<List<ParkingBoy>> getAllParkingBoys(@PathVariable long managerId){
         return ResponseEntity.ok(managerService.getParkingBoys(managerId));
     }
 
-    @PutMapping("/managers/{managerId}/parking-boys/{parkingBoyId}/parking-lots")
+    @PutMapping("/{managerId}/parking-boys/{parkingBoyId}/parking-lots")
     public ParkingBoy allocateParkingLots(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody List<ParkingLot> parkingLots) {
         return managerService.allocateParkingLots(managerId, parkingBoyId, parkingLots);
     }
-    @PostMapping("/managers")
+    @PostMapping
     public ResponseEntity<Manager> createManager(@RequestBody Manager manager){
         return ResponseEntity.ok(managerService.saveManager(manager));
     }
-    @PutMapping("/managers/{managerId}/parking-boys/{parkingBoyId}/tags")
+    @PutMapping("/{managerId}/parking-boys/{parkingBoyId}/tags")
     public ParkingBoy tagParkingBoy(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody List<Tag> tags){
         return managerService.tagParkingBoy(managerId,parkingBoyId,tags);
     }
 
-    @GetMapping("/managers")
+    @GetMapping
     public ResponseEntity<List<Manager>> getAllManagers(){
         return ResponseEntity.ok(managerService.findAllManagers());
     }

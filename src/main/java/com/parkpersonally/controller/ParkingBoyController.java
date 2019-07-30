@@ -11,35 +11,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/parking-boys")
 public class ParkingBoyController {
 
     @Autowired
     private ParkingBoyService service;
 
-    @GetMapping("/parking-boys/{parkingBoyId}/parking-lots")
+    @GetMapping("/{parkingBoyId}/parking-lots")
     public ResponseEntity<List<ParkingLot>> getAllParkingLotOnParkingBoy(@PathVariable long parkingBoyId){
 
         return ResponseEntity.ok(service.getAllParkingLotOnParkingBoy(parkingBoyId));
     }
 
-    @PostMapping("/parking-boys")
+    @PostMapping
     public ResponseEntity<ParkingBoy> tagParkingBoy(@RequestBody ParkingBoy parkingBoy){
 
         return ResponseEntity.ok(service.saveParkingBoy(parkingBoy));
     }
 
-    @GetMapping("/parking-boys/{parkingBoyId}/parking-orders")
+    @GetMapping("/{parkingBoyId}/parking-orders")
     public ResponseEntity<List<ParkingOrder>> getAllParkingOrdersOfParkingBoy(@PathVariable long parkingBoyId){
         ParkingBoy parkingBoy = service.findOneById(parkingBoyId);
         return ResponseEntity.ok(service.getAllParkingOrdersOfParkingBoy(parkingBoy));
     }
 
-    @GetMapping("/parking-boys")
+    @GetMapping
     public ResponseEntity<List<ParkingBoy>> getAllParkingBoys(){
         return ResponseEntity.ok(service.findAllParkingBoys());
     }
 
-    @PutMapping("/parking-boys/{parkingBoyId}")
+    @PutMapping("/{parkingBoyId}")
     public ParkingBoy changeParkingBoyStatus(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
 
         return service.changeParkingBoyStatus(parkingBoyId, parkingBoy.getStatus());

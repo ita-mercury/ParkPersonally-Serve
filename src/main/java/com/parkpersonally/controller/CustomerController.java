@@ -10,17 +10,18 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/customers")
 public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/customers/{parkingBoyId}/tags")
+    @GetMapping("/{parkingBoyId}/tags")
     public ResponseEntity getParkingBoyTags(@PathVariable long parkingBoyId){
         List<Tag> tags =customerService.getAllTags(parkingBoyId);
         return  ResponseEntity.ok(tags);
     }
-    @GetMapping(value = "/customers/{customerId}/allOrders")
+    @GetMapping(value = "/{customerId}/allOrders")
     public  ResponseEntity getAllCarOrders(@PathVariable long customerId){
         List<ParkingOrder> parkingOrders=customerService.getAllOrders(customerId);
         return ResponseEntity.ok(parkingOrders);
