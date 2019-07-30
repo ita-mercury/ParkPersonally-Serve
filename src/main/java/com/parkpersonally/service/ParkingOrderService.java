@@ -131,7 +131,8 @@ public class ParkingOrderService {
 
     public ParkingBoy validateParkingLotTheRest(ParkingBoy parkingBoy) {
         if (parkingBoy.getParkingLots().stream()
-                .filter(parkingLot -> parkingLot.getRestCapacity() != 0)
+                .filter(parkingLot -> parkingLot.getStatus() != ParkingLot.LOT_STATUS_FREEZE &&
+                        parkingLot.getRestCapacity() != 0)
                 .collect(Collectors.toList())
                 .size() == 0) throw new ParkingLotIsFullException("你所管理的停车场已满");
 
