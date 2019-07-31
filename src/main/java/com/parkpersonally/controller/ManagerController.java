@@ -63,6 +63,10 @@ public class ManagerController {
         return parkingOrderDtos;
     }
 
+    @PutMapping("/{managerId}")
+    public Manager freezeManager(@PathVariable long managerId, @RequestBody Manager replace){
+        return managerService.freezeManager(managerId, replace.getId());
+    }
 }
 
 

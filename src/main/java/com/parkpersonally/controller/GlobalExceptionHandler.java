@@ -80,4 +80,10 @@ public class GlobalExceptionHandler {
     public String handleChangeParkingLotStatusException(ParkingBoyIsIllegalException ex){
         return ex.getMessage();
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ManagerFreezeFailException.class)
+    public String handleManagerFreezeFailException(ManagerFreezeFailException ex){
+        return ex.getMessage();
+    }
 }

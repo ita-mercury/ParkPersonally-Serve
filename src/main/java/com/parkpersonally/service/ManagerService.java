@@ -3,13 +3,13 @@ package com.parkpersonally.service;
 import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.dto.ParkingLotDto;
+import com.parkpersonally.exception.ManagerFreezeFailException;
 import com.parkpersonally.exception.NoSuchManagerException;
 import com.parkpersonally.model.*;
 import com.parkpersonally.repository.ManagerRepository;
 import com.parkpersonally.repository.ParkingBoyRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -98,6 +98,26 @@ public class ManagerService {
     }
 
     public List<ParkingOrder> getAllParkingOrderOfManager(long managerId) {
-        return  parkingOrderService.getAllParkingOrderOfManager(managerId);
+        return parkingOrderService.getAllParkingOrderOfManager(managerId);
+    }
+    public Manager freezeManager(long managerId, long replaceManagerId){
+        Manager manager = managerRepository.findById(managerId).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到需要冻结的manager"));
+
+        if (manager.getStatus() == Manager.MANAGER_STATUS_FREEZE) throw new ManagerFreezeFailException("该manager已被冻结, 无法再进行冻结操作");
+
+        Manager replaceManager = managerRepository.findById(replaceManagerId).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到接替的Manager"));
+
+        if (replaceManager.getStatus() == Manager.MANAGER_STATUS_FREEZE) throw new ManagerFreezeFailException("接替的Manager处于冻结状态，操作失败");
+
+        replaceManager.getParkingLots().addAll(manager.getParkingLots());
+        replaceManager.getParkingBoys().addAll(manager.getParkingBoys());
+
+        manager.getParkingBoys().clear();
+        manager.getParkingLots().clear();
+
+        manager = managerRepository.save(manager);
+        managerRepository.save(replaceManager);
+
+        return manager;
     }
 }

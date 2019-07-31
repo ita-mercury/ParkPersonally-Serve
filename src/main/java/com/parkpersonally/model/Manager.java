@@ -10,6 +10,10 @@ import java.util.List;
 @Entity
 @Data
 public class Manager {
+
+    public static final int MANAGER_STATUS_NORMAL = 1;
+    public static final int MANAGER_STATUS_FREEZE = 0;
+
     @Id
     @GeneratedValue
     private long id;
@@ -29,6 +33,8 @@ public class Manager {
     @NotNull
     @Size(min = 5, max = 13)
     private String phone;
+
+    private int status = MANAGER_STATUS_NORMAL;
 
     @OneToMany
     private List<ParkingBoy> parkingBoys;
