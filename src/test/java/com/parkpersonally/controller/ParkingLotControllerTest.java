@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.NoSuchParkingLotException;
 import com.parkpersonally.exception.UpdateParkingLotCapacitySmallerException;
 import com.parkpersonally.model.ParkingLot;
@@ -63,14 +64,13 @@ public class ParkingLotControllerTest {
     public void should_return_Parking_lot_when_update_parking_lot_capacity_success() throws Exception{
         ParkingLot updateParkingLot = new ParkingLot(1, "南方软件园停车场", 10, 5);
         ParkingLot parkingLot = new ParkingLot(1, "南方软件园停车场", 9, 5);
-
-        given(service.updateParkingLot(anyLong() ,any(ParkingLot.class))).willReturn(updateParkingLot);
+        ParkingLotDto parkingLotDto = new ParkingLotDto(updateParkingLot);
+        given(service.updateParkingLot(anyLong() ,any(ParkingLot.class))).willReturn(parkingLotDto);
 
         mockMvc.perform(put("/parking-lots/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(parkingLot)))
-                .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(updateParkingLot)));
+                .andExpect(status().isOk());
     }
     @Test
     public  void should_return_all_parkinglots_when_find_ParkingLots() throws Exception {

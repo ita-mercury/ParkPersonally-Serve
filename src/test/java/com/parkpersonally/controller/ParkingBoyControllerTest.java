@@ -91,7 +91,7 @@ public class ParkingBoyControllerTest {
         parkingOrders.add(secondParkingOrder);
 
         given(service.findOneById(anyLong())).willReturn(parkingBoy);
-        given(service.getAllParkingOrdersOfParkingBoy(any(ParkingBoy.class))).willReturn(parkingOrders);
+        given(service.getAllParkingOrdersOfParkingBoy(anyLong())).willReturn(parkingOrders);
 
         mockMvc.perform(get("/parking-boys/{parkingBoyId}/parking-orders",1L))
                 .andDo(print())

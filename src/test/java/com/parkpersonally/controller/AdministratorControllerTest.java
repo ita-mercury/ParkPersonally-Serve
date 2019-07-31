@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;
@@ -64,7 +65,7 @@ public class AdministratorControllerTest {
     public void should_return_A_new_Manager_when_updateManagerOfAdministrator() throws Exception{
         //given
         Manager manager = new Manager(1,"经理1","123456","452654");
-
+        ManagerDto managerDto = new ManagerDto(manager);
         given(administratorService.updateManagerOfAdministrator(anyLong(),any(Manager.class))).willReturn(manager);
 
         mockMvc.perform(put("/admin/managers/1")

@@ -2,6 +2,7 @@ package com.parkpersonally.service;
 
 import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
+import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;

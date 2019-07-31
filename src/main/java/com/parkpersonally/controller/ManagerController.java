@@ -22,26 +22,26 @@ public class ManagerController {
     private ManagerService managerService;
 
     @GetMapping("/{managerId}/parking-lots")
-    public ResponseEntity<List<ParkingLotDto>> getAllParkingLotOnManager(@PathVariable long managerId){
-        return ResponseEntity.ok(managerService.getAllParkingLotOnManager(managerId));
+    public List<ParkingLotDto> getAllParkingLotOnManager(@PathVariable long managerId){
+        return managerService.getAllParkingLotOnManager(managerId);
     }
 
     @GetMapping("/{managerId}/parking-boys")
-    public ResponseEntity<List<ParkingBoyDto>> getAllParkingBoys(@PathVariable long managerId){
-        return ResponseEntity.ok(managerService.getParkingBoys(managerId));
+    public List<ParkingBoyDto> getAllParkingBoys(@PathVariable long managerId){
+        return managerService.getParkingBoys(managerId);
     }
 
     @PutMapping("/{managerId}/parking-boys/{parkingBoyId}/parking-lots")
-    public ParkingBoy allocateParkingLots(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody List<ParkingLot> parkingLots) {
-        return managerService.allocateParkingLots(managerId, parkingBoyId, parkingLots);
+    public ParkingBoyDto allocateParkingLots(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody List<ParkingLot> parkingLots) {
+        return new ParkingBoyDto(managerService.allocateParkingLots(managerId, parkingBoyId, parkingLots));
     }
     @PostMapping
-    public ResponseEntity<Manager> createManager(@RequestBody Manager manager){
-        return ResponseEntity.ok(managerService.saveManager(manager));
+    public ManagerDto createManager(@RequestBody Manager manager){
+        return new ManagerDto(managerService.saveManager(manager));
     }
     @PutMapping("/{managerId}/parking-boys/{parkingBoyId}/tags")
-    public ParkingBoy tagParkingBoy(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody List<Tag> tags){
-        return managerService.tagParkingBoy(managerId,parkingBoyId,tags);
+    public ParkingBoyDto tagParkingBoy(@PathVariable long managerId, @PathVariable long parkingBoyId, @RequestBody List<Tag> tags){
+        return new ParkingBoyDto(managerService.tagParkingBoy(managerId,parkingBoyId,tags));
     }
 
     @GetMapping("/managers/{managerId}/parking-boys/like")
@@ -50,8 +50,8 @@ public class ManagerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ManagerDto>> getAllManagers(){
-        return ResponseEntity.ok(managerService.findAllManagers());
+    public List<ManagerDto> getAllManagers(){
+        return managerService.findAllManagers();
     }
 
 }

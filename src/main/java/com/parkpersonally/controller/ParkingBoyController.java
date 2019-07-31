@@ -1,6 +1,8 @@
 package com.parkpersonally.controller;
 
 import com.parkpersonally.dto.ParkingBoyDto;
+import com.parkpersonally.dto.ParkingLotDto;
+import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.ParkingOrder;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,32 +22,40 @@ public class ParkingBoyController {
     private ParkingBoyService service;
 
     @GetMapping("/{parkingBoyId}/parking-lots")
-    public ResponseEntity<List<ParkingLot>> getAllParkingLotOnParkingBoy(@PathVariable long parkingBoyId){
-
-        return ResponseEntity.ok(service.getAllParkingLotOnParkingBoy(parkingBoyId));
+    public List<ParkingLotDto> getAllParkingLotOnParkingBoy(@PathVariable long parkingBoyId){
+        List<ParkingLot> parkingLots = service.getAllParkingLotOnParkingBoy(parkingBoyId);
+        List<ParkingLotDto> parkingLotDtos = new ArrayList<>();
+        for(ParkingLot item :parkingLots){
+            parkingLotDtos.add(new ParkingLotDto(item));
+        }
+        return parkingLotDtos;
     }
 
     @PostMapping
-    public ResponseEntity<ParkingBoy> tagParkingBoy(@RequestBody ParkingBoy parkingBoy){
+    public ParkingBoyDto tagParkingBoy(@RequestBody ParkingBoy parkingBoy){
 
-        return ResponseEntity.ok(service.saveParkingBoy(parkingBoy));
+        return new ParkingBoyDto(service.saveParkingBoy(parkingBoy));
     }
 
     @GetMapping("/{parkingBoyId}/parking-orders")
-    public ResponseEntity<List<ParkingOrder>> getAllParkingOrdersOfParkingBoy(@PathVariable long parkingBoyId){
-        ParkingBoy parkingBoy = service.findOneById(parkingBoyId);
-        return ResponseEntity.ok(service.getAllParkingOrdersOfParkingBoy(parkingBoy));
+    public List<ParkingOrderDto> getAllParkingOrdersOfParkingBoy(@PathVariable long parkingBoyId){
+        List<ParkingOrder> parkingOrders = service.getAllParkingOrdersOfParkingBoy(parkingBoyId);
+        List<ParkingOrderDto> parkingOrderDtos = new ArrayList<>();
+        for(ParkingOrder parkingOrder:parkingOrders){
+            parkingOrderDtos.add(new ParkingOrderDto(parkingOrder));
+        }
+        return parkingOrderDtos;
     }
 
     @GetMapping
-    public ResponseEntity<List<ParkingBoyDto>> getAllParkingBoys(){
-        return ResponseEntity.ok(service.findAllParkingBoys());
+    public List<ParkingBoyDto> getAllParkingBoys(){
+        return service.findAllParkingBoys();
     }
 
     @PutMapping("/{parkingBoyId}")
-    public ParkingBoy changeParkingBoyStatus(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
+    public ParkingBoyDto changeParkingBoyStatus(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
 
-        return service.changeParkingBoyStatus(parkingBoyId, parkingBoy.getStatus());
+        return new ParkingBoyDto(service.changeParkingBoyStatus(parkingBoyId, parkingBoy.getStatus()));
     }
 
 

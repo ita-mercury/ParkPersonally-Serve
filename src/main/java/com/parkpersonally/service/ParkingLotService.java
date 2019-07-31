@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.ChangeParkingLotStatusException;
 import com.parkpersonally.exception.NoSuchParkingLotException;
 import com.parkpersonally.exception.UpdateParkingLotCapacitySmallerException;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -24,11 +26,12 @@ public class ParkingLotService {
     @Autowired
     private ParkingOrderService parkingOrderService;
 
-    public ParkingLot saveService(ParkingLot parkingLot){
-        return repository.save(parkingLot);
+    public ParkingLotDto saveService(ParkingLot parkingLot){
+        parkingLot.setRestCapacity(parkingLot.getCapacity());
+        return new ParkingLotDto(repository.save(parkingLot));
     }
 
-    public ParkingLot updateParkingLot(long id, ParkingLot updateParkingLot){
+    public ParkingLotDto updateParkingLot(long id, ParkingLot updateParkingLot){
         ParkingLot parkingLot = repository.findById(id)
                 .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
 
@@ -40,14 +43,14 @@ public class ParkingLotService {
 
         parkingLot.setName(updateParkingLot.getName());
 
-        return repository.save(parkingLot);
+        return new ParkingLotDto(repository.save(parkingLot));
     }
 
     public List<ParkingLot> findParkingLots() {
         return repository.findAll();
     }
 
-    public ParkingLot changeParkingLotStatus(long id, ParkingLot updateParkingLot){
+    public ParkingLotDto changeParkingLotStatus(long id, ParkingLot updateParkingLot){
         ParkingLot parkingLot = repository.findById(id)
                 .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
 
@@ -65,7 +68,7 @@ public class ParkingLotService {
             default: throw new ChangeParkingLotStatusException("传入的目标状态不合法");
         }
 
-        return repository.save(parkingLot);
+        return new ParkingLotDto(repository.save(parkingLot));
     }
 
     private int switchParkingLotStatusFreeze(ParkingLot parkingLot){

@@ -1,14 +1,20 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
+import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
+import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.service.AdministratorService;
 import com.parkpersonally.service.ManagerService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @Data
@@ -19,29 +25,34 @@ public class AdministratorController {
     private AdministratorService administratorService;
 
     @PutMapping("/parking-boys/{parkingBoyId}")
-    public ResponseEntity<ParkingBoyDto> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
-        return ResponseEntity.ok(administratorService.updateParkingBoyOfAdministrator(parkingBoyId,parkingBoy));
+    public ParkingBoyDto updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
+        return administratorService.updateParkingBoyOfAdministrator(parkingBoyId,parkingBoy);
     }
 
     @PutMapping("/managers/{managerId}")
-    public ResponseEntity<Manager> updateManagerOfAdministrator(@PathVariable long managerId , @RequestBody Manager manager){
-        return ResponseEntity.ok(administratorService.updateManagerOfAdministrator(managerId,manager));
+    public ManagerDto updateManagerOfAdministrator(@PathVariable long managerId , @RequestBody Manager manager){
+        return new ManagerDto(administratorService.updateManagerOfAdministrator(managerId,manager));
     }
     @GetMapping("/managers/unmatchedParkingLots")
-    public  ResponseEntity getAllUnmatchedParkingLots(){
-        return ResponseEntity.ok(administratorService.findUnmatchedParkingLots());
+    public List<ParkingLotDto> getAllUnmatchedParkingLots(){
+        List<ParkingLot> parkingLots = administratorService.findUnmatchedParkingLots();
+        List<ParkingLotDto> parkingLotDtos = new ArrayList<>();
+        for(ParkingLot parkingLot:parkingLots){
+            parkingLotDtos.add(new ParkingLotDto(parkingLot));
+        }
+        return parkingLotDtos;
     }
     @GetMapping("/managers/unmatchedParkingBoys")
-     public  ResponseEntity getAllUnmatchedParkingBoys(){
-        return  ResponseEntity.ok(administratorService.findUnmatchedParkingBoys());
+     public  List<ParkingBoyDto> getAllUnmatchedParkingBoys(){
+        return  administratorService.findUnmatchedParkingBoys();
     }
     @PostMapping("/managers")
-    public  ResponseEntity createManagerOfAdministrator(@RequestBody Manager manager){
-        return ResponseEntity.ok(administratorService.saveManager(manager));
+    public  ManagerDto createManagerOfAdministrator(@RequestBody Manager manager){
+        return new ManagerDto(administratorService.saveManager(manager));
     }
     @PostMapping("/parking-Boys")
-    public  ResponseEntity createParkingBoy(@RequestBody ParkingBoy parkingBoy){
-        return  ResponseEntity.ok(administratorService.saveParkingBoy(parkingBoy));
+    public  ParkingBoyDto createParkingBoy(@RequestBody ParkingBoy parkingBoy){
+        return  new ParkingBoyDto(administratorService.saveParkingBoy(parkingBoy));
     }
 
 
