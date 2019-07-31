@@ -9,7 +9,7 @@ pipeline {
         sh 'cp /usr/local/bin/application-test.properties ./src/main/resources/application-test.properties'
         sh 'cp /usr/local/bin/application-prod.properties ./src/main/resources/application-prod.properties'
         sh './gradlew build jacocoTestReport'
-        jacoco(execPattern: 'build/jacoco/*.exec', classPattern: 'build/classes', sourcePattern: 'src/main/java', exclusionPattern: 'src/test*')
+        jacoco(execPattern: 'build/jacoco/*.exec', classPattern: 'build/classes', sourcePattern: 'src/main/java', exclusionPattern: 'src/test*,src/main/**/model/**,src/main/**/dto/**,src/main/**/exception/**')
       }
     }
     stage('QA') {
