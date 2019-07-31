@@ -38,6 +38,10 @@ public class AdministratorController {
     public  ResponseEntity createManagerOfAdministrator(@RequestBody Manager manager){
         return ResponseEntity.ok(administratorService.saveManager(manager));
     }
+    @PostMapping("/parking-Boys")
+    public  ResponseEntity createParkingBoy(@RequestBody ParkingBoy parkingBoy){
+        return  ResponseEntity.ok(administratorService.saveParkingBoy(parkingBoy));
+    }
 
 
 

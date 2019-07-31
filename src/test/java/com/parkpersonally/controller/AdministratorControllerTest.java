@@ -116,4 +116,17 @@ public class AdministratorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("经理1"));
     }
+    @Test
+    public  void should_return_a_parking_boy_when_createParkingBoy() throws Exception {
+        //given
+        ParkingBoy parkingBoy=new ParkingBoy("小鬼","12345");
+        //when
+        given(administratorService.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
+        //then
+        mockMvc.perform(post("/admin/parking-Boys")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(parkingBoy)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("小鬼"));
+    }
 }

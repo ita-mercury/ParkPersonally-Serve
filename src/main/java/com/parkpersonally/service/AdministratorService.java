@@ -74,4 +74,8 @@ public class AdministratorService {
     public Manager saveManager(Manager manager) {
         return managerService.saveManager(manager);
     }
+
+    public ParkingBoy saveParkingBoy(ParkingBoy parkingBoy) {
+        return null;
+    }
 }
