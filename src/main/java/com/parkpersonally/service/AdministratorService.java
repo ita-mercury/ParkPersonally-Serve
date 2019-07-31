@@ -72,6 +72,6 @@ public class AdministratorService {
                 .collect(Collectors.toList());
     }
     public Manager saveManager(Manager manager) {
-        return  null;
+        return managerService.saveManager(manager);
     }
 }

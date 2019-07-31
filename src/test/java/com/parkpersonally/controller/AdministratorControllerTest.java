@@ -115,6 +115,5 @@ public class AdministratorControllerTest {
                 .content(mapper.writeValueAsString(manager)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("经理1"));
-
     }
 }

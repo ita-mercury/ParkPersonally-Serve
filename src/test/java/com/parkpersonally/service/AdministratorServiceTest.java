@@ -99,5 +99,22 @@ public class AdministratorServiceTest {
         given(parkingBoyService.findAllParkingBoys()).willReturn(allParkingBoys);
         assertSame(2,administratorService.findUnmatchedParkingBoys().size());
     }
+    @Test
+    public void should_return_a_manager_when_saveManager(){
+        ParkingBoy firstParkingBoy=new ParkingBoy("张三","12345");
+        ParkingBoy secondParkingBoy=new ParkingBoy("李四","35467");
+        List<ParkingBoy> parkingBoys=new ArrayList<>();
+        parkingBoys.add(firstParkingBoy);
+        parkingBoys.add(secondParkingBoy);
+        ParkingLot firstParkingLot=new ParkingLot(1,"南方软件园",100,30);
+        ParkingLot secondParkingLot=new ParkingLot(2,"北方软件园",100,30);
+        List<ParkingLot> parkingLots=new ArrayList<>();
+        parkingLots.add(firstParkingLot);
+        parkingLots.add(secondParkingLot);
+        Manager manager=new Manager(1,"张三","12424","1322632",parkingBoys,parkingLots);
+        given(administratorService.saveManager(any(Manager.class))).willReturn(manager);
+        assertSame(parkingLots,administratorService.saveManager(manager).getParkingLots());
+    }
+
 
 }
