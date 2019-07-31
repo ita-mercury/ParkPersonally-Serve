@@ -2,15 +2,15 @@ package com.parkpersonally.dto;
 
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
+import lombok.Data;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+@Data
+public class ParkingLotDto {
 
-public class ParkingLotDto implements Serializable {
-
-    private static final long serialVersionUID = 8839269655210665962L;
 
     public static final int LOT_STATUS_NORMAL = 1;
     public static final int LOT_STATUS_FREEZE = 0;
@@ -40,9 +40,15 @@ public class ParkingLotDto implements Serializable {
         this.capacity = parkingLot.getCapacity();
         this.status = parkingLot.getStatus();
         this.restCapacity = parkingLot.getRestCapacity();
-        parkingBoys.addAll(parkingLot.getParkingBoys());
+        this.parkingBoys = parkingLot
+                .getParkingBoys()
+                .stream()
+                .peek(n -> n.setParkingLots(null))
+                .collect(Collectors.toList());
     }
 
     public ParkingLotDto() {
     }
+
+
 }
