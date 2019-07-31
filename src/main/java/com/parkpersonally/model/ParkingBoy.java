@@ -75,4 +75,12 @@ public class ParkingBoy {
         this.number = number;
         this.phone = phone;
     }
+
+    public ParkingBoy(@NotNull String name, @NotNull String number, @NotNull int status) {
+        this.name = name;
+        this.number = number;
+        this.status = status;
+    }
+
+
 }

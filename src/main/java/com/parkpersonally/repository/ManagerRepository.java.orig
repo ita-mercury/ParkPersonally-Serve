@@ -1,0 +1,12 @@
+package com.parkpersonally.repository;
+
+import com.parkpersonally.model.Manager;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ManagerRepository extends JpaRepository<Manager,Long> {
+<<<<<<< HEAD
+    Manager findParkingBoyByNameEqualsAndAndPasswordEquals(String name, String password);
+=======
+
+>>>>>>> 1f24f0795fd3b66dd58bf3c5b14e25b67bf9ebc1
+}

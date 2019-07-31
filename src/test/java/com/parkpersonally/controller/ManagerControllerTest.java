@@ -172,5 +172,31 @@ public class ManagerControllerTest {
                 .andExpect(jsonPath("$.length()").value(3));
     }
 
+    @Test
+    public void should_return_All_ParkingOrder_Of_Manager() throws Exception{
+        //given
+        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        ParkingBoy parkingBoy1 = new ParkingBoy("Dillon1","15",1);
+        ParkingBoy parkingBoy2 = new ParkingBoy("Dillon1","15",1);
+        ParkingBoy parkingBoy3 = new ParkingBoy("Dillon1","15",1);
+
+        parkingBoys.add(parkingBoy1);
+        parkingBoys.add(parkingBoy2);
+        parkingBoys.add(parkingBoy3);
+
+        List<ParkingOrder> parkingOrders = new ArrayList<>();
+
+        parkingOrders.add(new ParkingOrder(1, 1, 254,"珠海",parkingBoy1));
+        parkingOrders.add(new ParkingOrder(1, 1, 2019, "珠海",parkingBoy2));
+        parkingOrders.add(new ParkingOrder(1, 1, 2019, "珠海",parkingBoy3));
+
+
+        given(managerService.getAllParkingOrderOfManager(anyLong())).willReturn(parkingOrders);
+
+        mockMvc.perform(get("/managers/1/parking-orders"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3));
+    }
+
 
 }

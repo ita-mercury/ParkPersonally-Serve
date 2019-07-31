@@ -62,6 +62,7 @@ public class Manager {
         this.phone = phone;
     }
 
+
     public Manager(long id, @NotNull String name,  @NotNull String number, @NotNull @Size(min = 5, max = 13) String phone, List<ParkingBoy> parkingBoys, List<ParkingLot> parkingLots) {
         this.id = id;
         this.name = name;
@@ -69,5 +70,16 @@ public class Manager {
         this.phone = phone;
         this.parkingBoys = parkingBoys;
         this.parkingLots = parkingLots;
+    }
+
+    public Manager(long id, @NotNull String name, List<ParkingBoy> parkingBoys) {
+        this.id = id;
+        this.name = name;
+        this.parkingBoys = parkingBoys;
+    }
+
+    public Manager(@NotNull String name, List<ParkingBoy> parkingBoys) {
+        this.name = name;
+        this.parkingBoys = parkingBoys;
     }
 }
