@@ -3,12 +3,14 @@ package com.parkpersonally.controller;
 import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.dto.ParkingLotDto;
+import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.model.*;
 import com.parkpersonally.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -52,8 +54,13 @@ public class ManagerController {
     }
 
     @GetMapping("/{managerId}/parking-orders")
-    public ResponseEntity<List<ParkingOrder>> getAllParkingOrderOfManager(@PathVariable long managerId){
-        return ResponseEntity.ok(managerService.getAllParkingOrderOfManager(managerId));
+    public List<ParkingOrderDto> getAllParkingOrderOfManager(@PathVariable long managerId){
+        List<ParkingOrder> parkingOrders = managerService.getAllParkingOrderOfManager(managerId);
+        List<ParkingOrderDto> parkingOrderDtos = new ArrayList<>();
+        for(ParkingOrder parkingOrder:parkingOrders){
+            parkingOrderDtos.add(new ParkingOrderDto(parkingOrder));
+        }
+        return parkingOrderDtos;
     }
 
 }

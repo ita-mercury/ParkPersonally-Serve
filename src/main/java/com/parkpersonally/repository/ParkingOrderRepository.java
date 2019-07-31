@@ -28,6 +28,8 @@ public interface ParkingOrderRepository extends JpaRepository<ParkingOrder, Long
     @Query(value = "SELECT COUNT(p.id) FROM ParkingOrder p where p.parkingLot.id = :parkingLotId and (p.status <= 2 or p.status = 4)")
     int countProcessingParkingOrderByParkingLotId(@Param("parkingLotId") long parkingLotId);
 
-    @Query(value = "SELECT PO.ID,PO.CREATE_TIME,PO.FETCH_CAR_ADDRESS,PO.POSITION_NUMBER,PO.STATUS,PO.TYPE FROM PARKING_ORDER PO , PARKING_BOY PB, MANAGER_PARKING_BOYS MPB WHERE MPB.MANAGER_ID = :managerId AND MPB.PARKING_BOYS_ID = PB.ID AND PO.PARKING_BOY_ID = PB.ID",nativeQuery = true)
+    @Query(value = "SELECT * " +
+            "FROM PARKING_ORDER PO , MANAGER_PARKING_BOYS MPB " +
+            "WHERE MPB.MANAGER_ID = :managerId AND  MPB.PARKING_BOYS_ID =  PO.PARKING_BOY_ID",nativeQuery = true)
     List<ParkingOrder> findAllOrderOfManager(@Param("managerId") long managerId);
 }
