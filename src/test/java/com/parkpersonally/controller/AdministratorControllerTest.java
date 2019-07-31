@@ -89,4 +89,19 @@ public class AdministratorControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
     }
+    @Test
+    public  void should_return_unmatchedParkingBoys_when_getAllUnmatchedParkingBoys() throws Exception {
+        //given
+        ParkingBoy firstParkingBoy=new ParkingBoy();
+        ParkingBoy secondParkingBoy=new ParkingBoy();
+        List<ParkingBoy> unmatchedParkingBoys=new ArrayList<>();
+        unmatchedParkingBoys.add(firstParkingBoy);
+        unmatchedParkingBoys.add(secondParkingBoy);
+        //when
+        given(administratorService.findUnmatchedParkingBoys()).willReturn(unmatchedParkingBoys);
+        //then
+        mockMvc.perform(get("/admin/managers/unmatchedParkingBoys"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+    }
 }

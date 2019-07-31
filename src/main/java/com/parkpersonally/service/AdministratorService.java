@@ -48,16 +48,17 @@ public class AdministratorService {
     public List<ParkingLot> findUnmatchedParkingLots() {
         List<Manager> managers=managerService.findAllManagers();
         List<ParkingLot> parkingLots=new ArrayList<>();
-        List<ParkingLot> parkingLotsOne=new ArrayList<>();
-
         for (Manager manager:managers){
-            parkingLotsOne=manager.getParkingLots();
-            parkingLots.addAll(parkingLotsOne);
+            parkingLots.addAll( manager.getParkingLots());
         }
         List<ParkingLot> listParkingLots=parkingLotService.findParkingLots();
         return listParkingLots
                 .stream()
                 .filter(n -> !parkingLots.contains(n))
                 .collect(Collectors.toList());
+    }
+
+    public List<ParkingBoy> findUnmatchedParkingBoys() {
+        return  null;
     }
 }

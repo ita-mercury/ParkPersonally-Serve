@@ -29,6 +29,12 @@ public class AdministratorController {
     public  ResponseEntity getAllUnmatchedParkingLots(){
         return ResponseEntity.ok(administratorService.findUnmatchedParkingLots());
     }
+    @GetMapping("/managers/unmatchedParkingBoys")
+     public  ResponseEntity getAllUnmatchedParkingBoys(){
+        return  ResponseEntity.ok(administratorService.findUnmatchedParkingBoys());
+    }
+
+
 
 }
 
