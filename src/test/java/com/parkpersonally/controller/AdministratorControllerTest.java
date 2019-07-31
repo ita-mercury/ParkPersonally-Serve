@@ -22,8 +22,7 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -103,5 +102,19 @@ public class AdministratorControllerTest {
         mockMvc.perform(get("/admin/managers/unmatchedParkingBoys"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
+    }
+    @Test
+    public  void should_return_a_manager_when_createManager() throws Exception {
+        //given
+        Manager manager = new Manager(1,"经理1","123456","452654");
+        //when
+        given(administratorService.saveManager(any(Manager.class))).willReturn(manager);
+        //then
+        mockMvc.perform(post("/admin/managers")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(manager)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("经理1"));
+
     }
 }

@@ -71,4 +71,7 @@ public class AdministratorService {
                 .filter(n-> !parkingBoys.contains(n))
                 .collect(Collectors.toList());
     }
+    public Manager saveManager(Manager manager) {
+        return  null;
+    }
 }
