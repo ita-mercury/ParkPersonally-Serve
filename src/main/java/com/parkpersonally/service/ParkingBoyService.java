@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.exception.ChangeParkingBoyStatusException;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.ParkingBoy;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.comparator.Comparators;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -103,7 +105,12 @@ public class ParkingBoyService {
         this.parkingOrderService = parkingOrderService;
     }
 
-    public List<ParkingBoy> findAllParkingBoys() {
-        return parkingBoyRepository.findAll();
+    public List<ParkingBoyDto> findAllParkingBoys() {
+        List<ParkingBoy> parkingBoys = parkingBoyRepository.findAll();
+        List<ParkingBoyDto> result = new ArrayList<>();
+        for(ParkingBoy parkingBoy : parkingBoys){
+            result.add(new ParkingBoyDto(parkingBoy));
+        }
+        return result;
     }
 }

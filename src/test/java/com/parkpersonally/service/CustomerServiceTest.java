@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingOrder;
@@ -47,17 +48,20 @@ public class CustomerServiceTest {
     @Test
     public  void should_return_all_CarOrders_when_getAllCarOrders(){
         //given
-        List<ParkingOrder> parkingOrders=new ArrayList<>();
+        List<ParkingOrderDto> parkingOrders=new ArrayList<>();
+        List<ParkingOrder> parkingOrdersList = new ArrayList<>();
         Customer customer=new Customer();
         customer.setId(10000L);
         ParkingOrder parkingOrder=new ParkingOrder(1, 20, "南方软件园");
         parkingOrder.setCustomer(customer);
         ParkingOrder parkingOrderSecond=new ParkingOrder(2, 20, "北方方软件园");
         parkingOrder.setCustomer(customer);
-        parkingOrders.add(parkingOrder);
-        parkingOrders.add(parkingOrderSecond);
+        parkingOrders.add(new ParkingOrderDto(parkingOrder));
+        parkingOrdersList.add(parkingOrder);
+        parkingOrders.add(new ParkingOrderDto(parkingOrderSecond));
+        parkingOrdersList.add(parkingOrderSecond);
         //when
-        given(customerService.getAllOrders(10000L)).willReturn(parkingOrders);
+        given(parkingOrderRepository.findAllByCustomerId(10000L)).willReturn(parkingOrdersList);
 
         //then
         assertSame(2,customerService.getAllOrders(10000L).size());

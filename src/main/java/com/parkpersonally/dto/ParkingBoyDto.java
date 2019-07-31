@@ -52,7 +52,24 @@ public class ParkingBoyDto{
         this.number = parkingBoy.getNumber();
         this.status = parkingBoy.getStatus();
         this.phone = parkingBoy.getPhone();
-        this.parkingLots = parkingBoy.getParkingLots().stream().peek(n -> n.setParkingBoys(null)).collect(Collectors.toList());
+        if(parkingBoy.getParkingLots() != null) {
+            this.parkingLots = parkingBoy.getParkingLots()
+                    .stream()
+                    .peek(n -> n.setParkingBoys(null))
+                    .collect(Collectors.toList());
+        }
+        if(parkingBoy.getTags()!= null) {
+            this.tags.addAll(parkingBoy.getTags());
+        }
+    }
+
+    public ParkingBoyDto(ParkingBoy parkingBoy,long id){
+        this.id = id;
+        this.name = parkingBoy.getName();
+        this.password = parkingBoy.getPassword();
+        this.number = parkingBoy.getNumber();
+        this.status = parkingBoy.getStatus();
+        this.phone = parkingBoy.getPhone();
         this.tags.addAll(parkingBoy.getTags());
     }
 

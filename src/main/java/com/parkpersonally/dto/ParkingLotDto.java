@@ -40,11 +40,21 @@ public class ParkingLotDto {
         this.capacity = parkingLot.getCapacity();
         this.status = parkingLot.getStatus();
         this.restCapacity = parkingLot.getRestCapacity();
-        this.parkingBoys = parkingLot
-                .getParkingBoys()
-                .stream()
-                .peek(n -> n.setParkingLots(null))
-                .collect(Collectors.toList());
+        if(parkingLot.getParkingBoys()!= null) {
+            this.parkingBoys = parkingLot
+                    .getParkingBoys()
+                    .stream()
+                    .peek(n -> n.setParkingLots(null))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    public ParkingLotDto (ParkingLot parkingLot,long id){
+        this.id = id;
+        this.name= parkingLot.getName();
+        this.capacity = parkingLot.getCapacity();
+        this.status = parkingLot.getStatus();
+        this.restCapacity = parkingLot.getRestCapacity();
     }
 
     public ParkingLotDto() {

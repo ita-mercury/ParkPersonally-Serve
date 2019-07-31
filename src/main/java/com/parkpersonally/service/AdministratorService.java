@@ -1,5 +1,7 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ManagerDto;
+import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;
@@ -35,8 +37,10 @@ public class AdministratorService {
     private ParkingBoyRepository parkingBoyRepository;
 
 
-    public ParkingBoy updateParkingBoyOfAdministrator(long parkingBoyId, ParkingBoy parkingBoy) {
-        return parkingBoyRepository.save(parkingBoy);
+    public ParkingBoyDto updateParkingBoyOfAdministrator(long parkingBoyId, ParkingBoy parkingBoy) {
+        ParkingBoy updateParkingBoy = parkingBoyRepository.save(parkingBoy);
+        ParkingBoyDto parkingBoyDto = new ParkingBoyDto(updateParkingBoy);
+        return parkingBoyDto;
     }
 
     public Manager updateManagerOfAdministrator(long managerId, Manager manager) {
@@ -47,10 +51,10 @@ public class AdministratorService {
         return managerRepository.findAll();
     }
     public List<ParkingLot> findUnmatchedParkingLots() {
-        List<Manager> managers=managerService.findAllManagers();
+        List<ManagerDto> managers=managerService.findAllManagers();
         List<ParkingLot> parkingLots=new ArrayList<>();
-        for (Manager manager:managers){
-            parkingLots.addAll( manager.getParkingLots());
+        for (ManagerDto managerDto:managers){
+            parkingLots.addAll( managerDto.getParkingLots());
         }
         List<ParkingLot> listParkingLots=parkingLotService.findParkingLots();
         return listParkingLots
@@ -59,13 +63,17 @@ public class AdministratorService {
                 .collect(Collectors.toList());
     }
 
-    public List<ParkingBoy> findUnmatchedParkingBoys() {
-        List<Manager> managers=managerService.findAllManagers();
-        List<ParkingBoy> parkingBoys=new ArrayList<>();
-        for (Manager manager:managers){
-            parkingBoys.addAll(manager.getParkingBoys());
+    public List<ParkingBoyDto> findUnmatchedParkingBoys() {
+        List<ManagerDto> managers=managerService.findAllManagers();
+        List<ParkingBoyDto> parkingBoys=new ArrayList<>();
+        for (ManagerDto managerDto:managers){
+            List<ParkingBoyDto> parkingBoyDtos = new ArrayList<>();
+            for(ParkingBoy parkingBoy : managerDto.getParkingBoys()){
+                parkingBoyDtos.add(new ParkingBoyDto(parkingBoy));
+            }
+            parkingBoys.addAll(parkingBoyDtos);
         }
-        List<ParkingBoy> listParkingBoys=parkingBoyService.findAllParkingBoys();
+        List<ParkingBoyDto> listParkingBoys=parkingBoyService.findAllParkingBoys();
         return  listParkingBoys
                 .stream()
                 .filter(n-> !parkingBoys.contains(n))

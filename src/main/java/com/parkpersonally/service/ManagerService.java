@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.NoSuchManagerException;
@@ -71,7 +72,12 @@ public class ManagerService {
         return parkingBoyService.saveParkingBoy(updateParkingBoy);
     }
 
-    public List<Manager> findAllManagers() {
-        return managerRepository.findAll();
+    public List<ManagerDto> findAllManagers() {
+        List<Manager> managers = managerRepository.findAll();
+        List<ManagerDto> result = new ArrayList<>();
+        for(Manager item : managers){
+            result.add(new ManagerDto(item));
+        }
+        return result;
     }
 }

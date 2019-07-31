@@ -2,6 +2,9 @@ package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.parkpersonally.dto.ManagerDto;
+import com.parkpersonally.dto.ParkingBoyDto;
+import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.NoSuchManagerException;
 import com.parkpersonally.model.*;
 
@@ -43,10 +46,10 @@ public class ManagerControllerTest {
     @Test
     public void should_return_All_ParkingLot_when_getAllParkingLotOnManager() throws Exception{
         //given
-        List<ParkingLot> parkingLots = new ArrayList<>();
-        parkingLots.add(new ParkingLot(1,"停车场1",50,20));
-        parkingLots.add(new ParkingLot(2,"停车场2",50,10));
-        parkingLots.add(new ParkingLot(3,"停车场3",55,25));
+        List<ParkingLotDto> parkingLots = new ArrayList<>();
+        parkingLots.add(new ParkingLotDto(new ParkingLot(1,"停车场1",50,20)));
+        parkingLots.add(new ParkingLotDto(new ParkingLot(2,"停车场2",50,10)));
+        parkingLots.add(new ParkingLotDto(new ParkingLot(3,"停车场3",55,25)));
 
         given(managerService.getAllParkingLotOnManager(anyLong())).willReturn(parkingLots);
 
@@ -61,10 +64,10 @@ public class ManagerControllerTest {
     @Test
     public void should_return_All_ParkingBoys_when_getAllParkingBoys() throws Exception{
         //given
-        List<ParkingBoy> parkingBoys = new ArrayList<>();
-        parkingBoys.add(new ParkingBoy("张一","134554"));
-        parkingBoys.add(new ParkingBoy("张一","134554"));
-        parkingBoys.add(new ParkingBoy("张一","134554"));
+        List<ParkingBoyDto> parkingBoys = new ArrayList<>();
+        parkingBoys.add(new ParkingBoyDto(new ParkingBoy("张一","134554")));
+        parkingBoys.add(new ParkingBoyDto(new ParkingBoy("张一","134554")));
+        parkingBoys.add(new ParkingBoyDto(new ParkingBoy("张一","134554")));
         given(managerService.getParkingBoys(anyLong())).willReturn(parkingBoys);
 
         mockMvc.perform(get("/managers/1/parking-boys"))
@@ -150,13 +153,13 @@ public class ManagerControllerTest {
         List<ParkingLot> parkingLots=new ArrayList<>();
         parkingLots.add(new ParkingLot(1,"南方软件园",100,30));
         parkingLots.add(new ParkingLot(2,"唐家市场",200,20));
-        List<Manager> managers = new ArrayList<>();
+        List<ManagerDto> managers = new ArrayList<>();
         Manager firstManager=new Manager(1,"李四","10001",parkingLots);
         Manager secondManager=new Manager(2,"老张","10001",parkingLots);
         Manager thirdManager=new Manager(3,"老李","10001",parkingLots);
-        managers.add(firstManager);
-        managers.add(secondManager);
-        managers.add(thirdManager);
+        managers.add(new ManagerDto(firstManager));
+        managers.add(new ManagerDto(secondManager));
+        managers.add(new ManagerDto(thirdManager));
         //when
         given(managerService.findAllManagers()).willReturn(managers);
         //then

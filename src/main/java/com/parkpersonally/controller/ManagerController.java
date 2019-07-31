@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.model.Manager;
@@ -44,7 +45,7 @@ public class ManagerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Manager>> getAllManagers(){
+    public ResponseEntity<List<ManagerDto>> getAllManagers(){
         return ResponseEntity.ok(managerService.findAllManagers());
     }
 
