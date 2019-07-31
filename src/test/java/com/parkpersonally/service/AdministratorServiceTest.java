@@ -1,5 +1,7 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ManagerDto;
+import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
@@ -57,7 +59,7 @@ public class AdministratorServiceTest {
     @Test
     public void should_return_unmatch_parkingLots_when_getAllUnmatchParkingLots(){
         //given
-        List<Manager> managers = new ArrayList<>();
+        List<ManagerDto> managers = new ArrayList<>();
         ParkingLot firstParkingLot=new ParkingLot(1,"南方软件园",100,30);
         ParkingLot secondParkingLot=new ParkingLot(2,"北方软件园",100,30);
         ParkingLot thirdParkingLot=new ParkingLot(3,"南方软件园",100,30);
@@ -72,32 +74,49 @@ public class AdministratorServiceTest {
         manageParkingLots.add(firstParkingLot);
         manageParkingLots.add(secondParkingLot);
         manager.setParkingLots(manageParkingLots);
-        managers.add(manager);
+        managers.add(new ManagerDto(manager));
         given(managerService.findAllManagers()).willReturn(managers);
         given(parkingLotService.findParkingLots()).willReturn(allParkingLots);
         assertSame(2,administratorService.findUnmatchedParkingLots().size());
     }
     @Test
     public void should_return_unmatch_parking_boys_when_getAllUnmatchParkingBoys(){
-        List<Manager> managers = new ArrayList<>();
+        List<ManagerDto> managers = new ArrayList<>();
         ParkingBoy firstParkingBoy=new ParkingBoy("张三","12345");
         ParkingBoy secondParkingBoy=new ParkingBoy("李四","35467");
         ParkingBoy thirdParkingBoy=new ParkingBoy("小明","1346614");
         ParkingBoy fourthParkingBoy=new ParkingBoy("jre","3517888");
-        List<ParkingBoy> allParkingBoys=new ArrayList<>();
-        allParkingBoys.add(firstParkingBoy);
-        allParkingBoys.add(secondParkingBoy);
-        allParkingBoys.add(thirdParkingBoy);
-        allParkingBoys.add(fourthParkingBoy);
+        List<ParkingBoyDto> allParkingBoys=new ArrayList<>();
+        allParkingBoys.add(new ParkingBoyDto(firstParkingBoy));
+        allParkingBoys.add(new ParkingBoyDto(secondParkingBoy));
+        allParkingBoys.add(new ParkingBoyDto(thirdParkingBoy));
+        allParkingBoys.add(new ParkingBoyDto(fourthParkingBoy));
         Manager manager=new Manager();
         List<ParkingBoy> manageParkingBoys=new ArrayList<>();
         manageParkingBoys.add(firstParkingBoy);
         manageParkingBoys.add(secondParkingBoy);
         manager.setParkingBoys(manageParkingBoys);
-        managers.add(manager);
+        managers.add(new ManagerDto(manager));
         given(managerService.findAllManagers()).willReturn(managers);
         given(parkingBoyService.findAllParkingBoys()).willReturn(allParkingBoys);
         assertSame(2,administratorService.findUnmatchedParkingBoys().size());
     }
+    @Test
+    public void should_return_a_manager_when_saveManager(){
+        ParkingBoy firstParkingBoy=new ParkingBoy("张三","12345");
+        ParkingBoy secondParkingBoy=new ParkingBoy("李四","35467");
+        List<ParkingBoy> parkingBoys=new ArrayList<>();
+        parkingBoys.add(firstParkingBoy);
+        parkingBoys.add(secondParkingBoy);
+        ParkingLot firstParkingLot=new ParkingLot(1,"南方软件园",100,30);
+        ParkingLot secondParkingLot=new ParkingLot(2,"北方软件园",100,30);
+        List<ParkingLot> parkingLots=new ArrayList<>();
+        parkingLots.add(firstParkingLot);
+        parkingLots.add(secondParkingLot);
+        Manager manager=new Manager(1,"张三","12424","1322632",parkingBoys,parkingLots);
+        given(administratorService.saveManager(any(Manager.class))).willReturn(manager);
+        assertSame(parkingLots,administratorService.saveManager(manager).getParkingLots());
+    }
+
 
 }

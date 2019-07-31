@@ -23,6 +23,8 @@ public class Customer {
     @Email
     private String email;
 
+    private String name;
+
     @Column(nullable = false)
     @NotNull
     @Size(min = 5)

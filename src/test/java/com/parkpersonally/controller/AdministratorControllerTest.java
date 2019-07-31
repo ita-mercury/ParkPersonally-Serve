@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.model.Administrator;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
@@ -47,8 +48,9 @@ public class AdministratorControllerTest {
         parkingLots.add(new ParkingLot(000001L,"停车场1",100,18));
         parkingLots.add(new ParkingLot(000002L,"停车场2",100,20));
         parkingBoy.setParkingLots(parkingLots);
+        ParkingBoyDto parkingBoyDto = new ParkingBoyDto(parkingBoy);
 
-        given(administratorService.updateParkingBoyOfAdministrator(anyLong(),any(ParkingBoy.class))).willReturn(parkingBoy);
+        given(administratorService.updateParkingBoyOfAdministrator(anyLong(),any(ParkingBoy.class))).willReturn(parkingBoyDto);
 
         mockMvc.perform(put("/admin/parking-boys/1")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -93,9 +95,9 @@ public class AdministratorControllerTest {
         //given
         ParkingBoy firstParkingBoy=new ParkingBoy();
         ParkingBoy secondParkingBoy=new ParkingBoy();
-        List<ParkingBoy> unmatchedParkingBoys=new ArrayList<>();
-        unmatchedParkingBoys.add(firstParkingBoy);
-        unmatchedParkingBoys.add(secondParkingBoy);
+        List<ParkingBoyDto> unmatchedParkingBoys=new ArrayList<>();
+        unmatchedParkingBoys.add(new ParkingBoyDto(firstParkingBoy));
+        unmatchedParkingBoys.add(new ParkingBoyDto(secondParkingBoy));
         //when
         given(administratorService.findUnmatchedParkingBoys()).willReturn(unmatchedParkingBoys);
         //then
@@ -115,6 +117,18 @@ public class AdministratorControllerTest {
                 .content(mapper.writeValueAsString(manager)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value("经理1"));
-
+    }
+    @Test
+    public  void should_return_a_parking_boy_when_createParkingBoy() throws Exception {
+        //given
+        ParkingBoy parkingBoy=new ParkingBoy("小鬼","12345");
+        //when
+        given(administratorService.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
+        //then
+        mockMvc.perform(post("/admin/parking-Boys")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(parkingBoy)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("小鬼"));
     }
 }

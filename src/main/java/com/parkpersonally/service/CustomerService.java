@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingBoy;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,9 +44,13 @@ public class CustomerService {
         return customer;
     }
 
-    public List<ParkingOrder> getAllOrders(long customerId) {
+    public List<ParkingOrderDto> getAllOrders(long customerId) {
             List<ParkingOrder> parkingFetchOrders = parkingOrderRepository.findAllByCustomerId(customerId);
-            return parkingFetchOrders;
+            List<ParkingOrderDto> result = new ArrayList<>();
+            for(ParkingOrder item : parkingFetchOrders){
+                result.add(new ParkingOrderDto(item));
+            }
+            return result;
     }
 
 

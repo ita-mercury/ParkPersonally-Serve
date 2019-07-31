@@ -1,5 +1,6 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.exception.NoSuchManagerException;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
@@ -155,15 +156,15 @@ public class ManagerServiceTest {
         List<ParkingLot> parkingLots=new ArrayList<>();
         parkingLots.add(new ParkingLot(1,"南方软件园",100,30));
         parkingLots.add(new ParkingLot(2,"唐家市场",200,20));
-        List<Manager> managers = new ArrayList<>();
+        List<Manager> managerList = new ArrayList<>();
         Manager firstManager=new Manager(1,"李四","10001",parkingLots);
         Manager secondManager=new Manager(2,"小四","10001",parkingLots);
         Manager thirdManager=new Manager(3,"老张","10001",parkingLots);
-        managers.add(firstManager);
-        managers.add(secondManager);
-        managers.add(thirdManager);
+        managerList.add(firstManager);
+        managerList.add(secondManager);
+        managerList.add(thirdManager);
         //when
-        given(managerService.findAllManagers()).willReturn(managers);
+        given(managerRepository.findAll()).willReturn(managerList);
         //then
         assertSame(3,managerService.findAllManagers().size());
     }
@@ -189,7 +190,7 @@ public class ManagerServiceTest {
         parkingBoys.add(parkingBoy2);
         parkingBoys.add(parkingBoy3);
 
-        Manager manager = new Manager(1,"逍遥子2","123456","187113455698","45",parkingBoys);
+        Manager manager = new Manager(1,"逍遥子2",parkingBoys);
 
         given(managerRepository.findById(anyLong())).willReturn(Optional.of(manager));
         given(parkingBoyRepository.findByNameLike(anyString())).willReturn(parkingBoys1);

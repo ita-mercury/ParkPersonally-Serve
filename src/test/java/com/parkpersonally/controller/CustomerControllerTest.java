@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.Customer;
 import com.parkpersonally.model.ParkingOrder;
@@ -56,15 +57,15 @@ public class CustomerControllerTest {
     @Test
     public  void should_return_all_CarOrders_when_getAllCarOrders() throws Exception{
         //given
-        List<ParkingOrder> parkingOrders=new ArrayList<>();
+        List<ParkingOrderDto> parkingOrders=new ArrayList<>();
         Customer customer = new Customer();
         customer.setId(10000L);
         ParkingOrder parkingOrder=new ParkingOrder(1, 20, "南方软件园");
         parkingOrder.setCustomer(customer);
         ParkingOrder parkingOrderSecond=new ParkingOrder(2, 20, "北方方软件园");
         parkingOrder.setCustomer(customer);
-        parkingOrders.add(parkingOrder);
-        parkingOrders.add(parkingOrderSecond);
+        parkingOrders.add(new ParkingOrderDto(parkingOrder));
+        parkingOrders.add(new ParkingOrderDto(parkingOrderSecond));
         //when
         given(customerService.getAllOrders(10000L)).willReturn(parkingOrders);
         //then

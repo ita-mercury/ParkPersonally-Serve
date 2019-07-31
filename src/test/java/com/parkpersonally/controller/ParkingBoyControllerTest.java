@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
@@ -101,13 +102,13 @@ public class ParkingBoyControllerTest {
 
     @Test
     public  void should_return_all_parkingBoys_when_getAllParkingBoys() throws Exception {
-        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        List<ParkingBoyDto> parkingBoys = new ArrayList<>();
         ParkingBoy firstParkingBoy = new ParkingBoy("zhangsan","15");
         ParkingBoy secondParkingBoy = new ParkingBoy("zhansan","15");
         ParkingBoy thirdParkingBoy = new ParkingBoy("zan","15");
-        parkingBoys.add(firstParkingBoy);
-        parkingBoys.add(secondParkingBoy);
-        parkingBoys.add(thirdParkingBoy);
+        parkingBoys.add(new ParkingBoyDto(firstParkingBoy));
+        parkingBoys.add(new ParkingBoyDto(secondParkingBoy));
+        parkingBoys.add(new ParkingBoyDto(thirdParkingBoy));
         given(service.findAllParkingBoys()).willReturn(parkingBoys);
 
         mockMvc.perform(get("/parking-boys"))

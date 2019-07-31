@@ -1,9 +1,6 @@
 package com.parkpersonally.repository;
 
-import com.parkpersonally.model.Customer;
-import com.parkpersonally.model.ParkingBoy;
-import com.parkpersonally.model.ParkingOrder;
-import com.parkpersonally.model.Tag;
+import com.parkpersonally.model.*;
 import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +28,7 @@ public class ParkingOrderRepositoryTest {
     private List<Long> listId=new ArrayList<>();
     private ParkingBoy parkingBoy = new ParkingBoy();
     private  List<List<Tag>> listTag=new ArrayList<>();
+    Manager manager = new Manager();
     @Autowired
     private ParkingOrderRepository parkingOrderRepository;
     @Before
@@ -85,6 +83,39 @@ public class ParkingOrderRepositoryTest {
         entityManager.persist(thirdParkingOrder);
         entityManager.persist(fourthParkingOrder);
         entityManager.persist(fifthParkingOrder);
+
+        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        ParkingBoy parkingBoy1 = new ParkingBoy("Dillon1","15",1);
+        ParkingBoy parkingBoy2 = new ParkingBoy("Dillon1","15",1);
+        ParkingBoy parkingBoy3 = new ParkingBoy("Dillon1","15",1);
+
+        parkingBoys.add(parkingBoy1);
+        parkingBoys.add(parkingBoy2);
+        parkingBoys.add(parkingBoy3);
+
+
+        ParkingOrder parkingOrder1 = new ParkingOrder(1, 1, 254,"珠海",125,parkingBoy1);
+        ParkingOrder parkingOrder2 = new ParkingOrder(1, 1, 2019, "珠海",parkingBoy2);
+        ParkingOrder parkingOrder3 = new ParkingOrder(1, 1, 2019, "珠海",parkingBoy3);
+        ParkingOrder parkingOrder4 = new ParkingOrder(1, 1, 2019, "珠海");
+        ParkingOrder parkingOrder5 = new ParkingOrder(1, 1, 11, "珠海");
+
+        manager.setName("xie");
+        manager.setParkingBoys(parkingBoys);
+        manager.setNumber("12");
+        manager.setPhone("128254");
+
+        entityManager.persist(parkingBoy1);
+        entityManager.persist(parkingBoy2);
+        entityManager.persist(parkingBoy3);
+        entityManager.persist(parkingOrder1);
+        entityManager.persist(parkingOrder2);
+        entityManager.persist(parkingOrder3);
+        entityManager.persist(parkingOrder4);
+        entityManager.persist(parkingOrder5);
+        entityManager.persist(manager);
+
+
     }
 
 
@@ -122,6 +153,12 @@ public class ParkingOrderRepositoryTest {
     public  void should_return_all_order_of_parking_boy(){
         List<ParkingOrder> allCarOrders=parkingOrderRepository.findAllByParkingBoy(parkingBoy);
         assertEquals(2,allCarOrders.size());
+    }
+
+    @Test
+    public void should_return_all_order_when_findAllOrderOfManager(){
+        List<ParkingOrder> list = parkingOrderRepository.findAllOrderOfManager(manager.getId());
+        assertEquals(3,list.size());
     }
 
 

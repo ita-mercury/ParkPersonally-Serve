@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.service.AdministratorService;
@@ -18,7 +19,7 @@ public class AdministratorController {
     private AdministratorService administratorService;
 
     @PutMapping("/parking-boys/{parkingBoyId}")
-    public ResponseEntity<ParkingBoy> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
+    public ResponseEntity<ParkingBoyDto> updateParkingBoyOfAdministrator(@PathVariable long parkingBoyId, @RequestBody ParkingBoy parkingBoy){
         return ResponseEntity.ok(administratorService.updateParkingBoyOfAdministrator(parkingBoyId,parkingBoy));
     }
 
@@ -37,6 +38,10 @@ public class AdministratorController {
     @PostMapping("/managers")
     public  ResponseEntity createManagerOfAdministrator(@RequestBody Manager manager){
         return ResponseEntity.ok(administratorService.saveManager(manager));
+    }
+    @PostMapping("/parking-Boys")
+    public  ResponseEntity createParkingBoy(@RequestBody ParkingBoy parkingBoy){
+        return  ResponseEntity.ok(administratorService.saveParkingBoy(parkingBoy));
     }
 
 

@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.model.ParkingOrder;
 import com.parkpersonally.model.Tag;
 import com.parkpersonally.service.CustomerService;
@@ -23,7 +24,7 @@ public class CustomerController {
     }
     @GetMapping(value = "/{customerId}/allOrders")
     public  ResponseEntity getAllCarOrders(@PathVariable long customerId){
-        List<ParkingOrder> parkingOrders=customerService.getAllOrders(customerId);
+        List<ParkingOrderDto> parkingOrders=customerService.getAllOrders(customerId);
         return ResponseEntity.ok(parkingOrders);
     }
 

@@ -105,6 +105,31 @@ public class ParkingOrder {
                 parkingLot.equals(order.parkingLot);
     }
 
+    public ParkingOrder(@NotNull int status, @NotNull int type, int positionNumber, @NotNull String fetchCarAddress, ParkingBoy parkingBoy) {
+        this.status = status;
+        this.type = type;
+        this.positionNumber = positionNumber;
+        this.fetchCarAddress = fetchCarAddress;
+        this.parkingBoy = parkingBoy;
+    }
+
+    public ParkingOrder(@NotNull int status, @NotNull int type, int positionNumber, @NotNull String fetchCarAddress, @NotNull long createTime) {
+        this.status = status;
+        this.type = type;
+        this.positionNumber = positionNumber;
+        this.fetchCarAddress = fetchCarAddress;
+        this.createTime = createTime;
+    }
+
+    public ParkingOrder(@NotNull int status, @NotNull int type, int positionNumber, @NotNull String fetchCarAddress, @NotNull long createTime, ParkingBoy parkingBoy) {
+        this.status = status;
+        this.type = type;
+        this.positionNumber = positionNumber;
+        this.fetchCarAddress = fetchCarAddress;
+        this.createTime = createTime;
+        this.parkingBoy = parkingBoy;
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(id, parkingLot);

@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.ParkingOrder;
@@ -36,7 +37,7 @@ public class ParkingBoyController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ParkingBoy>> getAllParkingBoys(){
+    public ResponseEntity<List<ParkingBoyDto>> getAllParkingBoys(){
         return ResponseEntity.ok(service.findAllParkingBoys());
     }
 
