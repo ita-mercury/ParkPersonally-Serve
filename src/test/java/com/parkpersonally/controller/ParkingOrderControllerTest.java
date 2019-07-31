@@ -2,6 +2,8 @@ package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.parkpersonally.dto.ParkingLotDto;
+import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.exception.GetParkingOrderException;
 import com.parkpersonally.exception.NoSuchParkingOrderException;
 import com.parkpersonally.exception.ParkingLotIsFullException;
@@ -56,13 +58,14 @@ public class ParkingOrderControllerTest {
         order.setTags(tags);
 
         given(service.createParkingOrder(any(ParkingOrder.class))).willReturn(order);
+        ParkingOrderDto parkingOrderDto = new ParkingOrderDto(order);
 
         this.mvc.perform(
                 post("/parking-orders")
                         .contentType(MediaType.APPLICATION_JSON_UTF8)
                         .content(objectMapper.writeValueAsString(order)))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(order)));
+                .andExpect(content().string(objectMapper.writeValueAsString(parkingOrderDto)));
     }
 
     @Test
@@ -150,13 +153,15 @@ public class ParkingOrderControllerTest {
         Comment comment = new Comment(7.5, "司机真帅");
         parkingOrder.setComment(comment);
         given(service.appraiseOrder(anyLong(),any(Comment.class))).willReturn(parkingOrder);
+
+        ParkingOrderDto parkingOrderDto = new ParkingOrderDto(parkingOrder);
         //when
         mvc.perform(post("/parking-orders/1/comments")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(comment)))
                 //then
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(parkingOrder)));
+                .andExpect(content().string(objectMapper.writeValueAsString(parkingOrderDto)));
     }
 
     @Test

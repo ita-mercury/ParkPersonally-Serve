@@ -18,14 +18,12 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping("/{parkingBoyId}/tags")
-    public ResponseEntity getParkingBoyTags(@PathVariable long parkingBoyId){
-        List<Tag> tags =customerService.getAllTags(parkingBoyId);
-        return  ResponseEntity.ok(tags);
+    public List<Tag> getParkingBoyTags(@PathVariable long parkingBoyId){
+        return customerService.getAllTags(parkingBoyId);
     }
     @GetMapping(value = "/{customerId}/allOrders")
-    public  ResponseEntity getAllCarOrders(@PathVariable long customerId){
-        List<ParkingOrderDto> parkingOrders=customerService.getAllOrders(customerId);
-        return ResponseEntity.ok(parkingOrders);
+    public  List<ParkingOrderDto> getAllCarOrders(@PathVariable long customerId){
+        return customerService.getAllOrders(customerId);
     }
 
 

@@ -86,8 +86,9 @@ public class ParkingBoyServiceTest {
         parkingOrders.add(secondParkingOrder);
         //when
         given(parkingOrderService.findAllParkingOrdersOfParkingBoy(any(ParkingBoy.class))).willReturn(parkingOrders);
+        given(parkingBoyRepository.findById(anyLong())).willReturn(Optional.ofNullable(parkingBoy));
         //then
-        assertSame(2,parkingBoyService.getAllParkingOrdersOfParkingBoy(parkingBoy).size());
+        assertSame(2,parkingBoyService.getAllParkingOrdersOfParkingBoy(1).size());
     }
 
     @Test

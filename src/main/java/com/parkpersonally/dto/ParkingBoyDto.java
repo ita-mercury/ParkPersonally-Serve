@@ -70,7 +70,9 @@ public class ParkingBoyDto{
         this.number = parkingBoy.getNumber();
         this.status = parkingBoy.getStatus();
         this.phone = parkingBoy.getPhone();
-        this.tags.addAll(parkingBoy.getTags());
+        if (parkingBoy.getTags() != null) {
+            this.tags.addAll(parkingBoy.getTags());
+        }
     }
 
     public ParkingBoyDto() {

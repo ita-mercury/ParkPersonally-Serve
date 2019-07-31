@@ -16,6 +16,7 @@ import org.springframework.util.comparator.Comparators;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("ParkingBoyService")
@@ -81,8 +82,9 @@ public class ParkingBoyService {
         else return status;
     }
 
-    public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(ParkingBoy parkingBoy){
-        return parkingOrderService
+    public List<ParkingOrder> getAllParkingOrdersOfParkingBoy(long parkingBoyId){
+         ParkingBoy parkingBoy = findOneById(parkingBoyId);
+         return parkingOrderService
                 .findAllParkingOrdersOfParkingBoy(parkingBoy)
                 .stream()
                 .sorted(Comparator.comparingLong(ParkingOrder::getCreateTime).reversed())

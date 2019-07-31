@@ -17,7 +17,7 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping
-    public ResponseEntity<List<Tag>> getAllTags(){
-        return ResponseEntity.ok(tagService.getAllTags());
+    public List<Tag> getAllTags(){
+        return tagService.getAllTags();
     }
 }
