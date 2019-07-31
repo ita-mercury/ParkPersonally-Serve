@@ -37,7 +37,7 @@ public class ParkingLot {
     private int restCapacity;
 
     @ManyToMany
-    @JsonIgnore
+//    @JsonIgnore
     private List<ParkingBoy> parkingBoys;
 
     @Override

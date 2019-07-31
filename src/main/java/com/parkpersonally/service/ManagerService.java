@@ -1,5 +1,7 @@
 package com.parkpersonally.service;
 
+import com.parkpersonally.dto.ParkingBoyDto;
+import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.NoSuchManagerException;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
@@ -21,14 +23,21 @@ public class ManagerService {
     private ParkingBoyService parkingBoyService;
 
 
-    public List<ParkingLot> getAllParkingLotOnManager(long managerId) {
+    public List<ParkingLotDto> getAllParkingLotOnManager(long managerId) {
         Manager manager = managerRepository.findById(managerId).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到manager"));
-        return manager.getParkingLots();
-    }
+        List<ParkingLotDto> result = new ArrayList<>();
+        for (ParkingLot item : manager.getParkingLots())
+            result.add(new ParkingLotDto(item));
 
-    public List<ParkingBoy> getParkingBoys(long managerId) {
+        return result;
+    }
+    public List<ParkingBoyDto> getParkingBoys(long managerId) {
        Manager manager = managerRepository.findById(managerId).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到manager"));
-        return  manager.getParkingBoys();
+       List<ParkingBoyDto> result = new ArrayList<>();
+       for(ParkingBoy item : manager.getParkingBoys()){
+           result.add(new ParkingBoyDto(item));
+       }
+        return  result;
     }
 
     public ParkingBoy allocateParkingLots(long managerId, long parkingBoyId, List<ParkingLot> parkingLots) {

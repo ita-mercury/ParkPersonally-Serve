@@ -29,7 +29,7 @@ public class ParkingLotController {
         return ResponseEntity.ok(service.saveService(parkingLot));
     }
 
-    @PatchMapping("/{parkingLotId}")
+    @PatchMapping("/parking-lots/{parkingLotId}")
     public ResponseEntity changeParkingLotStatus(@PathVariable long parkingLotId, @RequestBody ParkingLot parkingLot){
         return ResponseEntity.ok(service.changeParkingLotStatus(parkingLotId, parkingLot));
     }

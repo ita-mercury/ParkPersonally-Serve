@@ -3,6 +3,7 @@ package com.parkpersonally.controller;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.service.AdministratorService;
+import com.parkpersonally.service.ManagerService;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +26,24 @@ public class AdministratorController {
     public ResponseEntity<Manager> updateManagerOfAdministrator(@PathVariable long managerId , @RequestBody Manager manager){
         return ResponseEntity.ok(administratorService.updateManagerOfAdministrator(managerId,manager));
     }
-    @GetMapping("/managers")
-    public  ResponseEntity getAllManagers(){
-        return ResponseEntity.ok(administratorService.findAllManager());
+    @GetMapping("/managers/unmatchedParkingLots")
+    public  ResponseEntity getAllUnmatchedParkingLots(){
+        return ResponseEntity.ok(administratorService.findUnmatchedParkingLots());
     }
+    @GetMapping("/managers/unmatchedParkingBoys")
+     public  ResponseEntity getAllUnmatchedParkingBoys(){
+        return  ResponseEntity.ok(administratorService.findUnmatchedParkingBoys());
+    }
+    @PostMapping("/managers")
+    public  ResponseEntity createManagerOfAdministrator(@RequestBody Manager manager){
+        return ResponseEntity.ok(administratorService.saveManager(manager));
+    }
+    @PostMapping("/parking-Boys")
+    public  ResponseEntity createParkingBoy(@RequestBody ParkingBoy parkingBoy){
+        return  ResponseEntity.ok(administratorService.saveParkingBoy(parkingBoy));
+    }
+
+
 
 }
 

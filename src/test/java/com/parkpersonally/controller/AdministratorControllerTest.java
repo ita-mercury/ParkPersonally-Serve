@@ -22,8 +22,7 @@ import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -60,23 +59,6 @@ public class AdministratorControllerTest {
     }
 
     @Test
-    public void should_return_all_managers_when_getAllManagers() throws Exception {
-        //given
-        Manager firstManager = new Manager();
-        Manager secondManager = new Manager();
-        List<Manager> managers = new ArrayList<>();
-        managers.add(firstManager);
-        managers.add(secondManager);
-        //when
-        given(administratorService.findAllManager()).willReturn(managers);
-        //then
-        mockMvc.perform(get("/admin/managers"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2));
-    }
-
-    @Test
     public void should_return_A_new_Manager_when_updateManagerOfAdministrator() throws Exception{
         //given
         Manager manager = new Manager(1,"经理1","123456","452654");
@@ -90,5 +72,61 @@ public class AdministratorControllerTest {
                 .andExpect(jsonPath("$.name").value("经理1"));
 
 
+    }
+    @Test
+    public  void should_return_unmatchedParkingLots_when_getAllUnmatchedParkingLots() throws Exception {
+        //given
+        ParkingLot thirdParkingLot=new ParkingLot();
+        ParkingLot fourthParkingLot=new ParkingLot();
+        List<ParkingLot> unmatchedParkingLots=new ArrayList<>();
+        unmatchedParkingLots.add(thirdParkingLot);
+        unmatchedParkingLots.add(fourthParkingLot);
+
+        given(administratorService.findUnmatchedParkingLots()).willReturn(unmatchedParkingLots);
+
+        mockMvc.perform(get("/admin/managers/unmatchedParkingLots"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+    }
+    @Test
+    public  void should_return_unmatchedParkingBoys_when_getAllUnmatchedParkingBoys() throws Exception {
+        //given
+        ParkingBoy firstParkingBoy=new ParkingBoy();
+        ParkingBoy secondParkingBoy=new ParkingBoy();
+        List<ParkingBoy> unmatchedParkingBoys=new ArrayList<>();
+        unmatchedParkingBoys.add(firstParkingBoy);
+        unmatchedParkingBoys.add(secondParkingBoy);
+        //when
+        given(administratorService.findUnmatchedParkingBoys()).willReturn(unmatchedParkingBoys);
+        //then
+        mockMvc.perform(get("/admin/managers/unmatchedParkingBoys"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+    }
+    @Test
+    public  void should_return_a_manager_when_createManager() throws Exception {
+        //given
+        Manager manager = new Manager(1,"经理1","123456","452654");
+        //when
+        given(administratorService.saveManager(any(Manager.class))).willReturn(manager);
+        //then
+        mockMvc.perform(post("/admin/managers")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(manager)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("经理1"));
+    }
+    @Test
+    public  void should_return_a_parking_boy_when_createParkingBoy() throws Exception {
+        //given
+        ParkingBoy parkingBoy=new ParkingBoy("小鬼","12345");
+        //when
+        given(administratorService.saveParkingBoy(any(ParkingBoy.class))).willReturn(parkingBoy);
+        //then
+        mockMvc.perform(post("/admin/parking-Boys")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(mapper.writeValueAsString(parkingBoy)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("小鬼"));
     }
 }
