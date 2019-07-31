@@ -61,4 +61,13 @@ public class Manager {
         this.number = number;
         this.phone = phone;
     }
+
+    public Manager(long id, @NotNull String name, String password, @NotNull String number, @NotNull @Size(min = 5, max = 13) String phone, List<ParkingBoy> parkingBoys) {
+        this.id = id;
+        this.name = name;
+        this.password = password;
+        this.number = number;
+        this.phone = phone;
+        this.parkingBoys = parkingBoys;
+    }
 }

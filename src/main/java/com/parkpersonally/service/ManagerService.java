@@ -7,19 +7,25 @@ import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.Tag;
 import com.parkpersonally.repository.ManagerRepository;
+import com.parkpersonally.repository.ParkingBoyRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Data
 public class ManagerService {
 
     @Autowired
     private ManagerRepository managerRepository;
     @Autowired
     private ParkingBoyService parkingBoyService;
+    @Autowired
+    private ParkingBoyRepository parkingBoyRepository;
 
 
     public List<ParkingLot> getAllParkingLotOnManager(long managerId) {
@@ -69,5 +75,15 @@ public class ManagerService {
 
     public List<Manager> findAllManagers() {
         return managerRepository.findAll();
+    }
+
+    public List<ParkingBoy> findByNameLike(String name,long id){
+        Manager manager = managerRepository.findById(id).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到manager"));
+        List<ParkingBoy> parkingBoys = manager.getParkingBoys();
+
+        List<ParkingBoy> parkingBoys1 = parkingBoyRepository.findByNameLike("%"+name+"%");
+
+        return parkingBoys1.stream().filter(x->parkingBoys.contains(x)).collect(Collectors.toList());
+
     }
 }

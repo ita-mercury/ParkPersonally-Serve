@@ -6,6 +6,7 @@ import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
 import com.parkpersonally.model.Tag;
 import com.parkpersonally.repository.ManagerRepository;
+import com.parkpersonally.repository.ParkingBoyRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,14 +24,17 @@ public class ManagerServiceTest {
     private ManagerRepository managerRepository;
     private ParkingBoyService parkingBoyService;
     private ManagerService managerService;
+    private ParkingBoyRepository parkingBoyRepository;
 
     @Before
     public void init() {
         managerRepository = mock(ManagerRepository.class);
         parkingBoyService = mock(ParkingBoyService.class);
+        parkingBoyRepository = mock(ParkingBoyRepository.class);
         managerService = new ManagerService();
         managerService.setManagerRepository(managerRepository);
         managerService.setParkingBoyService(parkingBoyService);
+        managerService.setParkingBoyRepository(parkingBoyRepository);
     }
 
     @Test
@@ -162,5 +166,36 @@ public class ManagerServiceTest {
         given(managerService.findAllManagers()).willReturn(managers);
         //then
         assertSame(3,managerService.findAllManagers().size());
+    }
+
+    @Test
+    public void should_return_filtered_ParkingBoys_when_findByNameLike(){
+       //given
+        ParkingBoy parkingBoy1 = new ParkingBoy("逍遥子1","134554");
+        ParkingBoy parkingBoy2 = new ParkingBoy("段誉","134554");
+        ParkingBoy parkingBoy3 = new ParkingBoy("萧峰","134554");
+        ParkingBoy parkingBoy4 = new ParkingBoy("逍遥子2","134554");
+        ParkingBoy parkingBoy5 = new ParkingBoy("逍遥子3","134554");
+
+        List<ParkingBoy> parkingBoys1 = new ArrayList<>();
+        parkingBoys1.add(parkingBoy1);
+        parkingBoys1.add(parkingBoy2);
+        parkingBoys1.add(parkingBoy3);
+        parkingBoys1.add(parkingBoy4);
+        parkingBoys1.add(parkingBoy5);
+
+        List<ParkingBoy> parkingBoys = new ArrayList<>();
+        parkingBoys.add(parkingBoy1);
+        parkingBoys.add(parkingBoy2);
+        parkingBoys.add(parkingBoy3);
+
+        Manager manager = new Manager(1,"逍遥子2","123456","187113455698","45",parkingBoys);
+
+        given(managerRepository.findById(anyLong())).willReturn(Optional.of(manager));
+        given(parkingBoyRepository.findByNameLike(anyString())).willReturn(parkingBoys1);
+
+        assertSame(3,managerService.findByNameLike("萧",1).size());
+
+
     }
 }
