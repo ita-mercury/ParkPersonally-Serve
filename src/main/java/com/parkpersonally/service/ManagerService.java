@@ -4,14 +4,12 @@ import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.NoSuchManagerException;
-import com.parkpersonally.model.Manager;
-import com.parkpersonally.model.ParkingBoy;
-import com.parkpersonally.model.ParkingLot;
-import com.parkpersonally.model.Tag;
+import com.parkpersonally.model.*;
 import com.parkpersonally.repository.ManagerRepository;
 import com.parkpersonally.repository.ParkingBoyRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,6 +26,8 @@ public class ManagerService {
     private ParkingBoyService parkingBoyService;
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
+    @Autowired
+    private ParkingOrderService parkingOrderService;
 
 
     public List<ParkingLotDto> getAllParkingLotOnManager(long managerId) {
@@ -95,5 +95,9 @@ public class ManagerService {
 
         return parkingBoys1.stream().filter(x->parkingBoys.contains(x)).collect(Collectors.toList());
 
+    }
+
+    public List<ParkingOrder> getAllParkingOrderOfManager(long managerId) {
+        return  parkingOrderService.getAllParkingOrderOfManager(managerId);
     }
 }

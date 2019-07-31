@@ -3,10 +3,7 @@ package com.parkpersonally.controller;
 import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.dto.ParkingLotDto;
-import com.parkpersonally.model.Manager;
-import com.parkpersonally.model.ParkingBoy;
-import com.parkpersonally.model.ParkingLot;
-import com.parkpersonally.model.Tag;
+import com.parkpersonally.model.*;
 import com.parkpersonally.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +49,11 @@ public class ManagerController {
     @GetMapping
     public List<ManagerDto> getAllManagers(){
         return managerService.findAllManagers();
+    }
+
+    @GetMapping("/{managerId}/parking-orders")
+    public ResponseEntity<List<ParkingOrder>> getAllParkingOrderOfManager(@PathVariable long managerId){
+        return ResponseEntity.ok(managerService.getAllParkingOrderOfManager(managerId));
     }
 
 }

@@ -23,7 +23,8 @@ public class ParkingOrderService {
     @Autowired
     private ParkingBoyService parkingBoyService;
 
-    private final ParkingOrderRepository repository;
+    @Autowired
+    private ParkingOrderRepository repository;
 
     public ParkingOrder createParkingOrder(@Valid ParkingOrder order) {
         if (order.getType() == ParkingOrder.ORDER_TYPE_PARK_CAR && order.getStatus() == ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED)
@@ -229,5 +230,9 @@ public class ParkingOrderService {
 
     public void setParkingLotService(ParkingLotService parkingLotService) {
         this.parkingLotService = parkingLotService;
+    }
+
+    public List<ParkingOrder> getAllParkingOrderOfManager(long id){
+        return repository.findAllOrderOfManager(id);
     }
 }
