@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-
+    Customer findParkingBoyByNameEqualsAndAndPasswordEquals(String name, String password);
 }

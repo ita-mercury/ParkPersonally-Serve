@@ -2,6 +2,7 @@ package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.parkpersonally.configuration.AuthProvider;
 import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.exception.GetParkingOrderException;
@@ -38,7 +39,8 @@ public class ParkingOrderControllerTest {
     private ParkingOrderService service;
     @MockBean
     private ParkingBoyService parkingBoyService;
-
+    @MockBean
+    private AuthProvider authProvider;
     @Autowired
     private MockMvc mvc;
 

@@ -37,10 +37,10 @@ public class ParkingOrderDto {
     private long createTime = System.currentTimeMillis();
 
 
-    private ParkingBoyDto parkingBoyDto;
+    private ParkingBoyDto parkingBoy;
 
 
-    private ParkingLotDto parkingLotDto;
+    private ParkingLotDto parkingLot;
 
 
     private List<Tag> tags = new ArrayList<>();
@@ -65,14 +65,13 @@ public class ParkingOrderDto {
         this.fetchCarAddress = parkingOrder.getFetchCarAddress();
         this.createTime = parkingOrder.getCreateTime();
         if(parkingOrder.getParkingBoy() != null) {
-            this.parkingBoyDto = new ParkingBoyDto(parkingOrder.getParkingBoy(), parkingOrder.getParkingBoy().getId());
+            this.parkingBoy = new ParkingBoyDto(parkingOrder.getParkingBoy(), parkingOrder.getParkingBoy().getId());
         }
         if(parkingOrder.getParkingLot()!= null) {
-            this.parkingLotDto = new ParkingLotDto(parkingOrder.getParkingLot(), parkingOrder.getParkingLot().getId());
+            this.parkingLot = new ParkingLotDto(parkingOrder.getParkingLot(), parkingOrder.getParkingLot().getId());
         }
+        this.customer = parkingOrder.getCustomer();
     }
-
-
 
     public ParkingOrderDto() {
     }

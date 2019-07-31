@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.configuration.AuthProvider;
 import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.exception.NoSuchParkingLotException;
 import com.parkpersonally.exception.UpdateParkingLotCapacitySmallerException;
@@ -36,7 +37,10 @@ public class ParkingLotControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-      private ParkingLotService service;
+    private ParkingLotService service;
+
+    @MockBean
+    private AuthProvider authProvider;
 
     @Test
     public void should_throw_NoSuchParkingLotException_when_updateParkingLot_can_not_find_target() throws Exception {

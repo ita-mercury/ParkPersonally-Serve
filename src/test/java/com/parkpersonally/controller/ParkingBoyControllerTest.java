@@ -1,6 +1,7 @@
 package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parkpersonally.configuration.AuthProvider;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.ParkingBoy;
@@ -40,6 +41,9 @@ public class ParkingBoyControllerTest {
 
     @MockBean
     private ParkingBoyService service;
+
+    @MockBean
+    private AuthProvider authProvider;
 
     @Test
     public  void should_return_all_parkingLot_when_getAllParkingLotOnParkingBoy() throws Exception {

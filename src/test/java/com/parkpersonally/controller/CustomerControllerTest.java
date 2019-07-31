@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.configuration.AuthProvider;
 import com.parkpersonally.dto.ParkingOrderDto;
 import com.parkpersonally.exception.NoSuchParkingBoyException;
 import com.parkpersonally.model.Customer;
@@ -31,6 +32,9 @@ public class CustomerControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private CustomerService customerService;
+    @MockBean
+    private AuthProvider authProvider;
+
     @Test
     public  void should_return_all_tags_when_getParkingBoyTags() throws Exception {
         //given

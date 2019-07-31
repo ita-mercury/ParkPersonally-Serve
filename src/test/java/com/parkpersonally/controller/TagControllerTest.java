@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.configuration.AuthProvider;
 import com.parkpersonally.model.Tag;
 import com.parkpersonally.service.TagService;
 import org.junit.Test;
@@ -26,6 +27,8 @@ public class TagControllerTest {
     private TagService tagService;
     @Autowired
     private MockMvc mvc;
+    @MockBean
+    private AuthProvider authProvider;
 
     @Test
     public void should_return_all_tags_when_get_all_tags() throws Exception {

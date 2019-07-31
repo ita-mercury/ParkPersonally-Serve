@@ -2,6 +2,7 @@ package com.parkpersonally.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.parkpersonally.configuration.AuthProvider;
 import com.parkpersonally.dto.ManagerDto;
 import com.parkpersonally.dto.ParkingBoyDto;
 import com.parkpersonally.dto.ParkingLotDto;
@@ -42,6 +43,9 @@ public class ManagerControllerTest {
 
     @MockBean
     private ManagerService managerService;
+
+    @MockBean
+    private AuthProvider authProvider;
 
     @Test
     public void should_return_All_ParkingLot_when_getAllParkingLotOnManager() throws Exception{
