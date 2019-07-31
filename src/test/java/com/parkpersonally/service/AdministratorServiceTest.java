@@ -25,6 +25,7 @@ public class AdministratorServiceTest {
     private ManagerRepository managerRepository;
     private  ManagerService managerService;
     private  ParkingLotService parkingLotService;
+    private  ParkingBoyService parkingBoyService;
 
     @Before
     public void init() {
@@ -32,10 +33,12 @@ public class AdministratorServiceTest {
         managerRepository = mock(ManagerRepository.class);
         managerService = mock(ManagerService.class);
         parkingLotService = mock(ParkingLotService.class);
+        parkingBoyService=mock(ParkingBoyService.class);
 
         administratorService.setManagerService(managerService);
         administratorService.setParkingLotService(parkingLotService);
         administratorService.setManagerRepository(managerRepository);
+        administratorService.setParkingBoyService(parkingBoyService);
     }
 
     @Test
@@ -73,6 +76,28 @@ public class AdministratorServiceTest {
         given(managerService.findAllManagers()).willReturn(managers);
         given(parkingLotService.findParkingLots()).willReturn(allParkingLots);
         assertSame(2,administratorService.findUnmatchedParkingLots().size());
+    }
+    @Test
+    public void should_return_unmatch_parking_boys_when_getAllUnmatchParkingBoys(){
+        List<Manager> managers = new ArrayList<>();
+        ParkingBoy firstParkingBoy=new ParkingBoy("张三","12345");
+        ParkingBoy secondParkingBoy=new ParkingBoy("李四","35467");
+        ParkingBoy thirdParkingBoy=new ParkingBoy("小明","1346614");
+        ParkingBoy fourthParkingBoy=new ParkingBoy("jre","3517888");
+        List<ParkingBoy> allParkingBoys=new ArrayList<>();
+        allParkingBoys.add(firstParkingBoy);
+        allParkingBoys.add(secondParkingBoy);
+        allParkingBoys.add(thirdParkingBoy);
+        allParkingBoys.add(fourthParkingBoy);
+        Manager manager=new Manager();
+        List<ParkingBoy> manageParkingBoys=new ArrayList<>();
+        manageParkingBoys.add(firstParkingBoy);
+        manageParkingBoys.add(secondParkingBoy);
+        manager.setParkingBoys(manageParkingBoys);
+        managers.add(manager);
+        given(managerService.findAllManagers()).willReturn(managers);
+        given(parkingBoyService.findAllParkingBoys()).willReturn(allParkingBoys);
+        assertSame(2,administratorService.findUnmatchedParkingBoys().size());
     }
 
 }

@@ -24,12 +24,13 @@ public class AdministratorService {
     private ManagerService managerService;
     @Autowired
     private ParkingLotService parkingLotService;
+    @Autowired
+    private ParkingBoyService parkingBoyService;
 
     @Autowired
     private AdministratorRepository administratorRepository;
     @Autowired
     private ManagerRepository managerRepository;
-
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
 
@@ -59,6 +60,15 @@ public class AdministratorService {
     }
 
     public List<ParkingBoy> findUnmatchedParkingBoys() {
-        return  null;
+        List<Manager> managers=managerService.findAllManagers();
+        List<ParkingBoy> parkingBoys=new ArrayList<>();
+        for (Manager manager:managers){
+            parkingBoys.addAll(manager.getParkingBoys());
+        }
+        List<ParkingBoy> listParkingBoys=parkingBoyService.findAllParkingBoys();
+        return  listParkingBoys
+                .stream()
+                .filter(n-> !parkingBoys.contains(n))
+                .collect(Collectors.toList());
     }
 }
