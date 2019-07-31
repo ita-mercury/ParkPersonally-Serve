@@ -44,7 +44,7 @@ public class ManagerController {
         return new ParkingBoyDto(managerService.tagParkingBoy(managerId,parkingBoyId,tags));
     }
 
-    @GetMapping("/managers/{managerId}/parking-boys/like")
+    @GetMapping("/{managerId}/parking-boys/like")
     public ResponseEntity<List<ParkingBoy>> findByNameLike(@RequestParam String name,@PathVariable long id){
         return ResponseEntity.ok(managerService.findByNameLike(name,id));
     }
