@@ -1,5 +1,6 @@
 package com.parkpersonally.controller;
 
+import com.parkpersonally.dto.ParkingLotDto;
 import com.parkpersonally.model.Manager;
 import com.parkpersonally.model.ParkingBoy;
 import com.parkpersonally.model.ParkingLot;
@@ -19,7 +20,7 @@ public class ManagerController {
     private ManagerService managerService;
 
     @GetMapping("/{managerId}/parking-lots")
-    public ResponseEntity<List<ParkingLot>> getAllParkingLotOnManeger(@PathVariable long managerId){
+    public ResponseEntity<List<ParkingLot>> getAllParkingLotOnManager(@PathVariable long managerId){
         return ResponseEntity.ok(managerService.getAllParkingLotOnManager(managerId));
     }
 
