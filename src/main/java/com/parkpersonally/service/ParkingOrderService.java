@@ -187,6 +187,8 @@ public class ParkingOrderService {
         ParkingBoy parkingBoy =  parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
                 ParkingBoy.PARKING_BOY_STATUS_FREE);
 
+        parkingLot = parkingLotService.getRepository().save(parkingLot);
+        parkingOrder.setParkingLot(parkingLot);
         parkingOrder.setParkingBoy(parkingBoy);
 
         return parkingOrder;
@@ -199,6 +201,7 @@ public class ParkingOrderService {
             case ParkingOrder.ORDER_STATUS_BE_ACCEPTED: {
                 parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARKING_BOY_FETCH_CAR);
                 parkingLot.setRestCapacity(parkingLot.getRestCapacity() + 1);
+                parkingLot = parkingLotService.getRepository().save(parkingLot);
                 break;
             }
             case ParkingOrder.ORDER_STATUS_PARKING_BOY_FETCH_CAR: {
@@ -209,6 +212,7 @@ public class ParkingOrderService {
         ParkingBoy parkingBoy =  parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
                 ParkingBoy.PARKING_BOY_STATUS_FREE);
 
+        parkingOrder.setParkingLot(parkingLot);
         parkingOrder.setParkingBoy(parkingBoy);
 
         return parkingOrder;

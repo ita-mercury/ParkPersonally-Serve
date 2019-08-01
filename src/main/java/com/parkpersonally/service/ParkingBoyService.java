@@ -41,7 +41,7 @@ public class ParkingBoyService {
         return parkingBoy;
     }
 
-    public ParkingBoy changeParkingBoyStatus(long id, int status){
+    public ParkingBoy   changeParkingBoyStatus(long id, int status){
         ParkingBoy parkingBoy = findOneById(id);
         switch (status){
             case ParkingBoy.PARKING_BOY_STATUS_FREEZE: {
