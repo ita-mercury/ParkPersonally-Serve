@@ -179,7 +179,7 @@ public class ParkingOrderService {
     }
 
     private ParkingOrder changeParkCarOrderStatusAndLot(ParkingOrder parkingOrder) {
-        ParkingLot parkingLot = parkingOrder.getParkingLot();
+        ParkingLot parkingLot = parkingLotService.findOneById(parkingOrder.getParkingLot().getId());
 
         parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE);
         parkingLot.setRestCapacity(parkingLot.getRestCapacity() - 1);
@@ -195,7 +195,7 @@ public class ParkingOrderService {
     }
 
     private ParkingOrder changeFetchCarOrderStatusAndLot(ParkingOrder parkingOrder) {
-        ParkingLot parkingLot = parkingOrder.getParkingLot();
+        ParkingLot parkingLot = parkingLotService.findOneById(parkingOrder.getParkingLot().getId());
 
         switch (parkingOrder.getStatus()) {
             case ParkingOrder.ORDER_STATUS_BE_ACCEPTED: {
