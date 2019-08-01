@@ -2,6 +2,8 @@ package com.parkpersonally.model;
 
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,7 +11,7 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Data
+@Getter @Setter
 public class ParkingBoy {
 
     public static final int PARKING_BOY_STATUS_FREEZE = 0;
@@ -82,5 +84,16 @@ public class ParkingBoy {
         this.status = status;
     }
 
-
+    @Override
+    public String toString() {
+        return "ParkingBoy{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", number='" + number + '\'' +
+                ", status=" + status +
+                ", phone='" + phone + '\'' +
+                ", tags=" + tags +
+                '}';
+    }
 }

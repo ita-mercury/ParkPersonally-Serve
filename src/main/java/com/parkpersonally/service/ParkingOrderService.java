@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,7 @@ public class ParkingOrderService {
     @Autowired
     private ParkingOrderRepository repository;
 
+    @Transactional
     public ParkingOrder createParkingOrder(@Valid ParkingOrder order) {
         if (order.getType() == ParkingOrder.ORDER_TYPE_PARK_CAR && order.getStatus() == ParkingOrder.ORDER_STATUS_NOT_BE_ACCEPTED)
             return repository.save(order);
@@ -35,7 +37,8 @@ public class ParkingOrderService {
         throw new CreateParkingOrderException("创建订单失败");
     }
 
-    private ParkingOrder createFetchOrderModel(ParkingOrder parkCarOrder) {
+    @Transactional
+    public ParkingOrder createFetchOrderModel(ParkingOrder parkCarOrder) {
         parkCarOrder = findOrderById(parkCarOrder.getId());
 
         if (parkingLotService.findOneById(parkCarOrder.getParkingLot().getId()).getStatus() == ParkingLot.LOT_STATUS_FREEZE)
@@ -67,6 +70,7 @@ public class ParkingOrderService {
         return parkingOrder;
     }
 
+    @Transactional
     public ParkingOrder appraiseOrder(long id, Comment comment) {
         ParkingOrder targetOrder = repository.findById(id).orElseThrow(() -> new NoSuchParkingOrderException("抱歉,没有查到该订单"));
 
@@ -162,6 +166,7 @@ public class ParkingOrderService {
         return parkingBoy;
     }
 
+    @Transactional
     public ParkingOrder updateParkingOrderStatus(long parkingOrderId, ParkingOrder parkingOrder) {
         switch (parkingOrder.getType()) {
             case ParkingOrder.ORDER_TYPE_PARK_CAR: {
@@ -173,16 +178,31 @@ public class ParkingOrderService {
                 break;
             }
         }
-        parkingLotService.saveService(parkingOrder.getParkingLot());
+        ParkingBoy parkingBoy = parkingBoyService.findOneById(parkingOrder.getParkingBoy().getId());
+
+//        List<ParkingLot> parkingLots = parkingBoyService.saveParkingBoy(parkingBoy).getParkingLots();
+//        parkingLotService.saveService(parkingOrder.getParkingLot());
+
+        parkingOrder.setParkingBoy(parkingBoy);
+
+//        parkingOrder =
+//
+//        parkingBoy.setParkingLots(parkingLots);
+//
+//        entityManager.merge(parkingBoy);
+//
+//        parkingBoyService.saveParkingBoy(parkingBoy);
 
         return repository.save(parkingOrder);
     }
 
+    @Transactional
     private ParkingOrder changeParkCarOrderStatusAndLot(ParkingOrder parkingOrder) {
         ParkingLot parkingLot = parkingLotService.findOneById(parkingOrder.getParkingLot().getId());
 
         parkingOrder.setStatus(ParkingOrder.ORDER_STATUS_PARK_CAR_COMPLETE);
         parkingLot.setRestCapacity(parkingLot.getRestCapacity() - 1);
+        parkingLot = parkingLotService.getRepository().save(parkingLot);
 
         ParkingBoy parkingBoy =  parkingBoyService.changeParkingBoyStatus(parkingOrder.getParkingBoy().getId(),
                 ParkingBoy.PARKING_BOY_STATUS_FREE);
@@ -194,6 +214,7 @@ public class ParkingOrderService {
         return parkingOrder;
     }
 
+    @Transactional
     private ParkingOrder changeFetchCarOrderStatusAndLot(ParkingOrder parkingOrder) {
         ParkingLot parkingLot = parkingLotService.findOneById(parkingOrder.getParkingLot().getId());
 

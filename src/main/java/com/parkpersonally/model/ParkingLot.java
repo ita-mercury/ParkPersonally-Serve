@@ -3,6 +3,8 @@ package com.parkpersonally.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -10,7 +12,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Data
+@Getter
+@Setter
 public class ParkingLot {
 
     public static final int LOT_STATUS_NORMAL = 1;
@@ -36,8 +39,8 @@ public class ParkingLot {
     @NotNull
     private int restCapacity;
 
-    @ManyToMany
 //    @JsonIgnore
+    @ManyToMany
     private List<ParkingBoy> parkingBoys;
 
     @Override
@@ -64,4 +67,14 @@ public class ParkingLot {
     public ParkingLot() {
     }
 
+    @Override
+    public String toString() {
+        return "ParkingLot{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", capacity=" + capacity +
+                ", status=" + status +
+                ", restCapacity=" + restCapacity +
+                '}';
+    }
 }

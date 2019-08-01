@@ -11,6 +11,7 @@ import com.parkpersonally.repository.ParkingOrderRepository;
 import org.apache.logging.log4j.util.PropertySource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.comparator.Comparators;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class ParkingBoyService {
         return parkingBoy;
     }
 
+    @Transactional
     public ParkingBoy   changeParkingBoyStatus(long id, int status){
         ParkingBoy parkingBoy = findOneById(id);
         switch (status){
@@ -62,6 +64,7 @@ public class ParkingBoyService {
         return parkingBoyRepository.save(parkingBoy);
     }
 
+    @Transactional
     public ParkingBoy saveParkingBoy(ParkingBoy parkingBoy){
         return parkingBoyRepository.save(parkingBoy);
     }

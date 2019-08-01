@@ -11,6 +11,7 @@ import com.parkpersonally.repository.ParkingBoyRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class ManagerService {
         return  result;
     }
 
+    @Transactional
     public ParkingBoy allocateParkingLots(long managerId, long parkingBoyId, List<ParkingLot> parkingLots) {
         ParkingBoy updateParkingBoy = parkingBoyService.findOneById(parkingBoyId);
         updateParkingBoy.setParkingLots(parkingLots);
@@ -68,10 +70,12 @@ public class ManagerService {
     public void setParkingBoyService(ParkingBoyService parkingBoyService) {
         this.parkingBoyService = parkingBoyService;
     }
+    @Transactional
     public Manager saveManager(Manager manager) {
         return  managerRepository.save(manager);
     }
 
+    @Transactional
     public ParkingBoy tagParkingBoy(long managerId, long parkingBoyId, List<Tag> tags) {
         ParkingBoy updateParkingBoy = parkingBoyService.findOneById(parkingBoyId);
         updateParkingBoy.setTags(tags);
@@ -100,6 +104,7 @@ public class ManagerService {
     public List<ParkingOrder> getAllParkingOrderOfManager(long managerId) {
         return parkingOrderService.getAllParkingOrderOfManager(managerId);
     }
+    @Transactional
     public Manager freezeManager(long managerId, long replaceManagerId){
         Manager manager = managerRepository.findById(managerId).orElseThrow(()->new NoSuchManagerException("抱歉,没有查到需要冻结的manager"));
 

@@ -9,6 +9,7 @@ import com.parkpersonally.repository.ParkingLotRepository;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,11 +27,12 @@ public class ParkingLotService {
     @Autowired
     private ParkingOrderService parkingOrderService;
 
+    @Transactional
     public ParkingLotDto saveService(ParkingLot parkingLot){
-        parkingLot.setRestCapacity(parkingLot.getCapacity());
         return new ParkingLotDto(repository.save(parkingLot));
     }
 
+    @Transactional
     public ParkingLotDto updateParkingLot(long id, ParkingLot updateParkingLot){
         ParkingLot parkingLot = repository.findById(id)
                 .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));
@@ -50,6 +52,7 @@ public class ParkingLotService {
         return repository.findAll();
     }
 
+    @Transactional
     public ParkingLotDto changeParkingLotStatus(long id, ParkingLot updateParkingLot){
         ParkingLot parkingLot = repository.findById(id)
                 .orElseThrow(() -> new NoSuchParkingLotException("没有找到对应的停车场"));

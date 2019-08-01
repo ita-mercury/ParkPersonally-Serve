@@ -15,6 +15,7 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +39,14 @@ public class AdministratorService {
     private ParkingBoyRepository parkingBoyRepository;
 
 
+    @Transactional
     public ParkingBoyDto updateParkingBoyOfAdministrator(long parkingBoyId, ParkingBoy parkingBoy) {
         ParkingBoy updateParkingBoy = parkingBoyRepository.save(parkingBoy);
         ParkingBoyDto parkingBoyDto = new ParkingBoyDto(updateParkingBoy);
         return parkingBoyDto;
     }
 
+    @Transactional
     public Manager updateManagerOfAdministrator(long managerId, Manager manager) {
         return managerRepository.save(manager);
     }
@@ -80,10 +83,12 @@ public class AdministratorService {
                 .filter(n-> !parkingBoys.contains(n))
                 .collect(Collectors.toList());
     }
+    @Transactional
     public Manager saveManager(Manager manager) {
         return managerService.saveManager(manager);
     }
 
+    @Transactional
     public ParkingBoy saveParkingBoy(ParkingBoy parkingBoy) {
         return null;
     }
