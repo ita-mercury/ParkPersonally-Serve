@@ -21,11 +21,11 @@ public class ParkingLotDto {
 
     private int capacity;
 
-    private int status = LOT_STATUS_NORMAL;
+    private int status;
 
     private int restCapacity;
 
-    private List<ParkingBoy> parkingBoys = new ArrayList<>();
+    private List<ParkingBoy> parkingBoys;
 
     public ParkingLotDto(long id, String name, int capacity, int restCapacity) {
         this.id = id;

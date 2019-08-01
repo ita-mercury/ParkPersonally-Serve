@@ -34,7 +34,7 @@ public class ParkingOrderDto {
     private String fetchCarAddress;
 
 
-    private long createTime = System.currentTimeMillis();
+    private long createTime;
 
 
     private ParkingBoyDto parkingBoy;
@@ -43,7 +43,7 @@ public class ParkingOrderDto {
     private ParkingLotDto parkingLot;
 
 
-    private List<Tag> tags = new ArrayList<>();
+    private List<Tag> tags;
 
     private Customer customer;
 

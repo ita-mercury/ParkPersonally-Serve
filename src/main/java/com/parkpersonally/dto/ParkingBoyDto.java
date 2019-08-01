@@ -32,9 +32,9 @@ public class ParkingBoyDto{
     private String phone;
 
 
-    private List<ParkingLot> parkingLots = new ArrayList<>();
+    private List<ParkingLot> parkingLots;
 
-    private List<Tag> tags = new ArrayList<>();
+    private List<Tag> tags;
 
     public ParkingBoyDto(long id, String name, String password, String number, int status, String phone) {
         this.id = id;
@@ -59,7 +59,7 @@ public class ParkingBoyDto{
                     .collect(Collectors.toList());
         }
         if(parkingBoy.getTags()!= null) {
-            this.tags.addAll(parkingBoy.getTags());
+            this.tags = parkingBoy.getTags();
         }
     }
 
@@ -71,7 +71,7 @@ public class ParkingBoyDto{
         this.status = parkingBoy.getStatus();
         this.phone = parkingBoy.getPhone();
         if (parkingBoy.getTags() != null) {
-            this.tags.addAll(parkingBoy.getTags());
+            this.tags = parkingBoy.getTags();
         }
     }
 
